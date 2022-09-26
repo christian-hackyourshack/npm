@@ -5,12 +5,18 @@
       "dependsOn": ["^build"],
       "outputs": ["dist/**"]
     },
+    "clean": {
+      "cache": false
+    },
     "dev": {
       "dependsOn": ["^build"],
+      "outputs": [],
+      "cache": false
+    },
+    "lint": {
       "outputs": []
     },
     "test": {
-      "dependsOn": ["^build"],
       "outputs": [],
       "inputs": ["src/**/*.[jt]s"]
     }
