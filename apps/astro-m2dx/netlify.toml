@@ -2,6 +2,6 @@
   NODE_VERSION = "16"
   NPM_FLAGS = "--version"
 [build]
-  base = "apps/web/"
+  base = "apps/astro-m2dx/"
   publish = "./dist"
   command = "npx pnpm i --store=node_modules/.pnpm-store --frozen-lockfile && npx pnpm run build:ci"
