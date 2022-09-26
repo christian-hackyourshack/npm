@@ -1,0 +1,5 @@
+@layer components {
+    .wrap {
+        @apply flex flex-wrap gap-8;
+    }
+}

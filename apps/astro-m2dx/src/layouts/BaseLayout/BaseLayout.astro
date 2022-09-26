@@ -1,0 +1,27 @@
+---
+import Head, { type Props as HeadProps } from './Head.astro';
+
+export interface Props extends HeadProps {
+  class?: string;
+  dir?: 'ltr' | 'rtl';
+  lang?: string;
+}
+
+const {
+  class: className = '',
+  dir = 'ltr',
+  lang = 'en',
+  ...headProps
+} = (Astro.props.frontmatter || Astro.props) as Props;
+---
+
+<!DOCTYPE html>
+<html lang={lang} dir={dir}>
+  <head>
+    <Head {...headProps} />
+    <slot name="head" />
+  </head>
+  <body class={className}>
+    <slot />
+  </body>
+</html>

@@ -1,0 +1,19 @@
+# Default frontmatter
+
+Option `frontmatter: boolean | string`
+
+Merge YAML frontmatter files into the frontmatter.
+
+- false, to disable frontmatter merging
+- name, to find frontmatter in YAML files with `name` up the directory tree
+- default: `_frontmatter.yaml`
+
+Create frontmatter YAML files with the defined name in your `src` directory to define common properties:
+
+```yaml
+layout: @layouts/BlogLayout.astro
+```
+
+> ⚠️ Beware of relative references inside these files: The values are merged as-is and hence will be relative to the receiving MDX file and not the default frontmatter-file. It is safer to define `paths` in your tsconfig.json.
+
+The properties will be deeply merged, where user properties from the markdown file's frontmatter will have highest priority, and properties from frontmatter files closer to the markdown file will take precedence over properties from files higher up the tree. Array, Date and Regex will not be merged.

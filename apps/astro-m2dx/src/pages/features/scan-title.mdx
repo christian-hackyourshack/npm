@@ -1,0 +1,14 @@
+# Scan Title
+
+Option `scanTitle: boolean | string`
+
+Scan the content for the title and inject it into the frontmatter.
+
+The title will be taken from the first heading with depth=1,
+i.e. the first line `# My Title`.
+
+- true, to have it injected into property `title`
+- name, to have it injected as property `<name>`
+- default: `false`
+
+If the frontmatter already has a property with that name, it will **NOT** be overwritten.

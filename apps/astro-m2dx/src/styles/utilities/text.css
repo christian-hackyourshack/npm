@@ -1,0 +1,5 @@
+@layer utilities {
+    .text-hidden {
+        font-size: 0;
+    }
+}

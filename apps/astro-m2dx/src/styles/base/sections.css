@@ -1,0 +1,7 @@
+section.h2 {
+  @apply pb-16 pt-1;
+}
+
+section.h2:nth-child(even) {
+  @apply bg-slate-200;
+}

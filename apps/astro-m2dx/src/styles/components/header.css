@@ -1,0 +1,24 @@
+@layer components {
+  header {
+    @apply relative flex flex-row justify-between items-center h-24 bg-white;
+  }
+  header .home {
+    @apply p-8 pl-0;
+    font-size: 0;
+  }
+  header .home > * {
+    @apply h-9;
+  }
+  header .menu nav {
+    @apply absolute relative top-24 right-0 hidden flex-col bg-slate-200 md:bg-white md:flex md:flex-row md:top-0;
+  }
+  header .menu nav a {
+    @apply p-8 md:p-0 md:pl-8;
+  }
+  header .burger {
+    @apply p-8 pr-0 md:hidden;
+  }
+  header .menu:focus-within nav {
+    @apply flex;
+  }
+}

@@ -1,0 +1,17 @@
+---
+export interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  canonicalURL?: string;
+}
+
+const { title, description, image, canonicalURL } = Astro.props as Props;
+---
+
+<!-- OpenGraph -->
+<meta property="og:type" content="website" />
+{canonicalURL && <meta property="og:url" content={canonicalURL} />}
+{title && <meta property="og:title" content={title} />}
+{description && <meta property="og:description" content={description} />}
+{image && <meta property="og:image" content={new URL(image, canonicalURL)} />}

@@ -1,0 +1,52 @@
+name: Release
+
+on:
+    push:
+        branches:
+            - main
+
+env:
+    CI: true
+    PNPM_CACHE_FOLDER: .pnpm-store
+
+concurrency: ${{ github.workflow }}-${{ github.ref }}
+
+jobs:
+    release:
+        name: Release
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout Repo
+              uses: actions/checkout@v2
+
+            - name: Setup Node.js 16.x
+              uses: actions/setup-node@v2
+              with:
+                  node-version: 16.x
+
+            - name: Install pnpm
+              run: npm i pnpm@latest -g
+
+            - name: Setup pnpm config
+              run: pnpm config set store-dir $PNPM_CACHE_FOLDER
+
+            - name: Install Dependencies
+              run: pnpm install
+
+            - name: Create .npmrc
+              run: |
+                  cat << EOF > "$HOME/.npmrc"
+                    //registry.npmjs.org/:_authToken=$NPM_TOKEN
+                  EOF
+              env:
+                  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+            - name: Release or Publish
+              id: changesets
+              uses: changesets/action@v1
+              with:
+                  version: pnpm run version
+                  publish: pnpm run publish
+              env:
+                  GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+                  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

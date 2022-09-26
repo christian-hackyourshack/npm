@@ -1,0 +1,24 @@
+---
+import { twMerge } from 'tailwind-merge';
+
+export interface Props {
+  class?: string;
+  title: string;
+  href: string;
+}
+const { class: className = '', title, href } = Astro.props;
+---
+
+<article class={twMerge('card', className)}>
+  <h5 class="card__title">{title}</h5>
+  <p class="card__content">
+    <slot />
+  </p>
+  {
+    href && (
+      <a type="button" href={href} class="uppercase no-underline text-sm">
+        Read the docs
+      </a>
+    )
+  }
+</article>

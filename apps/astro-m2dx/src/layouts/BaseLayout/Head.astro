@@ -1,0 +1,58 @@
+---
+import '@styles/tailwind.css';
+import { site } from 'config';
+
+import OpenGraph from './OpenGraph.astro';
+import TwitterCard from './TwitterCard.astro';
+
+export interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  searchWords?: string[];
+  feed?: string;
+  next?: string;
+  prev?: string;
+}
+
+function seoTitle(siteTitle: string, pageTitle?: string, searchWords?: string[]): string {
+  let title = siteTitle;
+  if (pageTitle && pageTitle !== title) {
+    title = `${pageTitle} | ${title}`;
+  }
+  if (searchWords) {
+    title = `${title.padEnd(32, ' ')}[${searchWords.join(', ')}]`;
+  }
+  return title;
+}
+
+const props = Astro.props as Props;
+const { feed, next, prev } = props;
+const title = seoTitle(site.name, props.title, props.searchWords);
+const canonicalURL = site.canonicalURL;
+---
+
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>{title}</title>
+<meta name="description" content={props.description} />
+
+<OpenGraph {...props} canonicalURL={canonicalURL} />
+{site.twitter && <TwitterCard {...props} account={site.twitter} />}
+
+<link rel="canonical" href={canonicalURL} />
+<link rel="icon" type="image/x-icon" href="/favicon.ico" />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="icon" type="image/png" href="/favicon.png" />
+<link rel="sitemap" href="/sitemap.xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Archivo&display=swap" rel="stylesheet" />
+{
+  feed && (
+    <link rel="alternate" type="application/rss+xml" href={new URL(feed, canonicalURL).href} />
+  )
+}
+{next && <link rel="next" aria-label="Previous Page" href={new URL(next, canonicalURL).href} />}
+{prev && <link rel="prev" aria-label="Next Page" href={new URL(prev, canonicalURL).href} />}

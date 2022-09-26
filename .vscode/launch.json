@@ -1,0 +1,17 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "[astro-m2dx] pnpm test:watch",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "pnpm --filter astro-m2dx test:watch"
+    },
+    {
+      "name": "[@web/astro-m2dx] pnpm dev",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "pnpm --filter @web/astro-m2dx dev"
+    }
+  ]
+}

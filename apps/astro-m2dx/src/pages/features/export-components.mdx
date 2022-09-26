@@ -1,0 +1,25 @@
+# Export components
+
+Option `exportComponents: boolean | string`
+
+In Astro you can define a mapping from HTML elements to JSX components by exporting `const components = { ... }` in any MDX file. With this plugin you can define this export per directory, by creating a mapping-file exporting a `components` constant object expression, that maps HTML tags to JSX components:
+
+```js
+import { Title } from '@components/Title';
+
+export const components = {
+  h1: Title,
+};
+```
+
+The option allows you to toggle the feature and define the name of your central mapping-files.
+
+- name, to find mapping-files with `name` (searches up the directory tree, starting at the MDX file)
+- false, to disable automatic component mapping
+- default: `_components.ts`
+
+You can use it like so:
+
+```js
+remarkPlugins: [[m2dx, {exportComponents: "_components.js"}]],
+```

@@ -1,0 +1,14 @@
+# Scan Abstract
+
+Option `scanAbstract: boolean | string`
+
+Scan the content for the abstract and inject it into the frontmatter.
+
+The abstract will be taken from the content between the title and the next
+heading. It will only be textual content.
+
+- true, to have it injected into property `abstract`
+- name, to have it injected as property `<name>`
+- default: `false`
+
+If the frontmatter already has a property with that name, it will **NOT** be overwritten.

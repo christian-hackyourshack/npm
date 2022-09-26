@@ -1,0 +1,13 @@
+@layer components {
+    .card {
+        @apply block p-6 rounded-lg shadow-lg bg-white max-w-sm;
+    }
+
+    .card__title {
+        @apply text-gray-900 text-xl leading-tight font-medium mb-2;
+    }
+
+    .card__content {
+        @apply text-gray-700 text-base mb-4;
+    }
+}

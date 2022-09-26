@@ -1,0 +1,33 @@
+---
+import Header from './Header.astro';
+import { BaseLayout, type BaseProps } from '@layouts/BaseLayout';
+import Footer from './Footer.astro';
+
+export interface Props extends BaseProps {
+  bodyClass?: string;
+  back?: {
+    alt?: string;
+    href: string;
+  };
+}
+
+const {
+  class: className = '',
+  bodyClass = '',
+  back,
+  ...baseProps
+} = (Astro.props.frontmatter || Astro.props) as Props;
+---
+
+<BaseLayout class={`page-layout ${bodyClass}`} {...baseProps}>
+  <Fragment slot="head">
+    <slot name="head" />
+  </Fragment>
+  <Header />
+  <slot name="start" />
+  <main class={className}>
+    <slot />
+  </main>
+  <slot name="end" />
+  <Footer />
+</BaseLayout>

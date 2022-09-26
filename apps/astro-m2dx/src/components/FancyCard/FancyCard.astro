@@ -1,0 +1,11 @@
+---
+import { twMerge } from 'tailwind-merge';
+import { Card, CardProps } from '@components/Card';
+
+const { class: className, ...props } = Astro.props as CardProps;
+const fancyClass = twMerge('bg-orange-200', className);
+---
+
+<Card class={fancyClass} {...props}>
+  <slot />
+</Card>

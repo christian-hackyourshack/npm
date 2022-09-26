@@ -1,0 +1,39 @@
+{
+  "name": "root",
+  "version": "0.0.0",
+  "private": true,
+  "homepage": "https://github.com/christian-hackyourshack/npm",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/christian-hackyourshack/npm.git"
+  },
+  "scripts": {
+    "build": "turbo run build --no-daemon",
+    "changeset": "pnpm install --no-frozen-lockfile && pnpm run format && changeset",
+    "clean": "turbo run clean",
+    "dev:web": "pnpm --filter @web/astro-m2dx dev",
+    "format": "prettier --write \"**/*.{astro,json,md,mdx,ts,tsx}\"",
+    "lint": "turbo run lint",
+    "prebuild": "[[ $CI = true ]] && npx pnpm@7 install -r --store=node_modules/.pnpm-store || echo Skipping pnpm install",
+    "preview": "pnpm preview --filter web",
+    "publish": "turbo run build && changeset publish",
+    "reset": "pnpm clean && rimraf -f pnpm-lock.yaml && rimraf -rf ./**/node_modules/ && pnpm i",
+    "test": "turbo run test",
+    "version": "changeset version"
+  },
+  "packageManager": "pnpm@7.11.0",
+  "engines": {
+    "node": ">=14.0.0",
+    "pnpm": ">=7.11.0"
+  },
+  "devDependencies": {
+    "@changesets/changelog-github": "^0.4.6",
+    "@changesets/cli": "^2.24.4",
+    "eslint-config-base": "workspace:*",
+    "pnpm": "^7.11.0",
+    "prettier": "latest",
+    "prettier-plugin-astro": "^0.5.4",
+    "rimraf": "^3.0.2",
+    "turbo": "^1.5.3"
+  }
+}

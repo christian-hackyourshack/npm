@@ -1,0 +1,56 @@
+{
+  "name": "remark-sectionize-headings",
+  "version": "0.0.0",
+  "description": "Remark plugin to wrap headings and their following child paragraphs in sections",
+  "author": "christian@hackyourshack.org",
+  "homepage": "https://github.com/christian-hackyourshack/npm/tree/main/packages/remark-sectionize-headings",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/christian-hackyourshack/npm.git"
+  },
+  "license": "MIT",
+  "keywords": [
+    "remark-plugin",
+    "headings",
+    "section"
+  ],
+  "type": "module",
+  "files": [
+    "dist/**/*"
+  ],
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "concurrently \"pnpm:build:*\"",
+    "build:modules": "vite build",
+    "build:types": "tsc",
+    "clean": "rimraf -rf ./dist/",
+    "test:ui": "vitest --ui",
+    "test:watch": "vitest",
+    "test": "vitest run --passWithNoTests"
+  },
+  "dependencies": {
+    "unist-util-visit": "^4.1.1"
+  },
+  "devDependencies": {
+    "@types/mdast": "^3.0.10",
+    "@types/node": "latest",
+    "@vitest/ui": "^0.23.2",
+    "concurrently": "^7.4.0",
+    "eslint-config-base": "workspace:*",
+    "rimraf": "^3.0.2",
+    "tsconfig": "workspace:*",
+    "typescript": "^4.8.3",
+    "unified": "^10.1.2",
+    "vfile": "^5.3.4",
+    "vite": "^3.1.1",
+    "vite-config": "workspace:*",
+    "vitest": "^0.23.2"
+  }
+}

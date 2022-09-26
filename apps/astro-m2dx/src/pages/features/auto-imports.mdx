@@ -1,0 +1,52 @@
+# Auto import
+
+Option `autoImports: boolean | string`
+
+Name for auto-import files.
+
+- name, to find files with `name` up the directory tree
+- false, to disable automatic component mapping
+- default: `_autoimports.ts`
+
+Despite the suffix of the default value, these files should be simple JavaScript/ESM files (i.e. ES >=6) and not use any none-ES TypeScript features.
+
+Now create an auto-import file exporting known components:
+
+```js
+import { Code } from 'astro/components';
+
+export const autoimports = {
+  Code,
+};
+```
+
+In your MDX file you can now use `<Code ... />` without importing it:
+
+```md
+# My Title
+
+Here I am embedding some fancy code from the frontmatter:
+
+<Code code={frontmatter.rawmdx} />
+```
+
+> You can structure your export pretty much as you like, as long as the variable initialization is an object expression without spread operator.
+
+Files are evaluated up the directory tree, i.e. files closer to the MDX file take precedence over files further up the tree.
+
+The variables inside a file are evaluated in order of appearance, i.e. the following export would yield the component FuzzyBear over FozzieBear for the use in `<Bear />`, although `b` is the default export:
+
+```js
+import { FuzzyBear } from '@components/FuzzyBear';
+import { FozzieBear } from '@components/FozzieBear';
+
+export const a = {
+  Bear: FuzzyBear,
+};
+
+const b = {
+  Bear: FozzieBear,
+};
+
+export default b;
+```

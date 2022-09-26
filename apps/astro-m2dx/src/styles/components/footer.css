@@ -1,0 +1,5 @@
+@layer components {
+    footer {
+        @apply mt-16 flex justify-between;
+    }
+}

@@ -1,0 +1,15 @@
+---
+import { site } from 'config';
+
+export interface Props {
+  class?: string;
+}
+
+const { class: className = '' } = Astro.props as Props;
+---
+
+<footer class={className}>
+  <a href="/" title="Home">© {site.name} {new Date().getFullYear()}</a>
+  <slot />
+  <a href="/legal" title="Copyright" class="print:hidden">Impressum</a>
+</footer>

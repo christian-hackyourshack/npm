@@ -1,0 +1,52 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
+// https://github.com/microsoft/vscode-dev-containers/tree/v0.245.2/containers/typescript-node
+{
+  "name": "Astro",
+
+  "build": {
+    "dockerfile": "Dockerfile",
+    "args": {
+      "NODE_MODULES": "typescript pnpm@latest"
+    }
+  },
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "astro-build.astro-vscode",
+        "brunnerh.insert-unicode",
+        "davidanson.vscode-markdownlint",
+        "dbaeumer.vscode-eslint",
+        "editorconfig.editorconfig",
+        "esbenp.prettier-vscode",
+        "jock.svg",
+        "yzhang.markdown-all-in-one"
+      ]
+    }
+  },
+
+  "settings": {
+    "dotfiles.repository": "christian-hackyourshack/dotfiles",
+    "dotfiles.targetPath": "~/.dotfiles",
+    "dotfiles.installCommand": "~/.dotfiles/script/bootstrap",
+    "emmet.includeLanguages": {
+      "postcss": "css"
+    },
+    "terminal.integrated.defaultProfile.linux": "zsh",
+    "terminal.integrated.profiles.linux": {
+      "zsh": {
+        "path": "zsh",
+        "args": ["-l"]
+      }
+    }
+  }
+
+  // Use 'forwardPorts' to make a list of ports inside the container available locally.
+  // "forwardPorts": [],
+
+  // Use 'postCreateCommand' to run commands after the container is created.
+  // "postCreateCommand": "pnpm setup && pnpm install -g pnpm@latest && pnpm install"
+
+  // Comment out to connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
+  // "remoteUser": "gitpod"
+}

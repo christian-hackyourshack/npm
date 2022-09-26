@@ -1,0 +1,6 @@
+# Fill in your credentials and rename to .gitconfig.local
+[user]
+        name = AUTHORNAME
+        email = AUTHOREMAIL
+[credential]
+        helper = GIT_CREDENTIAL_HELPER
