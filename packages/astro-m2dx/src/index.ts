@@ -121,10 +121,6 @@ export const plugin: Plugin<[Options], unknown> = (options = {}) => {
   } = options;
 
   return async function transformer(root: Root, file: VFile) {
-    const dir = file.dirname;
-    if (!dir) return;
-    const stop = join(file.cwd, 'src');
-
     // TODO: Read the frontmatter from the file
     let frontmatter = file.data.astro.frontmatter;
 
@@ -167,7 +163,10 @@ export const plugin: Plugin<[Options], unknown> = (options = {}) => {
       }
     }
 
-    if (optFrontmatter) {
+    const stop = join(file.cwd, 'src');
+    const dir = file.dirname;
+
+    if (dir && optFrontmatter) {
       if (typeof optFrontmatter !== 'string') {
         optFrontmatter = DEFAULT_FRONTMATTER;
       }
@@ -181,23 +180,24 @@ export const plugin: Plugin<[Options], unknown> = (options = {}) => {
 
     // TODO: Allow add-ons
 
-    if (optExportComponents) {
+    if (dir && optExportComponents) {
       if (typeof optExportComponents !== 'string') {
         optExportComponents = DEFAULT_EXPORT_COMPONENTS;
       }
       const files = await findUpAll(optExportComponents, dir, stop);
-      if (files.length === 0) return;
-      exportComponents(root, files);
+      if (files.length > 0) {
+        exportComponents(root, files);
+      }
     }
 
-    if (optAutoImports) {
+    if (dir && optAutoImports) {
       if (typeof optAutoImports !== 'string') {
         optAutoImports = DEFAULT_AUTO_IMPORTS;
       }
       const files = await findUpAll(optAutoImports, dir, stop);
-      if (files.length === 0) return;
-
-      await autoImports(root, files);
+      if (files.length > 0) {
+        await autoImports(root, files);
+      }
     }
   };
 };
