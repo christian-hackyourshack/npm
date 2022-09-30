@@ -1,5 +1,11 @@
 # astro-m2dx
 
+## 0.1.1
+
+### Patch Changes
+
+- [`7546149`](https://github.com/christian-hackyourshack/npm/commit/754614901f1927f29ea6627b1c3ef8e503a757ba) Thanks [@christian-hackyourshack](https://github.com/christian-hackyourshack)! - Relative images: Resolving only for existing reference targets
+
 ## 0.1.0
 
 ### Minor Changes
