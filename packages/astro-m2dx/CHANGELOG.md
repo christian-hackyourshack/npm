@@ -1,5 +1,11 @@
 # astro-m2dx
 
+## 0.1.2
+
+### Patch Changes
+
+- [`f0f8f30`](https://github.com/christian-hackyourshack/npm/commit/f0f8f30ee41f2d7382b31bf31d0b50513639dbe0) Thanks [@christian-hackyourshack](https://github.com/christian-hackyourshack)! - Added a flag to fail on unresolvable JSX components during autoimport
+
 ## 0.1.1
 
 ### Patch Changes
