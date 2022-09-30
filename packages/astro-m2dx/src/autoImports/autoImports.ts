@@ -2,7 +2,7 @@ import type { Root } from 'mdast';
 import { findUnresolved } from './findUnresolved';
 import { autoImport, JsxExports } from './JsxExports';
 
-export async function autoImports(root: Root, files: string[]) {
+export async function autoImports(root: Root, files: string[], failUnresolved = false) {
   const unresolved = findUnresolved(root);
   if (unresolved.length === 0) return;
   const jsxExports = new JsxExports(files.reverse());
@@ -19,8 +19,11 @@ export async function autoImports(root: Root, files: string[]) {
           appliedAutoImports.push(jsxExport.as);
           root.children.push(autoImport(jsxExport));
         }
+      } else if (failUnresolved) {
+        throw new Error(
+          `JSX component <${u.name}> cannot be resolved, please import it explicitly in your MDX file or add an autoImport with astro-m2dx, see https://astro-m2dx.netlify.app/options/auto-imports how to do that`
+        );
       }
-      return;
     })
   );
 }

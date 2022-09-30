@@ -11,6 +11,7 @@ const m2dxOptions = {
   scanTitle: true,
   scanAbstract: true,
   relativeImages: true,
+  autoImportsFailUnresolved: true,
 };
 
 /** @type {import('remark-sectionize-headings').Options} */

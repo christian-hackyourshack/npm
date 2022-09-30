@@ -30,10 +30,10 @@
     "@changesets/changelog-github": "^0.4.6",
     "@changesets/cli": "^2.24.4",
     "eslint-config-base": "workspace:*",
-    "pnpm": "^7.11.0",
-    "prettier": "latest",
-    "prettier-plugin-astro": "^0.5.4",
+    "pnpm": "^7.12.2",
+    "prettier": "2.7.1",
+    "prettier-plugin-astro": "^0.5.5",
     "rimraf": "^3.0.2",
-    "turbo": "^1.5.3"
+    "turbo": "^1.5.5"
   }
 }

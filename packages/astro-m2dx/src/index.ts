@@ -17,6 +17,7 @@ const DEFAULT_SCAN_TITLE = false;
 const DEFAULT_SCAN_ABSTRACT = false;
 const DEFAULT_EXPORT_COMPONENTS = '_components.ts';
 const DEFAULT_AUTO_IMPORTS = '_autoimports.ts';
+const DEFAULT_AUTO_IMPORTS_FAIL_UNRESOLVED = false;
 const DEFAULT_RELATIVE_IMAGES = false;
 
 /**
@@ -105,6 +106,14 @@ export type Options = Partial<{
   autoImports: boolean | string;
 
   /**
+   * Fail if unresolved components cannot be resolved by autoImports.
+   *
+   * - true to throw an error on unresolved components
+   * - default: false
+   */
+  autoImportsFailUnresolved: boolean;
+
+  /**
    * Flag to allow relative image references.
    *
    * All relative image references `![My alt text](my-image.png "Fancy Title")`
@@ -133,6 +142,7 @@ export const plugin: Plugin<[Options], unknown> = (options = {}) => {
     scanAbstract: optScanAbstract = DEFAULT_SCAN_ABSTRACT,
     exportComponents: optExportComponents = DEFAULT_EXPORT_COMPONENTS,
     autoImports: optAutoImports = DEFAULT_AUTO_IMPORTS,
+    autoImportsFailUnresolved: optAutoImportsFailUnresolved = DEFAULT_AUTO_IMPORTS_FAIL_UNRESOLVED,
   } = options;
   const { relativeImages: optRelativeImages = DEFAULT_RELATIVE_IMAGES } = options;
 
@@ -212,7 +222,7 @@ export const plugin: Plugin<[Options], unknown> = (options = {}) => {
       }
       const files = await findUpAll(optAutoImports, dir, stop);
       if (files.length > 0) {
-        await autoImports(root, files);
+        await autoImports(root, files, optAutoImportsFailUnresolved);
       }
     }
 
