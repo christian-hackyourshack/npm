@@ -41,6 +41,12 @@ npm install -D astro-m2dx
     Use JSX components in your MDX without `import`: Define a set of known JSX components, that can be used in all* MDX files without explicitly being imported.
 
   </Card>
+  <Card href="/options/relative-images">
+    **Relative Images**
+
+    All relative image references `![My alt text](my-image.png "Fancy Title")` with a resolvable reference are replaced with an HTML `<img />` tag with the appropriate attributes, that uses an imported image reference as `src` attribute.
+
+  </Card>
   <Card href="/options/inject-rawmdx">
     **Inject raw MDX**
 
@@ -73,7 +79,6 @@ npm install -D astro-m2dx
 
 The following features are planned:
 
-- **relative imports** - dynamically imports files relative to the referencing file.
 - **style directives** - lets users apply CSS classes to the HTML elements resulting from the markdown.
 - **add-ons** - lets users define a simple function to add their own enhancements without writing a full plugin.
 - **pre-read user frontmatter** - lets developers of add-ons access the frontmatter from the current MDX file.

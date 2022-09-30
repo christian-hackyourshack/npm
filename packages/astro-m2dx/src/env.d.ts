@@ -1,1 +1,1 @@
-/// <reference types="estree" />
+// <reference types="estree" />

@@ -19,6 +19,7 @@ Have a look at the [full documentation](https://astro-m2dx.netlify.app).
     - [Default Frontmatter](#default-frontmatter)
     - [Export Components](#export-components)
     - [Auto-imports](#auto-imports)
+    - [Relative Images](#relative-images)
     - [Inject Raw MDX](#inject-raw-mdx)
     - [Inject MDAST](#inject-mdast)
     - [Scan Title](#scan-title)
@@ -182,6 +183,19 @@ const b = {
 
 export default b;
 ```
+
+#### Relative Images
+
+Option `relativeImages: boolean`
+
+Flag to allow relative image references.
+
+All relative image references `![My alt text] (my-image.png "Fancy Title")` with a resolvable reference are replaced with an HTML `<img />` tag with the appropriate attributes, that uses an imported image reference as `src` attribute.
+
+- true, to enable relative image resolution
+- default: false
+
+![Screenshot](relative-images.png)
 
 #### Inject Raw MDX
 

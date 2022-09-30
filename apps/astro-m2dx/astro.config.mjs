@@ -10,6 +10,7 @@ const m2dxOptions = {
   rawmdx: true,
   scanTitle: true,
   scanAbstract: true,
+  relativeImages: true,
 };
 
 /** @type {import('remark-sectionize-headings').Options} */

@@ -4,6 +4,7 @@ import type { Plugin } from 'unified';
 import { autoImports } from './autoImports';
 import { exportComponents } from './exportComponents/exportComponents';
 import { mergeFrontmatter } from './mergeFrontmatter';
+import { relativeImages } from './relativeImages/relativeImages';
 import { scanTitleAndAbstract } from './scanTitleAndAbstract';
 import type { VFile } from './types/VFile';
 import { deepMerge } from './utils/deepMerge';
@@ -16,6 +17,7 @@ const DEFAULT_SCAN_TITLE = false;
 const DEFAULT_SCAN_ABSTRACT = false;
 const DEFAULT_EXPORT_COMPONENTS = '_components.ts';
 const DEFAULT_AUTO_IMPORTS = '_autoimports.ts';
+const DEFAULT_RELATIVE_IMAGES = false;
 
 /**
  * Options for plugin astro-m2dx, for details see
@@ -101,6 +103,19 @@ export type Options = Partial<{
    * These files should be simple JavaScript/ESM files (i.e. ES >=6).
    */
   autoImports: boolean | string;
+
+  /**
+   * Flag to allow relative image references.
+   *
+   * All relative image references `![My alt text](my-image.png "Fancy Title")`
+   * with a resolvable reference are replaced with an HTML <img /> tag with
+   * the appropriate attributes, that uses an imported image reference as
+   * `src`.
+   *
+   * - false, to disable relative image resolution
+   * - default: false
+   */
+  relativeImages: boolean;
 }>;
 
 /**
@@ -119,6 +134,7 @@ export const plugin: Plugin<[Options], unknown> = (options = {}) => {
     exportComponents: optExportComponents = DEFAULT_EXPORT_COMPONENTS,
     autoImports: optAutoImports = DEFAULT_AUTO_IMPORTS,
   } = options;
+  const { relativeImages: optRelativeImages = DEFAULT_RELATIVE_IMAGES } = options;
 
   return async function transformer(root: Root, file: VFile) {
     // TODO: Read the frontmatter from the file
@@ -198,6 +214,10 @@ export const plugin: Plugin<[Options], unknown> = (options = {}) => {
       if (files.length > 0) {
         await autoImports(root, files);
       }
+    }
+
+    if (dir && optRelativeImages) {
+      await relativeImages(root);
     }
   };
 };
