@@ -30,7 +30,7 @@
   "scripts": {
     "build": "concurrently \"pnpm:build:*\"",
     "build:modules": "vite build",
-    "build:types": "tsc",
+    "build:types": "tsc --project ./tsconfig.build.json",
     "clean": "rimraf -rf ./dist/",
     "test:ui": "vitest --ui",
     "test:watch": "vitest",

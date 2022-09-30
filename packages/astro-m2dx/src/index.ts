@@ -217,7 +217,7 @@ export const plugin: Plugin<[Options], unknown> = (options = {}) => {
     }
 
     if (dir && optRelativeImages) {
-      await relativeImages(root);
+      await relativeImages(root, dir);
     }
   };
 };

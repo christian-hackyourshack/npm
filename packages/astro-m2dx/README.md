@@ -195,8 +195,6 @@ All relative image references `![My alt text] (my-image.png "Fancy Title")` with
 - true, to enable relative image resolution
 - default: false
 
-![Screenshot](relative-images.png)
-
 #### Inject Raw MDX
 
 `rawmdx: boolean | string`

@@ -2,7 +2,7 @@ import { join } from 'path';
 import { describe, expect, test } from 'vitest';
 import { mergeFrontmatter } from './mergeFrontmatter';
 
-const fixtures = join(process.cwd(), 'fixtures');
+const fixtures = join(process.cwd(), 'fixtures', 'mergeFrontmatter');
 
 const dir_d1 = join(fixtures, 'd1');
 const dir_d11 = join(dir_d1, 'd11');
