@@ -1,5 +1,15 @@
 # astro-m2dx
 
+## 0.2.0
+
+### Minor Changes
+
+- [`eac523c`](https://github.com/christian-hackyourshack/npm/commit/eac523cd94dbad2712ca9fe445d7ca41127db6c7) Thanks [@christian-hackyourshack](https://github.com/christian-hackyourshack)! - Added remaining open features
+
+  - relativeImages now supports references in JSX component attributes
+  - style directives
+  - add-on transformers
+
 ## 0.1.2
 
 ### Patch Changes
