@@ -1,7 +1,15 @@
 import type { Root } from 'mdast';
-import { isAbsolute, join } from 'path';
+import type { MdxJsxAttribute, MdxJsxAttributeValueExpression } from 'mdast-util-mdx';
+import path, { isAbsolute, join } from 'path';
 import { exists } from '../utils/fs';
-import { createJsxElement, createProgram, findAllImages } from '../utils/mdx';
+import {
+  createJsxElement,
+  createProgram,
+  findAllImages,
+  isMdxJsxAttribute,
+  isMdxJsxFlowElement,
+} from '../utils/mdx';
+import { visit } from '../utils/mdx/visit';
 
 export async function relativeImages(root: Root, baseDir: string) {
   const relativeImages = findAllImages(root).filter((f) => !isAbsolute(f[0].url));
@@ -9,23 +17,75 @@ export async function relativeImages(root: Root, baseDir: string) {
   let imageCount = 0;
   await Promise.all(
     relativeImages.map(async ([image, parent]) => {
-      const index = parent.children.indexOf(image);
-      if (index < 0) {
-        throw new Error(
-          `relativeImages: image (${image.url} [${image.position?.start.line}:${image.position?.start.column}]) does not have a parent`
-        );
-      }
       const path = join(baseDir, image.url);
       if (await exists(path)) {
         const name = `relImg__${imageCount++}`;
+
         const src = `src={${name}}`;
         const alt = image.alt ? ` alt='${image.alt}'` : '';
         const title = image.title ? ` alt='${image.title}'` : '';
-        const imageElement = createJsxElement(`<img ${src}${alt}${title} />`);
-        parent.children[index] = imageElement;
+        const index = parent.children.indexOf(image);
+        if (index < 0) {
+          throw new Error(
+            `relativeImages: image (${image.url} [${image.position?.start.line}:${image.position?.start.column}]) does not have a parent`
+          );
+        }
+        parent.children[index] = createJsxElement(`<img ${src}${alt}${title} />`);
         const imageImport = createProgram(`import ${name} from '${path}';`);
         root.children.push(imageImport);
       }
     })
   );
+
+  const relativeJsxImages = findAllRelativeJsxImageReferences(root);
+  await Promise.all(
+    relativeJsxImages.map(async (attribute) => {
+      const path = join(baseDir, attribute.value as string);
+      if (await exists(path)) {
+        const name = `relImg__${imageCount++}`;
+        attribute.value = toAttributeValueExpressionStatement(name);
+        const imageImport = createProgram(`import ${name} from '${path}';`);
+        root.children.push(imageImport);
+      }
+    })
+  );
+}
+
+const imageExtensions = ['.jpg', '.jpeg', '.png', '.svg', '.webp', '.gif', '.tiff', '.avif'];
+function findAllRelativeJsxImageReferences(root: Root): MdxJsxAttribute[] {
+  const result: MdxJsxAttribute[] = [];
+  visit(root, isMdxJsxFlowElement, (node) => {
+    for (const attribute of node.attributes.filter(isMdxJsxAttribute)) {
+      const value = attribute.value;
+      if (typeof value === 'string' && (value.startsWith('./') || value.startsWith('../'))) {
+        if (imageExtensions.includes(path.extname(value))) {
+          result.push(attribute);
+        }
+      }
+    }
+  });
+
+  return result;
+}
+
+function toAttributeValueExpressionStatement(value: string): MdxJsxAttributeValueExpression {
+  return {
+    type: 'mdxJsxAttributeValueExpression',
+    value,
+    data: {
+      estree: {
+        type: 'Program',
+        body: [
+          {
+            type: 'ExpressionStatement',
+            expression: {
+              type: 'Identifier',
+              name: value,
+            },
+          },
+        ],
+        sourceType: 'module',
+      },
+    },
+  };
 }

@@ -5,11 +5,13 @@ export interface Props {
   class?: string;
   title: string;
   href: string;
+  img?: string;
 }
-const { class: className = '', title, href } = Astro.props;
+const { class: className = '', title, href, img } = Astro.props;
 ---
 
 <article class={twMerge('card', className)}>
+  {!!img && <img src={img} alt="" />}
   <h5 class="card__title">{title}</h5>
   <p class="card__content">
     <slot />

@@ -15,15 +15,17 @@ Have a look at the [full documentation](https://astro-m2dx.netlify.app).
 - [When should I use this?](#when-should-i-use-this)
 - [Install](#install)
 - [Use](#use)
-  - [Options](#options)
-    - [Default Frontmatter](#default-frontmatter)
-    - [Export Components](#export-components)
-    - [Auto-imports](#auto-imports)
-    - [Relative Images](#relative-images)
-    - [Inject Raw MDX](#inject-raw-mdx)
-    - [Inject MDAST](#inject-mdast)
-    - [Scan Title](#scan-title)
-    - [Scan Abstract](#scan-abstract)
+  - [Default Frontmatter](#default-frontmatter)
+  - [Export Components](#export-components)
+  - [Auto-imports](#auto-imports)
+  - [Relative Images](#relative-images)
+  - [Style Directives](#style-directives)
+    - [Prerequisite: `remark-directive`](#prerequisite-remark-directive)
+  - [Inject Raw MDX](#inject-raw-mdx)
+  - [Inject MDAST](#inject-mdast)
+  - [Scan Title](#scan-title)
+  - [Scan Abstract](#scan-abstract)
+  - [Add-ons](#add-ons)
 
 ## What is this?
 
@@ -48,12 +50,10 @@ This package is [ESM only](https://gist.github.com/sindresorhus/a39789f98801d908
 In Node.js (version 12.20+, 14.14+, or 16.0+), install with `npm`:
 
 ```sh
-npm install -D astro-m2dx
+npm install astro-m2dx
 ```
 
-## Use
-
-In your `astro.config.mjs`
+...and in your `astro.config.mjs`
 
 ```js
 import { defineConfig } from 'astro/config';
@@ -62,40 +62,45 @@ import mdx from '@astrojs/mdx';
 import m2dx from 'astro-m2dx';
 //                ^^^^^^^^^^
 
+/** @type {import('astro-m2dx').Options} */
+const m2dxOptions = {
+  // activate any required feature here *
+};
+
 // https://astro.build/config
 export default defineConfig({
   integrations: [mdx()],
   markdown: {
-    remarkPlugins: [m2dx],
-    //              ^^^^
+    remarkPlugins: [[m2dx, m2dxOptions]],
+    //               ^^^^
     extendDefaultPlugins: true,
   },
 });
 ```
 
-This uses the default options, where most of the configuration is done through files in your content directory. In general, these files are evaluated up the directory tree, i.e. files closer to the MDX file take precedence over files further up the tree.
+## Use
 
-### Options
+When adding astro-m2dx to your project, none of the features is active by default, you have to activate them in the Astro configuration (and by providing the respective configuration files, e.g. for per-directory frontmatter).
 
-You can specify options for the plugin in `astro.config.mjs` like so:
+The following features are available, toggle them by adding the option to your configuration object in the Astro configuration:
+
+### Default Frontmatter
 
 ```js
-remarkPlugins: [[m2dx, {...your_options}]],
+frontmatter: boolean | string;
 ```
 
-The following options are available to toggle features or configure their basic behavior:
+Merge YAML frontmatter files into the frontmatter of MDX files.
 
-#### Default Frontmatter
+- default: `false`, no frontmatter is merged
+- `true`, to enable frontmatter merging from files with name `_frontmatter.yaml`
+- `<name>`, to find frontmatter in YAML files named `<name>`
 
-`frontmatter: boolean | string`
+Now you can create frontmatter YAML files with the defined name in your `src` directory to define common properties.
 
-Merge YAML frontmatter files into the frontmatter.
+All files up the directory tree are merged into the frontmatter, with values from the files frontmatter taking highest precedence and values from frontmatter files furthest up the tree taking least precedence. Object properties will be deeply merged, `Array`, `Date` and `Regex` objects will **not** be merged.
 
-- false, to disable frontmatter merging
-- name, to find frontmatter in YAML files with `name` up the directory tree
-- default: `_frontmatter.yaml`
-
-Create frontmatter YAML files with the defined name in your `src` directory to define common properties.
+A very simple frontmatter file defining a default layout for all MDX files in a directory:
 
 ```yaml
 layout: @layouts/BlogLayout.astro
@@ -103,13 +108,19 @@ layout: @layouts/BlogLayout.astro
 
 > ⚠️ Beware of relative references inside these files: The values are merged as-is and hence will be relative to the receiving MDX file and not the default frontmatter-file. It is safer to define `paths` in your tsconfig.json.
 
-The properties will be deeply merged, where user properties from the markdown file's frontmatter will have highest priority, and properties from frontmatter files closer to the markdown file will take precedence over properties from files higher up the tree. Array, Date and Regex will not be merged.
+### Export Components
 
-#### Export Components
+```js
+exportComponents: boolean | string;
+```
 
-`exportComponents: boolean | string`
+Merge ESM component mapping-files into the exported `components` object of MDX files.
 
-In Astro you can define a mapping from HTML elements to JSX components by exporting `const components = { ... }` in any MDX file. With this plugin you can define this export per directory, by creating a mapping-file exporting a `components` constant object expression, that maps HTML tags to JSX components:
+- default: `false`, no component mapping is merged
+- `true`, to enable component mapping merging from files with name `_components.ts`
+- `<name>`, to find component mapping-files with `<name>`
+
+In Astro you can define a mapping from HTML elements to JSX components in any MDX file by exporting a constant object `components`. With this feature you can define this export per directory, by creating an ESM file exporting a `components` constant object expression, that maps HTML tags to JSX components:
 
 ```js
 import { Title } from '@components/Title';
@@ -119,29 +130,19 @@ export const components = {
 };
 ```
 
-The option allows you to toggle the feature and define the name of your central mapping-files.
+All files up the directory tree are merged, with mappings from the MDX file itself taking highest precedence and mappings from files furthest up the tree taking least precedence.
 
-- name, to find mapping-files with `name` (searches up the directory tree, starting at the MDX file)
-- false, to disable automatic component mapping
-- default: `_components.ts`
-
-You can use it like so:
+### Auto-imports
 
 ```js
-remarkPlugins: [[m2dx, {exportComponents: "_components.js"}]],
+autoImports: boolean | string;
 ```
 
-#### Auto-imports
+Add imports for known JSX components in MDX files automatically.
 
-`autoImports: boolean | string`
-
-Name for auto-import files.
-
-- name, to find files with `name` up the directory tree
-- false, to disable automatic component mapping
-- default: `_autoimports.ts`
-
-Despite the suffix of the default value, these files should be simple JavaScript/ESM files (i.e. ES >=6) and not use any none-ES TypeScript features.
+- default: `false`, no components are imported automatically
+- `true`, to enable automatic imports from files with name `_autoimports.ts`
+- `<name>`, to find automatic imports in files named `<name>`
 
 Now create an auto-import file exporting known components:
 
@@ -153,6 +154,8 @@ export const autoimports = {
 };
 ```
 
+> Despite the suffix of the default value, these files should be simple ESM files (i.e. ES >=6) and not use any none-ES TypeScript features, because we need to parse them using [`acorn`](https://www.npmjs.com/package/acorn)
+
 In your MDX file you can now use `<Code ... />` without importing it:
 
 ```md
@@ -163,9 +166,7 @@ Here I am embedding some fancy code from the frontmatter:
 <Code code={frontmatter.rawmdx} />
 ```
 
-> You can structure your export pretty much as you like, as long as the variable initialization is an object expression without spread operator.
-
-Files are evaluated up the directory tree, i.e. files closer to the MDX file take precedence over files further up the tree.
+You can structure your export pretty much as you like, as long as the variable initialization is an object expression without spread operator. Files are evaluated up the directory tree, i.e. files closer to the MDX file take precedence over files further up the tree.
 
 The variables inside a file are evaluated in order of appearance, i.e. the following export would yield the component FuzzyBear over FozzieBear for the use in `<Bear />`, although `b` is the default export:
 
@@ -184,66 +185,206 @@ const b = {
 export default b;
 ```
 
-#### Relative Images
+Auto-imports have one sub-option
 
-Option `relativeImages: boolean`
+```js
+autoImportsFailUnresolved: boolean;
+```
 
-Flag to allow relative image references.
+Fail if unresolved components cannot be resolved by autoImports.
 
-All relative image references `![My alt text] (my-image.png "Fancy Title")` with a resolvable reference are replaced with an HTML `<img />` tag with the appropriate attributes, that uses an imported image reference as `src` attribute.
+- default: `false`
+- `true` to throw an error on unresolved components
 
-- true, to enable relative image resolution
-- default: false
+### Relative Images
 
-#### Inject Raw MDX
+```js
+relativeImages: boolean;
+```
 
-`rawmdx: boolean | string`
+Resolve relative image references in MDX files.
+
+- default: `false`
+- `true`, to enable relative image resolution
+
+All relative image references (textual values) with a resolvable reference are replaced with an imported image reference in the compiled MDX.
+
+Original MDX
+
+```mdx
+![My alt text] (my-image.png "Fancy Title")
+```
+
+will be interpreted as if you wrote
+
+```mdx
+import rel_image__0 from './my-image.png';
+
+<img alt="My alt text" src={rel_image__0} title="Fancy Title" />
+```
+
+The resolution will also be applied to obviously relative image references in JSX components, i.e. any attribute value that starts with `./` or `../` and has typical image suffixes will be replaced by a `MdxJsxAttributeValueExpression` similar to the above.
+
+### Style Directives
+
+```js
+styleDirectives: boolean;
+```
+
+Apply classes from style directive to surrounding element.
+
+- default: `false`
+- `true`, to apply classes to surrounding element
+
+The directive `style` is supported in all three directive forms
+
+- container - `:::style{.some-class} ... :::` around a list of elements
+- leaf - `::style{.some-class}` inside container elements
+- text - `:style{.some-class}` inside paragraphs or spans
+
+Leaf and text directive will apply the classes from the directive to the parent element and remove the directive from the MDAST. Using the container form will apply the class to the generic `<div>` element that is created by the directive itself, i.e. the following MDX snippet
+
+```md
+:::style{.bg-accent}
+
+## Chapter 1
+
+::style{.decent}
+
+A lot of text here.
+
+:::
+```
+
+will result in this HTML
+
+```html
+<div class="bg-accent decent">
+  <h2>Chapter 1</h2>
+  <p>A lot of text here.</p>
+</div>
+```
+
+As you can see, if the classes from multiple directives are applied to the same element, the class list is joined (the class `decent` from the leaf directive is applied to its containing element, which in this case is the generic `<div>` element from the container style directive).
+
+Because lists are not present in Markdown as such (only the list items), style could not be applied to the list as a whole. Therefore, there is a special directive `::list-style` that applies the classes from the directive to the succeeding list, if there is one, i.e.
+
+```md
+::list-style{.nav}
+
+- Home
+- Blog
+- Docs
+```
+
+will result in this HTML
+
+```html
+<ul class="nav">
+  <li>Home</li>
+  <li>Blog</li>
+  <li>Docs</li>
+</ul>
+```
+
+#### Prerequisite: `remark-directive`
+
+> ⚠️ In order to use this feature, you must insert the plugin `remark-directive` before `astro-m2dx`.
+
+```js
+import { defineConfig } from 'astro/config';
+
+import mdx from '@astrojs/mdx';
+import m2dx from 'astro-m2dx';
+import remarkDirective from 'remark-directive';
+
+/** @type {import('astro-m2dx').Options} */
+const m2dxOptions = {
+  styleDirectives: true,
+};
+
+// https://astro.build/config
+export default defineConfig({
+  integrations: [mdx()],
+  markdown: {
+    remarkPlugins: [
+      remarkDirective, // required for styleDirectives
+      [m2dx, m2dxOptions],
+    ],
+    extendDefaultPlugins: true,
+  },
+});
+```
+
+> One final request: This feature allows to mix content and representation, use carefully and prefer semantic class names over visual ones (I know the examples use some visual ones ;-()
+
+### Inject Raw MDX
+
+```js
+rawmdx: boolean | string;
+```
 
 Inject the raw MDX into the frontmatter.
 
-- true, to have it injected into property `rawmdx`
-- name, to have it injected as property `<name>`
 - default: `false`
+- `true`, to have it injected into property `rawmdx`
+- `<name>`, to have it injected as property `<name>`
 
-#### Inject MDAST
+### Inject MDAST
 
-`mdast: boolean | string`
+```js
+mdast: boolean | string;
+```
 
 Inject the MD AST into the frontmatter.
 
-> NOTE: The injected tree is not read by the HTML generation,
-> so manipulation does not make sense.
-
-- true, to have it injected into property `mdast`
-- name, to have it injected as property `<name>`
 - default: `false`
+- `true`, to have it injected into property `mdast`
+- `<name>`, to have it injected as property `<name>`
 
-#### Scan Title
+> The injected tree is not read by the HTML generation, so manipulation does not make sense.
 
-`scanTitle: boolean | string`
+### Scan Title
+
+```js
+scanTitle: boolean | string;
+```
 
 Scan the content for the title and inject it into the frontmatter.
+
+- default: `false`
+- `true`, to have it injected into property `title`
+- `<name>`, to have it injected as property `<name>`
 
 The title will be taken from the first heading with depth=1,
 i.e. the first line `# My Title`.
 
-- true, to have it injected into property `title`
-- name, to have it injected as property `<name>`
-- default: `false`
-
 If the frontmatter already has a property with that name, it will **NOT** be overwritten.
 
-#### Scan Abstract
+### Scan Abstract
 
-`scanAbstract: boolean | string`
+```js
+scanAbstract: boolean | string;
+```
 
 Scan the content for the abstract and inject it into the frontmatter.
+
+- `true`, to have it injected into property `abstract`
+- `<name>`, to have it injected as property `<name>`
+- default: `false`
 
 The abstract will be taken from the content between the title and the next
 heading. It will only be textual content.
 
-- true, to have it injected into property `abstract`
-- name, to have it injected as property `<name>`
-- default: `false`
-
 If the frontmatter already has a property with that name, it will **NOT** be overwritten.
+
+### Add-ons
+
+```js
+  addOns: AddOn[];
+```
+
+Apply any custom transformations to the MDAST.
+
+- default: none
+- Set of transformer functions that are executed after all internal astro-m2dx transformations

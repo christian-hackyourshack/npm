@@ -21,6 +21,7 @@ import type {
   ListItem,
   Literal,
   Paragraph,
+  PhrasingContent,
   Reference,
   Resource,
   Root,
@@ -32,7 +33,16 @@ import type {
   ThematicBreak,
   YAML,
 } from 'mdast';
-import type { MdxjsEsm } from 'mdast-util-mdx';
+import type {
+  MdxFlowExpression,
+  MdxjsEsm,
+  MdxJsxAttribute,
+  MdxJsxAttributeValueExpression,
+  MdxJsxExpressionAttribute,
+  MdxJsxFlowElement,
+  MdxJsxTextElement,
+  MdxTextExpression,
+} from 'mdast-util-mdx';
 import type { Node, Parent } from 'unist';
 
 export function isRoot(node: unknown): node is Root {
@@ -227,7 +237,81 @@ export function isFootnote(node: unknown): node is Footnote {
 export function isFootnoteReference(node: unknown): node is FootnoteReference {
   return !!node && (node as FootnoteReference).type === 'footnoteReference';
 }
+export function isMdxFlowExpression(node: unknown): node is MdxFlowExpression {
+  return !!node && (node as MdxFlowExpression).type === 'mdxFlowExpression';
+}
+
+export function isMdxTextExpression(node: unknown): node is MdxTextExpression {
+  return !!node && (node as MdxTextExpression).type === 'mdxTextExpression';
+}
 
 export function isMdxjsEsm(node: unknown): node is MdxjsEsm {
   return !!node && (node as MdxjsEsm).type === 'mdxjsEsm';
+}
+
+export function isMdxJsxAttributeValueExpression(
+  node: unknown
+): node is MdxJsxAttributeValueExpression {
+  return (
+    !!node && (node as MdxJsxAttributeValueExpression).type === 'mdxJsxAttributeValueExpression'
+  );
+}
+
+export function isMdxJsxAttribute(node: unknown): node is MdxJsxAttribute {
+  return !!node && (node as MdxJsxAttribute).type === 'mdxJsxAttribute';
+}
+
+export function isMdxJsxExpressionAttribute(node: unknown): node is MdxJsxExpressionAttribute {
+  return !!node && (node as MdxJsxExpressionAttribute).type === 'mdxJsxExpressionAttribute';
+}
+
+export function isMdxJsxFlowElement(node: unknown): node is MdxJsxFlowElement {
+  return !!node && (node as MdxJsxFlowElement).type === 'mdxJsxFlowElement';
+}
+
+export function isMdxJsxTextElement(node: unknown): node is MdxJsxTextElement {
+  return !!node && (node as MdxJsxTextElement).type === 'mdxJsxTextElement';
+}
+
+interface Directive extends Parent {
+  name: string;
+  attributes: Record<string, string>;
+  children: PhrasingContent[];
+}
+
+export function isDirective(node: unknown): node is Directive {
+  if (!node) return false;
+  const type = (node as Node).type;
+  switch (type) {
+    case 'containerDirective':
+    case 'leafDirective':
+    case 'textDirective':
+      return true;
+    default:
+      return false;
+  }
+}
+
+export interface ContainerDirective extends Directive {
+  type: 'containerDirective';
+}
+
+export function isContainerDirective(node: unknown): node is ContainerDirective {
+  return !!node && (node as ContainerDirective).type === 'containerDirective';
+}
+
+export interface LeafDirective extends Directive {
+  type: 'leafDirective';
+}
+
+export function isLeafDirective(node: unknown): node is LeafDirective {
+  return !!node && (node as LeafDirective).type === 'leafDirective';
+}
+
+export interface TextDirective extends Directive {
+  type: 'textDirective';
+}
+
+export function isTextDirective(node: unknown): node is TextDirective {
+  return !!node && (node as TextDirective).type === 'textDirective';
 }

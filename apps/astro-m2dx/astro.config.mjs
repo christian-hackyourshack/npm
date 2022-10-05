@@ -1,18 +1,11 @@
+import { defineConfig } from 'astro/config';
+
 import mdx from '@astrojs/mdx';
 import tailwind from '@astrojs/tailwind';
 import m2dx from 'astro-m2dx';
+import remarkDirective from 'remark-directive';
 import sectionizeHeadings from 'remark-sectionize-headings';
-
-import { defineConfig } from 'astro/config';
-
-/** @type {import('astro-m2dx').Options} */
-const m2dxOptions = {
-  rawmdx: true,
-  scanTitle: true,
-  scanAbstract: true,
-  relativeImages: true,
-  autoImportsFailUnresolved: true,
-};
+import { noteDirective } from './addons/noteDirective.mjs';
 
 /** @type {import('remark-sectionize-headings').Options} */
 const sectionizeOptions = {
@@ -21,13 +14,28 @@ const sectionizeOptions = {
   },
 };
 
+/** @type {import('astro-m2dx').Options} */
+const m2dxOptions = {
+  addOns: [noteDirective],
+  autoImports: true,
+  autoImportsFailUnresolved: true,
+  exportComponents: true,
+  frontmatter: true,
+  rawmdx: true,
+  relativeImages: true,
+  scanAbstract: true,
+  scanTitle: true,
+  styleDirectives: true,
+};
+
 // https://astro.build/config
 export default defineConfig({
   integrations: [mdx(), tailwind()],
   markdown: {
     remarkPlugins: [
-      [m2dx, m2dxOptions],
+      remarkDirective, // required for styleDirectives
       [sectionizeHeadings, sectionizeOptions],
+      [m2dx, m2dxOptions],
     ],
     extendDefaultPlugins: true,
   },

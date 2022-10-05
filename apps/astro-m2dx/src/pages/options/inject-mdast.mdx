@@ -1,12 +1,13 @@
 # Inject MDAST
 
-Option `mdast: boolean | string`
+```js
+mdast: boolean | string;
+```
 
 Inject the MD AST into the frontmatter.
 
-> NOTE: The injected tree is not read by the HTML generation,
-> so manipulation does not make sense.
-
-- true, to have it injected into property `mdast`
-- name, to have it injected as property `<name>`
 - default: `false`
+- `true`, to have it injected into property `mdast`
+- `<name>`, to have it injected as property `<name>`
+
+> The injected tree is not read by the HTML generation, so manipulation does not make sense.

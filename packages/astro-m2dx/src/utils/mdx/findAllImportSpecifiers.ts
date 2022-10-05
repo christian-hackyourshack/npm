@@ -1,7 +1,8 @@
 import type { Root } from 'mdast';
 import type { MdxjsEsm } from 'mdast-util-mdx';
-import { visit } from 'unist-util-visit';
 import { isImportDeclaration } from '../esm';
+import { isMdxjsEsm } from './mdast';
+import { visit } from './visit';
 
 export interface ImportSpecifier {
   name: string;
@@ -11,7 +12,7 @@ export interface ImportSpecifier {
 
 export function findAllImportSpecifiers(root: Root) {
   const result: ImportSpecifier[] = [];
-  visit(root, 'mdxjsEsm', (node: MdxjsEsm) => {
+  visit(root, isMdxjsEsm, (node) => {
     const body = node.data?.estree?.body;
     if (body) {
       body.filter(isImportDeclaration).forEach((d) => {

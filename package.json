@@ -27,10 +27,10 @@
     "pnpm": ">=7.11.0"
   },
   "devDependencies": {
-    "@changesets/changelog-github": "^0.4.6",
-    "@changesets/cli": "^2.24.4",
+    "@changesets/changelog-github": "^0.4.7",
+    "@changesets/cli": "^2.25.0",
     "eslint-config-base": "workspace:*",
-    "pnpm": "^7.12.2",
+    "pnpm": "^7.13.1",
     "prettier": "2.7.1",
     "prettier-plugin-astro": "^0.5.5",
     "rimraf": "^3.0.2",

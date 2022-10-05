@@ -1,12 +1,12 @@
-import type { Image, Root } from 'mdast';
-import type { Parent } from 'unist';
-import { visit, type Test } from 'unist-util-visit';
+import type { Image, Parent, Root } from 'mdast';
+import { isImage } from './mdast';
+import { visit } from './visit';
 
 export type FoundImage = [Image, Parent];
 
 export function findAllImages(root: Root) {
   const result: FoundImage[] = [];
-  visit(root, 'image' as Test, (node, index, parent) => {
+  visit(root, isImage, (node, parent) => {
     result.push([node as Image, parent as Parent]);
   });
   return result;

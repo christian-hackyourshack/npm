@@ -4,21 +4,39 @@ import type { Plugin } from 'unified';
 import { autoImports } from './autoImports';
 import { exportComponents } from './exportComponents/exportComponents';
 import { mergeFrontmatter } from './mergeFrontmatter';
+import { parseFrontmatter } from './parseFrontmatter';
 import { relativeImages } from './relativeImages/relativeImages';
 import { scanTitleAndAbstract } from './scanTitleAndAbstract';
+import { styleDirectives } from './styleDirectives/styleDirectives';
 import type { VFile } from './types/VFile';
 import { deepMerge } from './utils/deepMerge';
 import { findUpAll } from './utils/fs';
 
-const DEFAULT_FRONTMATTER = '_frontmatter.yaml';
-const DEFAULT_RAW_MDX = false;
-const DEFAULT_MDAST = false;
-const DEFAULT_SCAN_TITLE = false;
-const DEFAULT_SCAN_ABSTRACT = false;
-const DEFAULT_EXPORT_COMPONENTS = '_components.ts';
-const DEFAULT_AUTO_IMPORTS = '_autoimports.ts';
+const DEFAULT_AUTO_IMPORTS = false;
+const DEFAULT_AUTO_IMPORTS_NAME = '_autoimports.ts';
 const DEFAULT_AUTO_IMPORTS_FAIL_UNRESOLVED = false;
+const DEFAULT_EXPORT_COMPONENTS = false;
+const DEFAULT_EXPORT_COMPONENTS_NAME = '_components.ts';
+const DEFAULT_FRONTMATTER = false;
+const DEFAULT_FRONTMATTER_NAME = '_frontmatter.yaml';
+const DEFAULT_MDAST = false;
+const DEFAULT_MDAST_NAME = 'mdast';
+const DEFAULT_RAW_MDX = false;
+const DEFAULT_RAW_MDX_NAME = 'rawmdx';
 const DEFAULT_RELATIVE_IMAGES = false;
+const DEFAULT_SCAN_ABSTRACT = false;
+const DEFAULT_SCAN_ABSTRACT_NAME = 'abstract';
+const DEFAULT_SCAN_TITLE = false;
+const DEFAULT_SCAN_TITLE_NAME = 'title';
+const DEFAULT_STYLE_DIRECTIVES = false;
+
+/**
+ * Transformer interface that must be implemented by addons.
+ *
+ * @param root root of the MDX AST
+ * @param file VFile including frontmatter at `data.astro.frontmatter`
+ */
+export type AddOn = (root: Root, file: VFile) => Promise<void | Root>;
 
 /**
  * Options for plugin astro-m2dx, for details see
@@ -26,20 +44,60 @@ const DEFAULT_RELATIVE_IMAGES = false;
  */
 export type Options = Partial<{
   /**
-   * Merge YAML frontmatter files into the frontmatter.
+   * Merge YAML frontmatter files into the frontmatter of MDX files.
    *
-   * - false, to disable frontmatter merging
-   * - name, to find frontmatter in YAML files with `name` up the directory tree
-   * - default: `_frontmatter.yaml`
+   * - default: `false`, no frontmatter is merged
+   * - `true`, to enable frontmatter merging from files with name
+   *   `_frontmatter.yaml`
+   * - `<name>`, to find frontmatter in YAML files named `<name>`
    */
   frontmatter: boolean | string;
 
   /**
+   * Merge ESM component mapping-files into the exported `components` object
+   * of MDX files.
+   *
+   * - default: `false`, no component mapping is merged
+   * - `true`, to enable component mapping merging from files with name
+   *   `_components.ts`
+   * - `<name>`, to find component mapping-files with `<name>`
+   */
+  exportComponents: boolean | string;
+
+  /**
+   * Add imports for known JSX components in MDX files automatically.
+   *
+   * - default: `false`, no components are imported automatically
+   * - `true`, to enable automatic imports from files with name
+   *   `_autoimports.ts`
+   * - `<name>`, to find automatic imports in files named `<name>`
+   *
+   * These files should be simple JavaScript/ESM files (i.e. ES >=6).
+   */
+  autoImports: boolean | string;
+
+  /**
+   * Fail if unresolved components cannot be resolved by autoImports.
+   *
+   * - default: `false`
+   * - `true` to throw an error on unresolved components
+   */
+  autoImportsFailUnresolved: boolean;
+
+  /**
+   * Resolve relative image references in MDX files.
+   *
+   * - default: `false`
+   * - `true`, to enable relative image resolution
+   */
+  relativeImages: boolean;
+
+  /**
    * Inject the raw MDX into the frontmatter.
    *
-   * - true, to have it injected into property `rawmdx`
-   * - name, to have it injected as property `<name>`
    * - default: `false`
+   * - `true`, to have it injected into property `rawmdx`
+   * - `<name>`, to have it injected as property `<name>`
    */
   rawmdx: boolean | string;
 
@@ -49,9 +107,9 @@ export type Options = Partial<{
    * > NOTE: The injected tree is not read by the HTML generation,
    *   so manipulation does not make sense.
    *
-   * - true, to have it injected into property `mdast`
-   * - name, to have it injected as property `<name>`
    * - default: `false`
+   * - `true`, to have it injected into property `mdast`
+   * - `<name>`, to have it injected as property `<name>`
    */
   mdast: boolean | string;
 
@@ -61,9 +119,9 @@ export type Options = Partial<{
    * The title will be taken from the first heading with depth=1,
    * i.e. the first line `# My Title`.
    *
-   * - true, to have it injected into property `title`
-   * - name, to have it injected as property `<name>`
    * - default: `false`
+   * - `true`, to have it injected into property `title`
+   * - `<name>`, to have it injected as property `<name>`
    *
    * If the frontmatter already has a property with that name, it will **NOT** be overwritten.
    */
@@ -75,56 +133,30 @@ export type Options = Partial<{
    * The abstract will be taken from the content between the title and the next
    * heading. BEWARE: The content is raw MDX!
    *
-   * - true, to have it injected into property `abstract`
-   * - name, to have it injected as property `<name>`
    * - default: `false`
+   * - `true`, to have it injected into property `abstract`
+   * - `<name>`, to have it injected as property `<name>`
    *
    * If the frontmatter already has a property with that name, it will **NOT** be overwritten.
    */
   scanAbstract: boolean | string;
 
   /**
-   * Auto-map HTML elements to JSX components: Name for component mapping files.
+   * Flag to allow style directives,...
    *
-   * - name, to find files with `name` up the directory tree
-   * - false, to disable automatic component mapping
-   * - default: `_components.ts`
-   *
-   * These files should be simple JavaScript/ESM files (i.e. ES >=6).
+   * - default: `false`
+   * - `true`, to enable generic directives
    */
-  exportComponents: boolean | string;
+  styleDirectives: boolean;
 
   /**
-   * Name for auto-import files.
+   * Apply any custom transformations to the MDAST.
    *
-   * - name, to find files with `name` up the directory tree
-   * - false, to disable automatic component mapping
-   * - default: `_autoimports.ts`
-   *
-   * These files should be simple JavaScript/ESM files (i.e. ES >=6).
+   * - default: none
+   * - Set of transformer functions that are executed after all internal
+   *   astro-m2dx transformations.
    */
-  autoImports: boolean | string;
-
-  /**
-   * Fail if unresolved components cannot be resolved by autoImports.
-   *
-   * - true to throw an error on unresolved components
-   * - default: false
-   */
-  autoImportsFailUnresolved: boolean;
-
-  /**
-   * Flag to allow relative image references.
-   *
-   * All relative image references `![My alt text](my-image.png "Fancy Title")`
-   * with a resolvable reference are replaced with an HTML <img /> tag with
-   * the appropriate attributes, that uses an imported image reference as
-   * `src`.
-   *
-   * - false, to disable relative image resolution
-   * - default: false
-   */
-  relativeImages: boolean;
+  addOns: AddOn[];
 }>;
 
 /**
@@ -142,17 +174,20 @@ export const plugin: Plugin<[Options], unknown> = (options = {}) => {
     scanAbstract: optScanAbstract = DEFAULT_SCAN_ABSTRACT,
     exportComponents: optExportComponents = DEFAULT_EXPORT_COMPONENTS,
     autoImports: optAutoImports = DEFAULT_AUTO_IMPORTS,
-    autoImportsFailUnresolved: optAutoImportsFailUnresolved = DEFAULT_AUTO_IMPORTS_FAIL_UNRESOLVED,
   } = options;
-  const { relativeImages: optRelativeImages = DEFAULT_RELATIVE_IMAGES } = options;
+  const {
+    addOns = [],
+    autoImportsFailUnresolved: optAutoImportsFailUnresolved = DEFAULT_AUTO_IMPORTS_FAIL_UNRESOLVED,
+    styleDirectives: optStyleDirectives = DEFAULT_STYLE_DIRECTIVES,
+    relativeImages: optRelativeImages = DEFAULT_RELATIVE_IMAGES,
+  } = options;
 
   return async function transformer(root: Root, file: VFile) {
-    // TODO: Read the frontmatter from the file
-    let frontmatter = file.data.astro.frontmatter;
+    let frontmatter = deepMerge(await parseFrontmatter(file.path), file.data.astro.frontmatter);
 
     if (optRawmdx) {
       if (typeof optRawmdx !== 'string') {
-        optRawmdx = 'rawmdx';
+        optRawmdx = DEFAULT_RAW_MDX_NAME;
       }
       if (!frontmatter[optRawmdx]) {
         frontmatter[optRawmdx] = file.value;
@@ -161,7 +196,7 @@ export const plugin: Plugin<[Options], unknown> = (options = {}) => {
 
     if (optMdast) {
       if (typeof optMdast !== 'string') {
-        optMdast = 'mdast';
+        optMdast = DEFAULT_MDAST_NAME;
       }
       if (!frontmatter[optMdast]) {
         frontmatter[optMdast] = root;
@@ -170,10 +205,10 @@ export const plugin: Plugin<[Options], unknown> = (options = {}) => {
 
     if (optScanTitle || optScanAbstract) {
       if (optScanTitle && typeof optScanTitle !== 'string') {
-        optScanTitle = 'title';
+        optScanTitle = DEFAULT_SCAN_TITLE_NAME;
       }
       if (optScanAbstract && typeof optScanAbstract !== 'string') {
-        optScanAbstract = 'abstract';
+        optScanAbstract = DEFAULT_SCAN_ABSTRACT_NAME;
       }
 
       const [title, abstract] = scanTitleAndAbstract(
@@ -194,7 +229,7 @@ export const plugin: Plugin<[Options], unknown> = (options = {}) => {
 
     if (dir && optFrontmatter) {
       if (typeof optFrontmatter !== 'string') {
-        optFrontmatter = DEFAULT_FRONTMATTER;
+        optFrontmatter = DEFAULT_FRONTMATTER_NAME;
       }
       const merged = await mergeFrontmatter(optFrontmatter, dir, stop);
       if (merged) {
@@ -204,11 +239,9 @@ export const plugin: Plugin<[Options], unknown> = (options = {}) => {
 
     file.data.astro.frontmatter = frontmatter;
 
-    // TODO: Allow add-ons
-
     if (dir && optExportComponents) {
       if (typeof optExportComponents !== 'string') {
-        optExportComponents = DEFAULT_EXPORT_COMPONENTS;
+        optExportComponents = DEFAULT_EXPORT_COMPONENTS_NAME;
       }
       const files = await findUpAll(optExportComponents, dir, stop);
       if (files.length > 0) {
@@ -218,7 +251,7 @@ export const plugin: Plugin<[Options], unknown> = (options = {}) => {
 
     if (dir && optAutoImports) {
       if (typeof optAutoImports !== 'string') {
-        optAutoImports = DEFAULT_AUTO_IMPORTS;
+        optAutoImports = DEFAULT_AUTO_IMPORTS_NAME;
       }
       const files = await findUpAll(optAutoImports, dir, stop);
       if (files.length > 0) {
@@ -228,6 +261,14 @@ export const plugin: Plugin<[Options], unknown> = (options = {}) => {
 
     if (dir && optRelativeImages) {
       await relativeImages(root, dir);
+    }
+
+    if (optStyleDirectives) {
+      styleDirectives(root);
+    }
+
+    for (const addOn of addOns) {
+      root = (await addOn(root, file)) ?? root;
     }
   };
 };

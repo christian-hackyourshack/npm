@@ -1,5 +1,5 @@
 import type { Root } from 'mdast';
-import { CONTINUE, EXIT, Node, SKIP, visit } from 'unist-util-visit';
+import { CONTINUE, EXIT, Node, SKIP, visit } from '../utils/mdx/visit';
 import { isHeading, isInlineCode, isRoot, isText } from '../utils/mdx';
 
 export function scanTitleAndAbstract(

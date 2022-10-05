@@ -1,16 +1,15 @@
 import type { Root } from 'mdast';
 import type { MdxJsxFlowElement, MdxJsxTextElement } from 'mdast-util-mdx';
-import { visit } from 'unist-util-visit';
+import { visit } from './visit';
 
 export type MdxJsxElement = MdxJsxFlowElement | MdxJsxTextElement;
 
 export function findAllJsxElements(root: Root, withXHTML = false): MdxJsxElement[] {
   const result: MdxJsxElement[] = [];
-  visit(root, isMdxJsxElement, (node: MdxJsxElement) => {
+  visit(root, isMdxJsxElement, (node) => {
     /**
-     * Filter out HTML elements
-     *
-     * XHTML elements are also allowed in MDX, but start with lower-case letters
+     * Filter out (X)HTML elements: they are allowed in MDX, but start with
+     * lower-case letters
      */
     if (withXHTML || isNotXHTML(node.name)) {
       result.push(node);
