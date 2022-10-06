@@ -6,7 +6,7 @@ import { visit } from '../utils/mdx/visit';
 export function includeDirective(root: Root, dir: string, name = 'include'): void {
   let count = 0;
   visit(root, isLeafDirective, (directive, parent, index) => {
-    if (directive.name === name && !!parent) {
+    if (parent && directive.name === name) {
       const name = `Include__${count++}`;
       const ref = (directive.children[0] as Text).value;
       parent.children[index] = createJsxElement(`<${name} />`);

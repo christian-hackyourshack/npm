@@ -4,18 +4,20 @@ import { Node, visit } from '../utils/mdx/visit';
 
 export function styleDirectives(root: Root): void {
   visit(root, isDirective, (directive, parent, index) => {
-    if (directive.name === 'style' && !!parent) {
-      if (isContainerDirective(directive)) {
-        addClasses(directive, directive.attributes.class);
-      } else {
-        addClasses(parent, directive.attributes.class);
-        parent.children.splice(index, 1);
-      }
-    } else if (directive.name === 'list-style' && !!parent && isLeafDirective(directive)) {
-      const next = parent.children[index + 1];
-      if (next?.type === 'list') {
-        addClasses(next, directive.attributes.class);
-        parent.children.splice(index, 1);
+    if (parent) {
+      if (directive.name === 'style') {
+        if (isContainerDirective(directive)) {
+          addClasses(directive, directive.attributes.class);
+        } else {
+          addClasses(parent, directive.attributes.class);
+          parent.children.splice(index, 1);
+        }
+      } else if (directive.name === 'list-style' && isLeafDirective(directive)) {
+        const next = parent.children[index + 1];
+        if (next?.type === 'list') {
+          addClasses(next, directive.attributes.class);
+          parent.children.splice(index, 1);
+        }
       }
     }
   });
