@@ -25,7 +25,7 @@ describe('relativeImages', function () {
     );
   });
 
-  test.only('JSX elements', async function () {
+  test('JSX elements', async function () {
     const input = parseMdx(`
 # Relative Images
 

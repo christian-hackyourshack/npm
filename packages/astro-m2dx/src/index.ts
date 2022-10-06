@@ -44,25 +44,13 @@ export type AddOn = (root: Root, file: VFile) => Promise<void | Root>;
  */
 export type Options = Partial<{
   /**
-   * Merge YAML frontmatter files into the frontmatter of MDX files.
+   * Apply any custom transformations to the MDAST.
    *
-   * - default: `false`, no frontmatter is merged
-   * - `true`, to enable frontmatter merging from files with name
-   *   `_frontmatter.yaml`
-   * - `<name>`, to find frontmatter in YAML files named `<name>`
+   * - default: none
+   * - Set of transformer functions that are executed after all internal
+   *   astro-m2dx transformations.
    */
-  frontmatter: boolean | string;
-
-  /**
-   * Merge ESM component mapping-files into the exported `components` object
-   * of MDX files.
-   *
-   * - default: `false`, no component mapping is merged
-   * - `true`, to enable component mapping merging from files with name
-   *   `_components.ts`
-   * - `<name>`, to find component mapping-files with `<name>`
-   */
-  exportComponents: boolean | string;
+  addOns: AddOn[];
 
   /**
    * Add imports for known JSX components in MDX files automatically.
@@ -85,21 +73,25 @@ export type Options = Partial<{
   autoImportsFailUnresolved: boolean;
 
   /**
-   * Resolve relative image references in MDX files.
+   * Merge ESM component mapping-files into the exported `components` object
+   * of MDX files.
    *
-   * - default: `false`
-   * - `true`, to enable relative image resolution
+   * - default: `false`, no component mapping is merged
+   * - `true`, to enable component mapping merging from files with name
+   *   `_components.ts`
+   * - `<name>`, to find component mapping-files with `<name>`
    */
-  relativeImages: boolean;
+  exportComponents: boolean | string;
 
   /**
-   * Inject the raw MDX into the frontmatter.
+   * Merge YAML frontmatter files into the frontmatter of MDX files.
    *
-   * - default: `false`
-   * - `true`, to have it injected into property `rawmdx`
-   * - `<name>`, to have it injected as property `<name>`
+   * - default: `false`, no frontmatter is merged
+   * - `true`, to enable frontmatter merging from files with name
+   *   `_frontmatter.yaml`
+   * - `<name>`, to find frontmatter in YAML files named `<name>`
    */
-  rawmdx: boolean | string;
+  frontmatter: boolean | string;
 
   /**
    * Inject the MD AST into the frontmatter.
@@ -114,18 +106,21 @@ export type Options = Partial<{
   mdast: boolean | string;
 
   /**
-   * Scan the content for the title and inject it into the frontmatter.
-   *
-   * The title will be taken from the first heading with depth=1,
-   * i.e. the first line `# My Title`.
+   * Inject the raw MDX into the frontmatter.
    *
    * - default: `false`
-   * - `true`, to have it injected into property `title`
+   * - `true`, to have it injected into property `rawmdx`
    * - `<name>`, to have it injected as property `<name>`
-   *
-   * If the frontmatter already has a property with that name, it will **NOT** be overwritten.
    */
-  scanTitle: boolean | string;
+  rawmdx: boolean | string;
+
+  /**
+   * Resolve relative image references in MDX files.
+   *
+   * - default: `false`
+   * - `true`, to enable relative image resolution
+   */
+  relativeImages: boolean;
 
   /**
    * Scan the content for the abstract and inject it into the frontmatter.
@@ -142,21 +137,26 @@ export type Options = Partial<{
   scanAbstract: boolean | string;
 
   /**
+   * Scan the content for the title and inject it into the frontmatter.
+   *
+   * The title will be taken from the first heading with depth=1,
+   * i.e. the first line `# My Title`.
+   *
+   * - default: `false`
+   * - `true`, to have it injected into property `title`
+   * - `<name>`, to have it injected as property `<name>`
+   *
+   * If the frontmatter already has a property with that name, it will **NOT** be overwritten.
+   */
+  scanTitle: boolean | string;
+
+  /**
    * Flag to allow style directives,...
    *
    * - default: `false`
    * - `true`, to enable generic directives
    */
   styleDirectives: boolean;
-
-  /**
-   * Apply any custom transformations to the MDAST.
-   *
-   * - default: none
-   * - Set of transformer functions that are executed after all internal
-   *   astro-m2dx transformations.
-   */
-  addOns: AddOn[];
 }>;
 
 /**
@@ -166,20 +166,20 @@ export type Options = Partial<{
  * @returns transformer function
  */
 export const plugin: Plugin<[Options], unknown> = (options = {}) => {
-  let {
-    frontmatter: optFrontmatter = DEFAULT_FRONTMATTER,
-    rawmdx: optRawmdx = DEFAULT_RAW_MDX,
-    mdast: optMdast = DEFAULT_MDAST,
-    scanTitle: optScanTitle = DEFAULT_SCAN_TITLE,
-    scanAbstract: optScanAbstract = DEFAULT_SCAN_ABSTRACT,
-    exportComponents: optExportComponents = DEFAULT_EXPORT_COMPONENTS,
-    autoImports: optAutoImports = DEFAULT_AUTO_IMPORTS,
-  } = options;
   const {
     addOns = [],
     autoImportsFailUnresolved: optAutoImportsFailUnresolved = DEFAULT_AUTO_IMPORTS_FAIL_UNRESOLVED,
-    styleDirectives: optStyleDirectives = DEFAULT_STYLE_DIRECTIVES,
     relativeImages: optRelativeImages = DEFAULT_RELATIVE_IMAGES,
+    styleDirectives: optStyleDirectives = DEFAULT_STYLE_DIRECTIVES,
+  } = options;
+  let {
+    autoImports: optAutoImports = DEFAULT_AUTO_IMPORTS,
+    exportComponents: optExportComponents = DEFAULT_EXPORT_COMPONENTS,
+    frontmatter: optFrontmatter = DEFAULT_FRONTMATTER,
+    mdast: optMdast = DEFAULT_MDAST,
+    rawmdx: optRawmdx = DEFAULT_RAW_MDX,
+    scanAbstract: optScanAbstract = DEFAULT_SCAN_ABSTRACT,
+    scanTitle: optScanTitle = DEFAULT_SCAN_TITLE,
   } = options;
 
   return async function transformer(root: Root, file: VFile) {
