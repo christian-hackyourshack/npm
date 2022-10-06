@@ -1,5 +1,11 @@
 # astro-m2dx
 
+## 0.3.0
+
+### Minor Changes
+
+- [`33938f9`](https://github.com/christian-hackyourshack/npm/commit/33938f9cd1e764a528d1d33f3e6344177057f5cb) Thanks [@christian-hackyourshack](https://github.com/christian-hackyourshack)! - Added feature includeDirective
+
 ## 0.2.0
 
 ### Minor Changes
