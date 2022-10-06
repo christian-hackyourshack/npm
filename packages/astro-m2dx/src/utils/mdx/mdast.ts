@@ -4,6 +4,7 @@ import type {
   Blockquote,
   Break,
   Code,
+  Content,
   Definition,
   Delete,
   Emphasis,
@@ -108,12 +109,12 @@ export function isLiteral(node: unknown): node is Literal {
   if (!node) return false;
   const type = (node as Literal).type;
   switch (type) {
-    case 'html':
     case 'code':
-    case 'yaml':
-    case 'text':
-    case 'inlineCode':
     case 'definition':
+    case 'html':
+    case 'inlineCode':
+    case 'text':
+    case 'yaml':
       return true;
     default:
       return false;
@@ -276,7 +277,7 @@ export function isMdxJsxTextElement(node: unknown): node is MdxJsxTextElement {
 interface Directive extends Parent {
   name: string;
   attributes: Record<string, string>;
-  children: PhrasingContent[];
+  children: Content[];
 }
 
 export function isDirective(node: unknown): node is Directive {

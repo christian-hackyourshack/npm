@@ -9,7 +9,6 @@ import {
   isVariableDeclarator,
   parseEsm,
 } from '../utils/esm';
-import { createProgram, MdxjsEsm } from '../utils/mdx';
 
 export interface JsxExport {
   file: string;
@@ -17,13 +16,6 @@ export interface JsxExport {
   name: string;
   isDefault: boolean;
   components: string[];
-}
-
-export function autoImport({ file, as, name, isDefault }: JsxExport): MdxjsEsm {
-  const src = isDefault //
-    ? `import ${as} from '${file}';`
-    : `import {${name} as ${as}} from '${file}'`;
-  return createProgram(src);
 }
 
 export class JsxExports {

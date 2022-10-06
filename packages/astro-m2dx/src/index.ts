@@ -2,6 +2,7 @@ import type { Root } from 'mdast';
 import { join } from 'path';
 import type { Plugin } from 'unified';
 import { autoImports } from './autoImports';
+import { componentDirectives } from './componentDirectives/componentDirectives';
 import { exportComponents } from './exportComponents/exportComponents';
 import { includeDirective } from './includeDirective/includeDirective';
 import { mergeFrontmatter } from './mergeFrontmatter';
@@ -14,6 +15,7 @@ import { deepMerge } from './utils/deepMerge';
 import { findUpAll } from './utils/fs';
 
 const DEFAULT_AUTO_IMPORTS_NAME = '_autoimports.ts';
+const DEFAULT_COMPONENT_DIRECTIVES_NAME = '_directives.ts';
 const DEFAULT_EXPORT_COMPONENTS_NAME = '_components.ts';
 const DEFAULT_FRONTMATTER_NAME = '_frontmatter.yaml';
 const DEFAULT_INCLUDE_DIRECTIVE_NAME = 'include';
@@ -63,6 +65,18 @@ export type Options = Partial<{
    * - `true` to throw an error on unresolved components
    */
   autoImportsFailUnresolved: boolean;
+
+  /**
+   * Map generic markdown directives to JSX components.
+   *
+   * - default: `false`, no directives are mapped to components
+   * - `true`, to enable mapping directives to components according to files
+   *   with name `_directives.ts`
+   * - `<name>`, to find directive mappings in files named `<name>`
+   *
+   * These files should be simple JavaScript/ESM files (i.e. ES >=6).
+   */
+  componentDirectives: boolean | string;
 
   /**
    * Merge ESM component mapping-files into the exported `components` object
@@ -176,6 +190,7 @@ export const plugin: Plugin<[Options], unknown> = (options = {}) => {
   } = options;
   let {
     autoImports: optAutoImports = false,
+    componentDirectives: optComponentDirectives = false,
     exportComponents: optExportComponents = false,
     frontmatter: optFrontmatter = false,
     includeDirective: optIncludeDirective = false,
@@ -275,6 +290,16 @@ export const plugin: Plugin<[Options], unknown> = (options = {}) => {
         optIncludeDirective = DEFAULT_INCLUDE_DIRECTIVE_NAME;
       }
       includeDirective(root, dir, optIncludeDirective);
+    }
+
+    if (dir && optComponentDirectives) {
+      if (typeof optComponentDirectives !== 'string') {
+        optComponentDirectives = DEFAULT_COMPONENT_DIRECTIVES_NAME;
+      }
+      const files = await findUpAll(optComponentDirectives, dir, stop);
+      if (files.length > 0) {
+        await componentDirectives(root, files);
+      }
     }
 
     for (const addOn of addOns) {

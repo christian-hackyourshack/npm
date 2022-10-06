@@ -22,6 +22,7 @@ Have a look at the [full documentation](https://astro-m2dx.netlify.app).
   - [Style Directives](#style-directives)
     - [Prerequisite: `remark-directive`](#prerequisite-remark-directive)
   - [Include directive](#include-directive)
+  - [Component directives](#component-directives)
   - [Add-ons](#add-ons)
   - [Inject Raw MDX](#inject-raw-mdx)
   - [Inject MDAST](#inject-mdast)
@@ -335,6 +336,37 @@ Include other MDX files in your MDX file with a
 This feature renders the included MDX file without modification as loaded from its origin, i.e. if its (merged) frontmatter contains a `layout`, then it will be rendered including the layout.
 
 > ⚠️ In order to use this feature, you must insert the plugin `remark-directive` before `astro-m2dx`.
+
+### Component directives
+
+```js
+componentDirectives: boolean | string;
+```
+
+Map generic markdown directives to JSX components.
+
+- default: `false`, no directives are mapped to components
+- `true`, to enable mapping directives to components according to files
+  with name `_directives.ts`
+- `<name>`, to find directive mappings in files named `<name>`
+
+These files should be simple JavaScript/ESM files (i.e. ES >=6), e.g.
+
+```js
+import { CTA } from '@components/CTA';
+
+export const directives = {
+  callToAction: CTA,
+};
+```
+
+...and then use it in your Markdown like this:
+
+```md
+::callToAction[Dear Astronauts, grab your vacuum cleaner and dust off your MDX, now!]{href="https://www.npmjs.com/package/astro-m2dx"}
+```
+
+⚠️ Limitation: The names of the defined directives must be valid ES variable names, i.e. you can only use names, that you do not need to quote (especially: no snake-case).
 
 ### Add-ons
 

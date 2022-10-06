@@ -8,7 +8,8 @@ export type Node = {
 export interface Parent extends Node {
   children: Node[];
 }
-function isParent(node: unknown): node is Parent {
+
+export function isParent(node: unknown): node is Parent {
   return (
     Object.keys(node as Parent).includes('children') && Array.isArray((node as Parent).children)
   );
@@ -17,9 +18,13 @@ function isParent(node: unknown): node is Parent {
 export const CONTINUE = Symbol();
 export const EXIT = Symbol();
 export const SKIP = Symbol();
-type Action = typeof CONTINUE | typeof EXIT | typeof SKIP | undefined;
-type Predicate<T = unknown> = (node: unknown) => node is T;
-type Visitor<T = Node> = (node: T, parent: Parent | undefined, index: number) => Action | void;
+export type Action = typeof CONTINUE | typeof EXIT | typeof SKIP | undefined;
+export type Predicate<T = unknown> = (node: unknown) => node is T;
+export type Visitor<T = Node> = (
+  node: T,
+  parent: Parent | undefined,
+  index: number
+) => Action | void;
 
 export function visit(current: Node, visitor: Visitor): Action | void;
 

@@ -19,6 +19,7 @@ const m2dxOptions = {
   addOns: [noteDirective],
   autoImports: true,
   autoImportsFailUnresolved: true,
+  componentDirectives: true,
   exportComponents: true,
   frontmatter: true,
   includeDirective: true,
