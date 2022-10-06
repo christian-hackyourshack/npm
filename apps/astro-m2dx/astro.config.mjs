@@ -21,6 +21,7 @@ const m2dxOptions = {
   autoImportsFailUnresolved: true,
   exportComponents: true,
   frontmatter: true,
+  includeDirective: true,
   rawmdx: true,
   relativeImages: true,
   scanAbstract: true,

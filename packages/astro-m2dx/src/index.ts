@@ -3,6 +3,7 @@ import { join } from 'path';
 import type { Plugin } from 'unified';
 import { autoImports } from './autoImports';
 import { exportComponents } from './exportComponents/exportComponents';
+import { includeDirective } from './includeDirective/includeDirective';
 import { mergeFrontmatter } from './mergeFrontmatter';
 import { parseFrontmatter } from './parseFrontmatter';
 import { relativeImages } from './relativeImages/relativeImages';
@@ -12,23 +13,14 @@ import type { VFile } from './types/VFile';
 import { deepMerge } from './utils/deepMerge';
 import { findUpAll } from './utils/fs';
 
-const DEFAULT_AUTO_IMPORTS = false;
 const DEFAULT_AUTO_IMPORTS_NAME = '_autoimports.ts';
-const DEFAULT_AUTO_IMPORTS_FAIL_UNRESOLVED = false;
-const DEFAULT_EXPORT_COMPONENTS = false;
 const DEFAULT_EXPORT_COMPONENTS_NAME = '_components.ts';
-const DEFAULT_FRONTMATTER = false;
 const DEFAULT_FRONTMATTER_NAME = '_frontmatter.yaml';
-const DEFAULT_MDAST = false;
+const DEFAULT_INCLUDE_DIRECTIVE_NAME = 'include';
 const DEFAULT_MDAST_NAME = 'mdast';
-const DEFAULT_RAW_MDX = false;
 const DEFAULT_RAW_MDX_NAME = 'rawmdx';
-const DEFAULT_RELATIVE_IMAGES = false;
-const DEFAULT_SCAN_ABSTRACT = false;
 const DEFAULT_SCAN_ABSTRACT_NAME = 'abstract';
-const DEFAULT_SCAN_TITLE = false;
 const DEFAULT_SCAN_TITLE_NAME = 'title';
-const DEFAULT_STYLE_DIRECTIVES = false;
 
 /**
  * Transformer interface that must be implemented by addons.
@@ -92,6 +84,16 @@ export type Options = Partial<{
    * - `<name>`, to find frontmatter in YAML files named `<name>`
    */
   frontmatter: boolean | string;
+
+  /**
+   * Include other MDX files in your MDX file with a
+   * `::include[./partial.mdx]` directive
+   *
+   * - default: `false`
+   * - `true`, to enable this directive with the name `::include`
+   * - `<name>`, to enable the directive with name `::<name>[./ref.mdx]`
+   */
+  includeDirective: boolean | string;
 
   /**
    * Inject the MD AST into the frontmatter.
@@ -168,18 +170,19 @@ export type Options = Partial<{
 export const plugin: Plugin<[Options], unknown> = (options = {}) => {
   const {
     addOns = [],
-    autoImportsFailUnresolved: optAutoImportsFailUnresolved = DEFAULT_AUTO_IMPORTS_FAIL_UNRESOLVED,
-    relativeImages: optRelativeImages = DEFAULT_RELATIVE_IMAGES,
-    styleDirectives: optStyleDirectives = DEFAULT_STYLE_DIRECTIVES,
+    autoImportsFailUnresolved: optAutoImportsFailUnresolved = false,
+    relativeImages: optRelativeImages = false,
+    styleDirectives: optStyleDirectives = false,
   } = options;
   let {
-    autoImports: optAutoImports = DEFAULT_AUTO_IMPORTS,
-    exportComponents: optExportComponents = DEFAULT_EXPORT_COMPONENTS,
-    frontmatter: optFrontmatter = DEFAULT_FRONTMATTER,
-    mdast: optMdast = DEFAULT_MDAST,
-    rawmdx: optRawmdx = DEFAULT_RAW_MDX,
-    scanAbstract: optScanAbstract = DEFAULT_SCAN_ABSTRACT,
-    scanTitle: optScanTitle = DEFAULT_SCAN_TITLE,
+    autoImports: optAutoImports = false,
+    exportComponents: optExportComponents = false,
+    frontmatter: optFrontmatter = false,
+    includeDirective: optIncludeDirective = false,
+    mdast: optMdast = false,
+    rawmdx: optRawmdx = false,
+    scanAbstract: optScanAbstract = false,
+    scanTitle: optScanTitle = false,
   } = options;
 
   return async function transformer(root: Root, file: VFile) {
@@ -265,6 +268,13 @@ export const plugin: Plugin<[Options], unknown> = (options = {}) => {
 
     if (optStyleDirectives) {
       styleDirectives(root);
+    }
+
+    if (dir && optIncludeDirective) {
+      if (typeof optIncludeDirective !== 'string') {
+        optIncludeDirective = DEFAULT_INCLUDE_DIRECTIVE_NAME;
+      }
+      includeDirective(root, dir, optIncludeDirective);
     }
 
     for (const addOn of addOns) {

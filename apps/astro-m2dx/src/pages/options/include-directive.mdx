@@ -1,0 +1,16 @@
+# Include directive
+
+```js
+includeDirective: boolean | string;
+```
+
+Include other MDX files in your MDX file with a
+`::include[./partial.mdx]` directive
+
+- default: `false`
+- `true`, to enable this directive with the name `::include`
+- `<name>`, to enable the directive with name `::<name>[./ref.mdx]`
+
+This feature renders the included MDX file without modification as loaded from its origin, i.e. if its (merged) frontmatter contains a `layout`, then it will be rendered including the layout.
+
+> ⚠️ In order to use this feature, you must insert the plugin `remark-directive` before `astro-m2dx`.

@@ -21,11 +21,12 @@ Have a look at the [full documentation](https://astro-m2dx.netlify.app).
   - [Relative Images](#relative-images)
   - [Style Directives](#style-directives)
     - [Prerequisite: `remark-directive`](#prerequisite-remark-directive)
+  - [Include directive](#include-directive)
+  - [Add-ons](#add-ons)
   - [Inject Raw MDX](#inject-raw-mdx)
   - [Inject MDAST](#inject-mdast)
   - [Scan Title](#scan-title)
   - [Scan Abstract](#scan-abstract)
-  - [Add-ons](#add-ons)
 
 ## What is this?
 
@@ -318,6 +319,34 @@ export default defineConfig({
 
 > One final request: This feature allows to mix content and representation, use carefully and prefer semantic class names over visual ones (I know the examples use some visual ones ;-()
 
+### Include directive
+
+```js
+includeDirective: boolean | string;
+```
+
+Include other MDX files in your MDX file with a
+`::include[./partial.mdx]` directive
+
+- default: `false`
+- `true`, to enable this directive with the name `::include`
+- `<name>`, to enable the directive with name `::<name>[./ref.mdx]`
+
+This feature renders the included MDX file without modification as loaded from its origin, i.e. if its (merged) frontmatter contains a `layout`, then it will be rendered including the layout.
+
+> ⚠️ In order to use this feature, you must insert the plugin `remark-directive` before `astro-m2dx`.
+
+### Add-ons
+
+```js
+  addOns: AddOn[];
+```
+
+Apply any custom transformations to the MDAST.
+
+- default: none
+- Set of transformer functions that are executed after all internal astro-m2dx transformations
+
 ### Inject Raw MDX
 
 ```js
@@ -377,14 +406,3 @@ The abstract will be taken from the content between the title and the next
 heading. It will only be textual content.
 
 If the frontmatter already has a property with that name, it will **NOT** be overwritten.
-
-### Add-ons
-
-```js
-  addOns: AddOn[];
-```
-
-Apply any custom transformations to the MDAST.
-
-- default: none
-- Set of transformer functions that are executed after all internal astro-m2dx transformations

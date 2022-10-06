@@ -11,7 +11,7 @@
     "build": "turbo run build --no-daemon",
     "changeset": "pnpm install --no-frozen-lockfile && pnpm run format && changeset",
     "clean": "turbo run clean --no-daemon",
-    "dev:web": "pnpm --filter @web/astro-m2dx dev",
+    "dev": "pnpm --filter @web/astro-m2dx dev",
     "format": "prettier --write \"**/*.{astro,json,md,mdx,ts,tsx}\"",
     "lint": "turbo run lint --no-daemon",
     "prebuild": "[[ $CI = true ]] && npx pnpm@7 install -r --store=node_modules/.pnpm-store || echo Skipping pnpm install",
