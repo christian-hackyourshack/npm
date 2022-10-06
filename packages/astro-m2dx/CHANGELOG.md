@@ -1,5 +1,11 @@
 # astro-m2dx
 
+## 0.4.0
+
+### Minor Changes
+
+- [`adc0705`](https://github.com/christian-hackyourshack/npm/commit/adc07058ccc689b1688b45409910a608e44e62f6) Thanks [@christian-hackyourshack](https://github.com/christian-hackyourshack)! - Added feature component directives
+
 ## 0.3.0
 
 ### Minor Changes
