@@ -1,0 +1,31 @@
+.quote {
+  display: grid;
+  grid-template-columns: 8ch auto;
+  grid-template-rows: 1.5rem auto;
+  grid-gap: 0.5rem 1.5rem;
+  grid-template-areas: 'avatar person' 'avatar text';
+}
+
+.quote__avatar {
+  grid-area: avatar;
+  width: 100%;
+  border-radius: 100%;
+  margin: auto 0;
+}
+
+.quote__person {
+  margin: auto 0;
+  padding: 0;
+  grid-area: person;
+  @apply text-slate-400 text-lg;
+}
+
+.quote__text {
+  margin: 0;
+  grid-area: text;
+  @apply text-2xl italic;
+}
+
+.quote__text > p {
+  margin: 0;
+}

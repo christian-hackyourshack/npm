@@ -1,0 +1,26 @@
+---
+// Copyright 2022, Hack Your Shack [https://hackyourshack.org]
+import './style.css';
+
+export interface Props {
+  class?: string;
+  author: string;
+  from?: string;
+  country?: string;
+  avatar?: string;
+}
+
+const { class: className, author, from, country, avatar } = Astro.props as Props;
+---
+
+<div class:list={['quote', className]}>
+  {!!avatar && <img class="quote__avatar" src={avatar} alt="" />}
+  <p class="quote__person">
+    <span class="quote__author">{author}</span>
+    {!!from && <span class="quote__from">from {from}</span>}
+    {!!country && <span class="quote__from">, {country}</span>}
+  </p>
+  <div class="quote__text">
+    <slot />
+  </div>
+</div>

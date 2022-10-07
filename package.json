@@ -30,7 +30,7 @@
     "@changesets/changelog-github": "^0.4.7",
     "@changesets/cli": "^2.25.0",
     "eslint-config-base": "workspace:*",
-    "pnpm": "^7.13.1",
+    "pnpm": "^7.13.2",
     "prettier": "2.7.1",
     "prettier-plugin-astro": "^0.5.5",
     "rimraf": "^3.0.2",

@@ -277,10 +277,6 @@ export const plugin: Plugin<[Options], unknown> = (options = {}) => {
       }
     }
 
-    if (dir && optRelativeImages) {
-      await relativeImages(root, dir);
-    }
-
     if (optStyleDirectives) {
       styleDirectives(root);
     }
@@ -300,6 +296,10 @@ export const plugin: Plugin<[Options], unknown> = (options = {}) => {
       if (files.length > 0) {
         await componentDirectives(root, files);
       }
+    }
+
+    if (dir && optRelativeImages) {
+      await relativeImages(root, dir);
     }
 
     for (const addOn of addOns) {

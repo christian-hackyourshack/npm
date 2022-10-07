@@ -9,9 +9,7 @@ import { noteDirective } from './addons/noteDirective.mjs';
 
 /** @type {import('remark-sectionize-headings').Options} */
 const sectionizeOptions = {
-  sectionize: {
-    levels: [2],
-  },
+  levels: [2],
 };
 
 /** @type {import('astro-m2dx').Options} */

@@ -14,7 +14,7 @@
     "@astrojs/mdx": "^0.11.4",
     "@astrojs/tailwind": "^2.0.2",
     "@tailwindcss/typography": "^0.5.7",
-    "astro": "^1.4.4",
+    "astro": "^1.4.5",
     "astro-icon": "^0.7.3",
     "astro-m2dx": "workspace:*",
     "hastscript": "^7.0.2",
