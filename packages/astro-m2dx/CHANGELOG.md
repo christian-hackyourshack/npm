@@ -1,5 +1,11 @@
 # astro-m2dx
 
+## 0.4.1
+
+### Patch Changes
+
+- [`0eadc6e`](https://github.com/christian-hackyourshack/npm/commit/0eadc6e9cc0c0d806b2fea57d9c85023d0786238) Thanks [@christian-hackyourshack](https://github.com/christian-hackyourshack)! - Included JSX compoenents from component directives in relative image resolution
+
 ## 0.4.0
 
 ### Minor Changes
