@@ -1,5 +1,11 @@
 # astro-m2dx
 
+## 0.4.2
+
+### Patch Changes
+
+- [`5d159b7`](https://github.com/christian-hackyourshack/npm/commit/5d159b7e2d119d6fc38288f86a05f789df02060f) Thanks [@christian-hackyourshack](https://github.com/christian-hackyourshack)! - includeDirective now respects exported components
+
 ## 0.4.1
 
 ### Patch Changes
