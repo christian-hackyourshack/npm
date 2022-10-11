@@ -1,9 +1,7 @@
 ---
 import { twMerge } from 'tailwind-merge';
-export interface Props {
-  class?: string;
-}
-const { class: className = '' } = Astro.props;
+export type Props = astroHTML.JSX.HTMLAttributes;
+const { class: className = '', ...props } = Astro.props;
 ---
 
 <h1
@@ -11,6 +9,7 @@ const { class: className = '' } = Astro.props;
     'bg-clip-text pb-3 text-transparent bg-gradient-to-r from-slate-800 to-slate-800 via-yellow-500',
     className
   )}
+  {...props}
 >
   <slot />
 </h1>

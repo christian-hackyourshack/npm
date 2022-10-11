@@ -1,0 +1,9 @@
+---
+import { twMerge } from 'tailwind-merge';
+export type Props = astroHTML.JSX.HTMLAttributes;
+const { class: className = '', ...props } = Astro.props;
+---
+
+<h3 class={twMerge('h3', className)} {...props}>
+  <slot />
+</h3>
