@@ -1,8 +1,8 @@
-import { describe, expect, test } from 'vitest';
+import { assert, describe } from 'mintest-green';
 import { findAllImportSpecifiers } from './findAllImportSpecifiers';
 import { parseMdx } from './parseMdx';
 
-describe('findAllImportSpecifiers', function () {
+await describe('findAllImportSpecifiers', function (test) {
   test('individual lines', function () {
     const input = parseMdx(`
 import c, {a, b} from 'c';
@@ -10,7 +10,7 @@ import c, {a, b} from 'c';
 import d from 'd';
 `);
     const found = findAllImportSpecifiers(input);
-    expect(found.length).toBe(4);
+    assert.equal(found.length, 4);
   });
 
   test('continuous lines', function () {
@@ -21,6 +21,6 @@ import d from 'd';
 <A />
 `);
     const found = findAllImportSpecifiers(input);
-    expect(found.length).toBe(4);
+    assert.equal(found.length, 4);
   });
 });

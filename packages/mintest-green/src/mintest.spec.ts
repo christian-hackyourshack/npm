@@ -1,13 +1,18 @@
-import assert from 'assert';
-import { describe } from './mintest';
+import { assert } from './assert';
+import { describe } from './describe';
 
-let count = 0;
-function incr() {
-  count++;
-}
+const counters = {
+  beforeAll: 0,
+  beforeEach: 0,
+  afterEach: 0,
+  afterAll: 0,
+};
 
 await describe('mintest', function (test) {
-  test.beforeEach(incr);
+  test.beforeAll(() => counters.beforeAll++);
+  test.beforeEach(() => counters.beforeEach++);
+  test.afterEach(() => counters.afterEach++);
+  test.afterAll(() => counters.afterAll++);
 
   test('Foo', function () {
     assert.equal(2 + 2, 4);
@@ -20,4 +25,9 @@ await describe('mintest', function (test) {
   });
 });
 
-assert.equal(count, 2);
+assert.deepStrictEqual(counters, {
+  beforeAll: 1, //
+  beforeEach: 2,
+  afterEach: 2,
+  afterAll: 1,
+});

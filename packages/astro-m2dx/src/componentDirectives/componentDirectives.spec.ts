@@ -1,13 +1,13 @@
 import type { MdxJsxFlowElement } from 'mdast-util-mdx';
 import { join } from 'path';
-import { describe, expect, test } from 'vitest';
+import { assert, describe } from 'mintest-green';
 import { parseMdx } from '../utils/mdx';
 import { componentDirectives } from './componentDirectives';
 
 const fixtures = join(process.cwd(), 'fixtures', 'componentDirectives');
 const files = [join(fixtures, '_directives.ts')];
 
-describe('componentDirectives', function () {
+await describe('componentDirectives', function (test) {
   test('playground', async function () {
     const input = parseMdx(`
 # Component Directives Playground
@@ -32,25 +32,19 @@ the question remains, wheter you _should_
 
 `);
     await componentDirectives(input, files);
-    expect(input.children.length).toBe(6);
-    expect(input.children[3]).toEqual(
-      expect.objectContaining({
-        type: 'mdxJsxFlowElement',
-        name: 'Directives__22ca94e3f2c2.quote',
-      })
-    );
-    expect(input.children[4]).toEqual(
-      expect.objectContaining({
-        type: 'mdxJsxFlowElement',
-        name: 'Directives__22ca94e3f2c2.card',
-      })
-    );
-    expect((input.children[4] as MdxJsxFlowElement).children[3]).toEqual(
-      expect.objectContaining({
-        type: 'mdxJsxFlowElement',
-        name: 'Directives__22ca94e3f2c2.call-to-action',
-      })
-    );
+    assert.equal(input.children.length, 6);
+    assert.objectContaining(input.children[3], {
+      type: 'mdxJsxFlowElement',
+      name: 'Directives__22ca94e3f2c2.quote',
+    });
+    assert.objectContaining(input.children[4], {
+      type: 'mdxJsxFlowElement',
+      name: 'Directives__22ca94e3f2c2.card',
+    });
+    assert.objectContaining((input.children[4] as unknown as MdxJsxFlowElement).children[3], {
+      type: 'mdxJsxFlowElement',
+      name: 'Directives__22ca94e3f2c2.call-to-action',
+    });
   });
 
   test('Non-JSX name', async function () {
@@ -58,12 +52,10 @@ the question remains, wheter you _should_
 ::call-to-action[Call to **ACTION**]{.text-red type='button'}
 `);
     await componentDirectives(input, files);
-    expect(input.children.length).toBe(2);
-    expect(input.children[0]).toEqual(
-      expect.objectContaining({
-        type: 'mdxJsxFlowElement',
-        name: 'Directives__22ca94e3f2c2.call-to-action',
-      })
-    );
+    assert.equal(input.children.length, 2);
+    assert.objectContaining(input.children[0], {
+      type: 'mdxJsxFlowElement',
+      name: 'Directives__22ca94e3f2c2.call-to-action',
+    });
   });
 });

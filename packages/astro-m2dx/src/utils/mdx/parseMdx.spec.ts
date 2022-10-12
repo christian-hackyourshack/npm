@@ -1,13 +1,13 @@
 import type { Paragraph } from 'mdast';
-import { describe, expect, test } from 'vitest';
+import { assert, describe } from 'mintest-green';
 import type { LeafDirective } from './mdast';
 import { parseMdx } from './parseMdx';
 
-describe('parseMdx', function () {
+await describe('parseMdx', function (test) {
   test('empty', function () {
     const actual = parseMdx(``);
-    expect(actual.type).toBe('root');
-    expect(actual.children.length).toBe(0);
+    assert.equal(actual.type, 'root');
+    assert.equal(actual.children.length, 0);
   });
 
   test('playground', function () {
@@ -19,8 +19,8 @@ export const double = value + value;
 
 A paragraph to start with...
 `);
-    expect(actual.type).toBe('root');
-    expect(actual.children.length).toBe(3);
+    assert.equal(actual.type, 'root');
+    assert.equal(actual.children.length, 3);
   });
 
   test('with directives', function () {
@@ -34,10 +34,10 @@ A paragraph to start with...
 A paragraph to start with...:style{.text-red}
 
 `);
-    expect(actual.children.length).toBe(4);
-    expect(actual.children[1].type).toBe('leafDirective');
-    expect(actual.children[2].type).toBe('leafDirective');
-    expect((actual.children[2] as LeafDirective).attributes.class).toBe('bg-accent rounded-top');
-    expect((actual.children[3] as Paragraph).children[1].type).toBe('textDirective');
+    assert.equal(actual.children.length, 4);
+    assert.equal(actual.children[1].type, 'leafDirective');
+    assert.equal(actual.children[2].type, 'leafDirective');
+    assert.equal((actual.children[2] as LeafDirective).attributes.class, 'bg-accent rounded-top');
+    assert.equal((actual.children[3] as Paragraph).children[1].type, 'textDirective');
   });
 });

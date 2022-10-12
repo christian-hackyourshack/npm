@@ -1,7 +1,7 @@
-import { describe, expect, test } from 'vitest';
+import { assert, describe } from 'mintest-green';
 import { MemCache } from './index';
 
-describe('mem-cache', function () {
+await describe('mem-cache', function () {
   test('MemCache does not recompute for identical input', function () {
     let i = 0;
     // This function is not stateless to demonstrate the correct working of the cache

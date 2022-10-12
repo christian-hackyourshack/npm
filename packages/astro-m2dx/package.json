@@ -32,9 +32,8 @@
     "build:modules": "vite build",
     "build:types": "tsc --project tsconfig.build.json",
     "clean": "rimraf -rf ./dist/",
-    "test:ui": "vitest --ui",
-    "test:watch": "vitest",
-    "test": "vitest run --passWithNoTests"
+    "test": "mintest",
+    "test:watch": "tsx watch ./node_modules/mintest-green/bin/mintest.ts"
   },
   "dependencies": {
     "acorn": "^8.8.0",
@@ -57,9 +56,11 @@
     "eslint-config-base": "workspace:*",
     "hast-util-to-html": "^8.0.3",
     "mdast-util-to-hast": "^12.2.4",
+    "mintest-green": "workspace:*",
     "rehype-format": "^4.0.1",
     "rimraf": "^3.0.2",
     "tsconfig": "workspace:*",
+    "tsx": "^3.10.1",
     "typescript": "^4.8.4",
     "unified": "^10.1.2",
     "vfile": "^5.3.5",

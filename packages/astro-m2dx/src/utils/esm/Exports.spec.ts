@@ -1,9 +1,9 @@
-import { describe, expect, test } from 'vitest';
+import { assert, describe } from 'mintest-green';
 import { parseExports } from './Exports';
 
 const noFilter = () => true;
 
-describe('parseExports', function () {
+await describe('parseExports', function (test) {
   test('multiple', function () {
     const input = `
 const imports = {
@@ -33,7 +33,7 @@ export default imports;
         isDefault: false,
       },
     ];
-    expect(actual).toStrictEqual(expected);
+    assert.deepStrictEqual(actual, expected);
   });
 
   test('parseExports with default export', function () {
@@ -53,7 +53,7 @@ export default imports;
         isDefault: true,
       },
     ];
-    expect(actual).toStrictEqual(expected);
+    assert.deepStrictEqual(actual, expected);
   });
 
   test('parseExports with named export', function () {
@@ -70,6 +70,6 @@ export const imports = {
         isDefault: false,
       },
     ];
-    expect(actual).toStrictEqual(expected);
+    assert.deepStrictEqual(actual, expected);
   });
 });

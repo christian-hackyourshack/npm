@@ -1,8 +1,9 @@
-import { describe, expect, test } from 'vitest';
+import assert from 'assert';
+import { describe } from 'mintest-green';
 import { parseMdx } from '../utils/mdx';
 import { findUnresolved } from './findUnresolved';
 
-describe('mdx', function () {
+await describe('mdx', function (test) {
   test('findUnresolved', function () {
     const input = parseMdx(`
 import C, {A, B} from 'c';
@@ -19,8 +20,8 @@ import C, {A, B} from 'c';
 
 `);
     const found = findUnresolved(input);
-    expect(found.length).toBe(2);
-    expect(found[0].name).toBe('D');
-    expect(found[1].name).toBe('Img');
+    assert.equal(found.length, 2);
+    assert.equal(found[0].name, 'D');
+    assert.equal(found[1].name, 'Img');
   });
 });

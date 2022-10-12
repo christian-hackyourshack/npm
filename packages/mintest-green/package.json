@@ -14,9 +14,13 @@
     "test-runner",
     "jest"
   ],
+  "bin": {
+    "mintest": "./bin/mintest.ts"
+  },
   "type": "module",
   "files": [
-    "dist/**/*"
+    "dist/**/*",
+    "bin/mintest.ts"
   ],
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -31,10 +35,11 @@
     "build:modules": "node ./esbuild.config.mjs",
     "build:types": "tsc",
     "clean": "rimraf -rf ./dist/",
-    "test": "tsx ./src/mintest.spec.ts",
-    "test:watch": "tsx watch ./src/mintest.spec.ts"
+    "test": "./bin/mintest.ts",
+    "test:watch": "tsx watch ./bin/mintest.ts"
   },
   "devDependencies": {
+    "@types/glob": "^8.0.0",
     "@types/node": "^18.8.2",
     "concurrently": "^7.4.0",
     "esbuild": "^0.15.10",
@@ -42,5 +47,8 @@
     "rimraf": "^3.0.2",
     "tsconfig": "workspace:*",
     "tsx": "^3.10.1"
+  },
+  "dependencies": {
+    "glob": "^8.0.3"
   }
 }

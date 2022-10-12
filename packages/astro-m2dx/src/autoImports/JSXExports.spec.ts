@@ -1,7 +1,8 @@
-import { describe, expect, test } from 'vitest';
+import { describe } from 'mintest-green';
+import assert from 'assert';
 import { parseJsxExports } from './JsxExports';
 
-describe('parseJsxExports', function () {
+await describe('parseJsxExports', function (test) {
   test('multiple', function () {
     const input = `
 const imports = {
@@ -31,7 +32,7 @@ export default imports;
         isDefault: false,
       },
     ];
-    expect(actual).toStrictEqual(expected);
+    assert.deepStrictEqual(actual, expected);
   });
 
   test('parseJsxExports with default export', function () {
@@ -51,7 +52,7 @@ export default imports;
         isDefault: true,
       },
     ];
-    expect(actual).toStrictEqual(expected);
+    assert.deepStrictEqual(actual, expected);
   });
 
   test('parseJsxExports with named export', function () {
@@ -68,6 +69,6 @@ export const imports = {
         isDefault: false,
       },
     ];
-    expect(actual).toStrictEqual(expected);
+    assert.deepStrictEqual(actual, expected);
   });
 });

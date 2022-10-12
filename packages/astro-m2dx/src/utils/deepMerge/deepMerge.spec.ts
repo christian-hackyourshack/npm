@@ -1,38 +1,38 @@
-import { describe, expect, test } from 'vitest';
+import { assert, describe } from 'mintest-green';
 import { deepMerge, isObjectLike } from './index';
 
-describe('isObjectLike', function () {
+await describe('isObjectLike', function (test) {
   test('Empty object', function () {
-    expect(isObjectLike({})).toBe(true);
+    assert.equal(isObjectLike({}), true);
   });
 
   test('Normal object', function () {
-    expect(isObjectLike({ a: 'Foo' })).toBe(true);
+    assert.equal(isObjectLike({ a: 'Foo' }), true);
   });
 
   test('Map', function () {
-    expect(isObjectLike(new Map())).toBe(true);
+    assert.equal(isObjectLike(new Map()), true);
   });
 
   test('Record', function () {
     const record: Record<string, string> = { 'a key': 'a value' };
-    expect(isObjectLike(record)).toBe(true);
+    assert.equal(isObjectLike(record), true);
   });
 
   test('Array', function () {
-    expect(isObjectLike([])).toBe(false);
+    assert.equal(isObjectLike([]), false);
   });
 
   test('Array', function () {
-    expect(isObjectLike([{ a: 'foo' }])).toBe(false);
+    assert.equal(isObjectLike([{ a: 'foo' }]), false);
   });
 
   test('undefined', function () {
-    expect(isObjectLike(undefined)).toBe(false);
+    assert.equal(isObjectLike(undefined), false);
   });
 });
 
-describe('deepMerge', function () {
+await describe('deepMerge', function (test) {
   test('deepMerge adds simple values', function () {
     const a = {
       a: 'A String',
@@ -45,7 +45,7 @@ describe('deepMerge', function () {
       a: 'A String',
       b: 42,
     };
-    expect(actual).toStrictEqual(expected);
+    assert.deepStrictEqual(actual, expected);
   });
 
   test('deepMerge does overwrite simple values', function () {
@@ -61,7 +61,7 @@ describe('deepMerge', function () {
       a: 'A String',
       b: 42,
     };
-    expect(actual).toStrictEqual(expected);
+    assert.deepStrictEqual(actual, expected);
   });
 
   test('deepMerge adds deep', function () {
@@ -84,7 +84,7 @@ describe('deepMerge', function () {
         b: 42,
       },
     };
-    expect(actual).toStrictEqual(expected);
+    assert.deepStrictEqual(actual, expected);
   });
 
   test('deepMerge handles Dates', function () {
@@ -97,7 +97,7 @@ describe('deepMerge', function () {
       a: bDate,
     };
     const actual = deepMerge(a, b);
-    expect(actual.a).toBe(bDate);
+    assert.equal(actual.a, bDate);
   });
 
   test('target is unchanged', function () {
@@ -125,8 +125,8 @@ describe('deepMerge', function () {
         c: 'C',
       },
     };
-    expect(actual).toStrictEqual(merged);
-    expect(target).toStrictEqual(unchanged);
+    assert.deepStrictEqual(actual, merged);
+    assert.deepStrictEqual(target, unchanged);
   });
 
   test('deepMerge showcase', function () {
@@ -166,6 +166,6 @@ describe('deepMerge', function () {
       rich: true,
       vehicles: ['sports car', 'private jet', 'e-bike'],
     };
-    expect(actual).toEqual(expected);
+    assert.deepStrictEqual(actual, expected);
   });
 });

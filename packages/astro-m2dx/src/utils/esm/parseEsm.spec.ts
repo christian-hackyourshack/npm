@@ -1,12 +1,12 @@
-import { describe, expect, test } from 'vitest';
+import { assert, describe } from 'mintest-green';
 import { parseEsm } from './parseEsm';
 
-describe('parseEsm', function () {
+await describe('parseEsm', function (test) {
   test('empty', function () {
     const input = ``;
     const actual = parseEsm(input);
-    expect(actual.type).toBe('Program');
-    expect(actual.body.length).toBe(0);
+    assert.equal(actual.type, 'Program');
+    assert.equal(actual.body.length, 0);
   });
 
   test('empty', function () {
@@ -17,7 +17,7 @@ import { value } from 'values';
 export const double = value + value;
 `;
     const actual = parseEsm(input);
-    expect(actual.type).toBe('Program');
-    expect(actual.body.length).toBe(2);
+    assert.equal(actual.type, 'Program');
+    assert.equal(actual.body.length, 2);
   });
 });

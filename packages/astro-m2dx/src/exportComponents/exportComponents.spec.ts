@@ -1,9 +1,9 @@
-import { describe, expect, test } from 'vitest';
+import { assert, describe } from 'mintest-green';
 import { MdxjsEsm, parseMdx } from '../utils/mdx';
 import { exportComponents } from './exportComponents';
 import { findExportInMdx } from './findExportInMdx';
 
-describe('exportComponents', function () {
+await describe('exportComponents', function (test) {
   test('single file, no existing components', function () {
     const input = parseMdx(`
 # My Title
@@ -11,11 +11,11 @@ describe('exportComponents', function () {
 Some text.
 `);
     exportComponents(input, ['_foo.ts']);
-    expect(input.children.length).toBe(4);
-    expect((input.children[2] as MdxjsEsm).value).toBe(
-      `import { components as _ac0 } from '_foo.ts';`
-    );
-    expect((input.children[3] as MdxjsEsm).value).toBe(`export const components = {..._ac0};`);
+    assert.equal(input.children.length, 4);
+    assert.objectContaining(input.children[2], {
+      value: `import { components as _ac0 } from '_foo.ts';`,
+    });
+    assert.objectContaining(input.children[3], { value: `export const components = {..._ac0};` });
   });
 
   test('multiple files, no existing components', function () {
@@ -25,15 +25,15 @@ Some text.
 Some text.
 `);
     exportComponents(input, ['_foo.ts', '_bar.ts', '_baz.ts']);
-    expect(input.children.length).toBe(4);
-    expect((input.children[2] as MdxjsEsm).value).toBe(
-      `import { components as _ac0 } from '_foo.ts';
+    assert.equal(input.children.length, 4);
+    assert.objectContaining(input.children[2], {
+      value: `import { components as _ac0 } from '_foo.ts';
 import { components as _ac1 } from '_bar.ts';
-import { components as _ac2 } from '_baz.ts';`
-    );
-    expect((input.children[3] as MdxjsEsm).value).toBe(
-      `export const components = {..._ac0,..._ac1,..._ac2};`
-    );
+import { components as _ac2 } from '_baz.ts';`,
+    });
+    assert.objectContaining(input.children[3], {
+      value: `export const components = {..._ac0,..._ac1,..._ac2};`,
+    });
   });
 
   test('single file, existing components', function () {
@@ -49,15 +49,15 @@ export const components = {
 }
 `);
     exportComponents(input, ['_foo.ts']);
-    expect(input.children.length).toBe(4);
-    expect((input.children[3] as MdxjsEsm).value).toBe(
-      `import { components as _ac0 } from '_foo.ts';`
-    );
+    assert.equal(input.children.length, 4);
+    assert.objectContaining(input.children[3], {
+      value: `import { components as _ac0 } from '_foo.ts';`,
+    });
     const decl = findExportInMdx(input);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const init = decl!.init! as any;
-    expect(init.properties.length).toBe(3);
+    assert.equal(init.properties.length, 3);
     // Make sure the spread elements are added first.
-    expect(init.properties[0].type).toBe('SpreadElement');
+    assert.equal(init.properties[0].type, 'SpreadElement');
   });
 });

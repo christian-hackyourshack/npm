@@ -1,9 +1,9 @@
-import { describe, expect, test } from 'vitest';
+import { assert, describe } from 'mintest-green';
 import { isImportDeclaration } from './estree';
 
-describe('estree', function () {
+await describe('estree', function (test) {
   test('isImportDeclaration', function () {
     const input = { type: 'ImportDeclaration' };
-    expect(isImportDeclaration(input)).toBe(true);
+    assert.equal(isImportDeclaration(input), true);
   });
 });

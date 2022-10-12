@@ -1,30 +1,11 @@
 import { AssertionError } from 'assert';
+import type { Fn } from './Fn';
 import { print, println } from './printColor';
 
-type Fn = () => unknown;
-type Test = { name: string; fn: Fn };
-type Suite = {
-  (name: string, fn: Fn): void;
-  only(name: string, fn: Fn): void;
-  skip(name: string, fn: Fn): void;
-  beforeAll(fn: Fn): void;
-  beforeEach(fn: Fn): void;
-  afterEach(fn: Fn): void;
-  afterAll(fn: Fn): void;
-};
-
-type Spec = (suite: Suite) => unknown;
-
-export async function describe(name: string, spec: Spec) {
-  const suite = createSuite(name);
-  await spec(suite);
-  return await suite.run();
-}
-
-function createSuite(suiteName: string) {
+export function createSuite(suiteName: string) {
   const start = Date.now();
-  const allTests: Test[] = [];
-  const only: Test[] = [];
+  const allTests: { name: string; fn: Fn }[] = [];
+  const only: { name: string; fn: Fn }[] = [];
   const beforeAll: Fn[] = [];
   const beforeEach: Fn[] = [];
   const afterEach: Fn[] = [];
@@ -54,18 +35,22 @@ function createSuite(suiteName: string) {
     afterAll.push(fn);
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
-  self.skip = function (name: string, fn: Fn) {};
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  self.skip = function (name: string, fn: Fn) {
+    // do not add to tests, hence skip execution
+  };
 
   self.run = async function () {
     const tests = only[0] ? only : allTests;
 
-    println.white(suiteName);
+    print('\n\n' + suiteName);
+    print.gray(` [${caller()}]`);
+    println();
     let failed = 0;
 
-    run(beforeAll);
+    runAll(beforeAll);
     for (const test of tests) {
-      run(beforeEach);
+      runAll(beforeEach);
       try {
         await test.fn();
         println.green(`  ✓ ${test.name}`);
@@ -75,9 +60,9 @@ function createSuite(suiteName: string) {
         println.red('');
         failed++;
       }
-      run(afterEach);
+      runAll(afterEach);
     }
-    await run(afterAll);
+    await runAll(afterAll);
     if (failed === 0) {
       println.green(
         `${tests.length} test${tests.length > 1 ? 's' : ''} passed [${Date.now() - start}ms]`
@@ -95,25 +80,31 @@ function createSuite(suiteName: string) {
   return self;
 }
 
-async function run(functions: Fn[]) {
+async function runAll(functions: Fn[]) {
   for (const fn of functions)
     try {
       await fn();
-      // eslint-disable-next-line no-empty
-    } catch {}
+    } catch (e) {
+      console.error(e);
+    }
 }
 
 function info(e: unknown) {
   if (e instanceof Error) {
-    const stack = e.stack ?? '\n';
-    const location = stack.slice(0, stack.indexOf('\n'));
     if (e instanceof AssertionError) {
-      print.white(`Expected ${e.actual} ${e.operator} ${e.expected}: ${e.message}`);
+      print(`Expected ${e.actual} ${e.operator} ${e.expected}: ${e.message}`);
     } else {
-      print.white(e.message);
+      print(e.message);
     }
-    print.gray(` [${location}]`);
+    print.gray(` [${caller(e, 1)}]`);
   } else {
     return `${e}`;
   }
+}
+
+const BETWEEN_BRACES = /\(([^)]+)\)/;
+function caller(e = new Error(), index = -1) {
+  const stack = (e.stack ?? '').split('\n');
+  index = index < 0 ? stack.length + index : index;
+  return (stack[index].match(BETWEEN_BRACES) ?? ['', 'unknown'])[1];
 }

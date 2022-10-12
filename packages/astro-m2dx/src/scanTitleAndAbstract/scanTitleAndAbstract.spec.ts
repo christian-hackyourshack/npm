@@ -1,15 +1,15 @@
-import { describe, expect, test } from 'vitest';
+import { assert, describe } from 'mintest-green';
 import { parseMdx } from '../utils/mdx';
 import { scanTitleAndAbstract } from './index';
 
-describe('scanTitleAndAbstract', function () {
+await describe('scanTitleAndAbstract', function (test) {
   test('Title only', function () {
     const input = parseMdx(`
 # My Title
     `);
     const [title, abstract] = scanTitleAndAbstract(input);
-    expect(title).toBe('My Title');
-    expect(abstract).toBe(undefined);
+    assert.equal(title, 'My Title');
+    assert.equal(abstract, undefined);
   });
 
   test('Title and Section', function () {
@@ -19,8 +19,8 @@ describe('scanTitleAndAbstract', function () {
 ## Section
     `);
     const [title, abstract] = scanTitleAndAbstract(input);
-    expect(title).toBe('My Title');
-    expect(abstract).toBe(undefined);
+    assert.equal(title, 'My Title');
+    assert.equal(abstract, undefined);
   });
 
   test('Title and Abstract', function () {
@@ -33,9 +33,12 @@ is only one paragraph long.
 ## Section
     `);
     const [title, abstract] = scanTitleAndAbstract(input);
-    expect(title).toBe('My Title');
-    expect(abstract).toBe(`This is the abstract, which
-is only one paragraph long.`);
+    assert.equal(title, 'My Title');
+    assert.equal(
+      abstract,
+      `This is the abstract, which
+is only one paragraph long.`
+    );
   });
 
   test('Title and Long Abstract', function () {
@@ -52,12 +55,15 @@ It is much longer and consists of multiple paragraphs...
 
 `);
     const [title, abstract] = scanTitleAndAbstract(input);
-    expect(title).toBe('My Title');
-    expect(abstract).toBe(`This is only the beginning of the abstract.
+    assert.equal(title, 'My Title');
+    assert.equal(
+      abstract,
+      `This is only the beginning of the abstract.
 
 It is much longer and consists of multiple paragraphs...
 
-Including a JSX Element`);
+Including a JSX Element`
+    );
   });
 
   test('No Title but an Abstract', function () {
@@ -69,9 +75,12 @@ is only one paragraph long.
 
 `);
     const [title, abstract] = scanTitleAndAbstract(input);
-    expect(title).toBe(undefined);
-    expect(abstract).toBe(`This is the abstract, which
-is only one paragraph long.`);
+    assert.equal(title, undefined);
+    assert.equal(
+      abstract,
+      `This is the abstract, which
+is only one paragraph long.`
+    );
   });
 
   test('Late Title and Abstract', function () {
@@ -87,9 +96,12 @@ is only one paragraph long.
 
 `);
     const [title, abstract] = scanTitleAndAbstract(input);
-    expect(title).toBe('My Title');
-    expect(abstract).toBe(`This is the abstract, which
-is only one paragraph long.`);
+    assert.equal(title, 'My Title');
+    assert.equal(
+      abstract,
+      `This is the abstract, which
+is only one paragraph long.`
+    );
   });
 
   test('Late Title and Abstract, no scanTitle', function () {
@@ -105,16 +117,19 @@ is only one paragraph long.
 
 `);
     const [title, abstract] = scanTitleAndAbstract(input, false);
-    expect(title).toBe(undefined);
-    expect(abstract).toBe(`This is the abstract, which
-is only one paragraph long.`);
+    assert.equal(title, undefined);
+    assert.equal(
+      abstract,
+      `This is the abstract, which
+is only one paragraph long.`
+    );
   });
 
   test('Title with inline code', function () {
     const input = parseMdx('# My `Title`');
     const [title, abstract] = scanTitleAndAbstract(input);
-    expect(title).toBe('My Title');
-    expect(abstract).toBe(undefined);
+    assert.equal(title, 'My Title');
+    assert.equal(abstract, undefined);
   });
 
   test('Title with formatting', function () {
@@ -123,7 +138,7 @@ is only one paragraph long.`);
 
 `);
     const [title, abstract] = scanTitleAndAbstract(input);
-    expect(title).toBe('My Title');
-    expect(abstract).toBe(undefined);
+    assert.equal(title, 'My Title');
+    assert.equal(abstract, undefined);
   });
 });

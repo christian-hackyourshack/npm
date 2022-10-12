@@ -1,13 +1,13 @@
 import type { MdxJsxFlowElement } from 'mdast-util-mdx';
 import { join } from 'path';
 import type { Parent } from 'unist';
-import { describe, expect, test } from 'vitest';
+import { assert, describe } from 'mintest-green';
 import { type MdxjsEsm, parseMdx } from '../utils/mdx';
 import { relativeImages } from './relativeImages';
 
 const fixtures = join(process.cwd(), 'fixtures', 'relativeImages');
 
-describe('relativeImages', function () {
+await describe('relativeImages', function (test) {
   test('playground', async function () {
     const input = parseMdx(`
 # Relative Images
@@ -18,9 +18,10 @@ describe('relativeImages', function () {
 
 `);
     await relativeImages(input, fixtures);
-    expect(input.children.length).toBe(4);
-    expect((input.children[1] as Parent).children[0].type).toBe('mdxJsxFlowElement');
-    expect((input.children[3] as MdxjsEsm).value).toBe(
+    assert.equal(input.children.length, 4);
+    assert.equal((input.children[1] as Parent).children[0].type, 'mdxJsxFlowElement');
+    assert.equal(
+      (input.children[3] as MdxjsEsm).value,
       `import relImg__0 from '${fixtures}/test.png';`
     );
   });
@@ -39,19 +40,15 @@ import myImage from './test.png';
 
 `);
     await relativeImages(input, fixtures);
-    expect(input.children.length).toBe(7);
-    expect((input.children[1] as MdxJsxFlowElement).attributes[0].value).toEqual(
-      expect.objectContaining({
-        type: 'mdxJsxAttributeValueExpression',
-        value: 'relImg__0',
-      })
-    );
-    expect((input.children[4] as MdxJsxFlowElement).attributes[0].value).toEqual(
-      expect.objectContaining({
-        type: 'mdxJsxAttributeValueExpression',
-        value: 'relImg__1',
-      })
-    );
+    assert.equal(input.children.length, 7);
+    assert.objectContaining((input.children[1] as MdxJsxFlowElement).attributes[0].value, {
+      type: 'mdxJsxAttributeValueExpression',
+      value: 'relImg__0',
+    });
+    assert.objectContaining((input.children[4] as MdxJsxFlowElement).attributes[0].value, {
+      type: 'mdxJsxAttributeValueExpression',
+      value: 'relImg__1',
+    });
     // `import relImg__0 from '${fixtures}/test.png';`
   });
 });

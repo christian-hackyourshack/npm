@@ -1,9 +1,9 @@
-import { describe, expect, test } from 'vitest';
+import { assert, describe } from 'mintest-green';
 import { isHeading } from './mdast';
 
-describe('mdast', function () {
+await describe('mdast', function (test) {
   test('Heading', function () {
     const input = { type: 'heading' };
-    expect(isHeading(input)).toBe(true);
+    assert.equal(isHeading(input), true);
   });
 });

@@ -1,20 +1,20 @@
-import { describe, expect, test } from 'vitest';
+import { assert, describe } from 'mintest-green';
 import { lastSegment } from './splitting';
 
-describe('split', function () {
+await describe('split', function (test) {
   test('no seperator', function () {
-    expect(lastSegment('foobar')).toEqual('foobar');
+    assert.equal(lastSegment('foobar'), 'foobar');
   });
 
   test('one seperator', function () {
-    expect(lastSegment('foo/bar')).toEqual('bar');
+    assert.equal(lastSegment('foo/bar'), 'bar');
   });
 
   test('two seperators', function () {
-    expect(lastSegment('foo/bar/baz')).toEqual('baz');
+    assert.equal(lastSegment('foo/bar/baz'), 'baz');
   });
 
   test('duplicate seperators', function () {
-    expect(lastSegment('foo/bar//baz')).toEqual('baz');
+    assert.equal(lastSegment('foo/bar//baz'), 'baz');
   });
 });

@@ -1,7 +1,7 @@
-import { describe, expect, test } from 'vitest';
+import { assert, describe } from 'mintest-green';
 import { capitalize, lastSegment, toCamelCase } from './utils';
 
-describe('toCamelCase', function () {
+await describe('toCamelCase', function () {
   test('no seperator', function () {
     expect(toCamelCase('foobar')).toEqual('foobar');
   });
@@ -31,7 +31,7 @@ describe('toCamelCase', function () {
   });
 });
 
-describe('capitalize', function () {
+await describe('capitalize', function () {
   test('simple', function () {
     expect(capitalize('foobar')).toEqual('Foobar');
   });
@@ -57,7 +57,7 @@ describe('capitalize', function () {
   });
 });
 
-describe('split', function () {
+await describe('split', function () {
   test('no seperator', function () {
     expect(lastSegment('foobar')).toEqual('foobar');
   });

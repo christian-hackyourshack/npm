@@ -1,33 +1,33 @@
-import { describe, expect, test } from 'vitest';
+import { assert, describe } from 'mintest-green';
 import { isObjectLike } from './ObjectLike';
 
-describe('isObjectLike', function () {
+await describe('isObjectLike', function (test) {
   test('Empty object', function () {
-    expect(isObjectLike({})).toBe(true);
+    assert.equal(isObjectLike({}), true);
   });
 
   test('Normal object', function () {
-    expect(isObjectLike({ a: 'Foo' })).toBe(true);
+    assert.equal(isObjectLike({ a: 'Foo' }), true);
   });
 
   test('Map', function () {
-    expect(isObjectLike(new Map())).toBe(true);
+    assert.equal(isObjectLike(new Map()), true);
   });
 
   test('Record', function () {
     const record: Record<string, string> = { 'a key': 'a value' };
-    expect(isObjectLike(record)).toBe(true);
+    assert.equal(isObjectLike(record), true);
   });
 
   test('Array', function () {
-    expect(isObjectLike([])).toBe(false);
+    assert.equal(isObjectLike([]), false);
   });
 
   test('Array', function () {
-    expect(isObjectLike([{ a: 'foo' }])).toBe(false);
+    assert.equal(isObjectLike([{ a: 'foo' }]), false);
   });
 
   test('undefined', function () {
-    expect(isObjectLike(undefined)).toBe(false);
+    assert.equal(isObjectLike(undefined), false);
   });
 });

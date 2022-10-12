@@ -1,5 +1,5 @@
 import { join } from 'path';
-import { describe, expect, test } from 'vitest';
+import { assert, describe } from 'mintest-green';
 import { mergeFrontmatter } from './mergeFrontmatter';
 
 const fixtures = join(process.cwd(), 'fixtures', 'mergeFrontmatter');
@@ -11,11 +11,11 @@ const dir_d2 = join(fixtures, 'd2');
 
 const name = '_frontmatter.yaml';
 
-describe('mergeFrontmatter', function () {
+await describe('mergeFrontmatter', function (test) {
   test('not found', async function () {
     const actual = await mergeFrontmatter(name, dir_d2, dir_d2);
     const expected = undefined;
-    expect(actual).toBe(expected);
+    assert.equal(actual, expected);
   });
 
   test('top-level', async function () {
@@ -27,7 +27,7 @@ describe('mergeFrontmatter', function () {
         url: 'astro-m2dx.netlify.app',
       },
     };
-    expect(actual).toStrictEqual(expected);
+    assert.deepStrictEqual(actual, expected);
   });
 
   test('two merged', async function () {
@@ -40,7 +40,7 @@ describe('mergeFrontmatter', function () {
         published: new Date('2022-09-19'),
       },
     };
-    expect(actual).toStrictEqual(expected);
+    assert.deepStrictEqual(actual, expected);
   });
 
   test('three merged', async function () {
@@ -54,6 +54,6 @@ describe('mergeFrontmatter', function () {
       },
       category: 'docs',
     };
-    expect(actual).toStrictEqual(expected);
+    assert.deepStrictEqual(actual, expected);
   });
 });

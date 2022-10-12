@@ -1,28 +1,24 @@
 import { join } from 'path';
-import { describe, expect, test } from 'vitest';
+import { assert, describe } from 'mintest-green';
 import { parseMdx } from '../utils/mdx';
 import { includeDirective } from './includeDirective';
 
 const fixtures = join(process.cwd(), 'fixtures', 'includeDirective');
 
-describe('includeDirective', function () {
+await describe('includeDirective', function (test) {
   test('playground', function () {
     const input = parseMdx(`
 ::include[./partial.mdx]
 `);
     includeDirective(input, fixtures);
-    expect(input.children.length).toBe(2);
-    expect(input.children[0]).toEqual(
-      expect.objectContaining({
-        type: 'mdxJsxFlowElement',
-        name: 'Include__0',
-      })
-    );
-    expect(input.children[1]).toEqual(
-      expect.objectContaining({
-        type: 'mdxjsEsm',
-        value: `import { Content as Include__0 } from '${fixtures}/partial.mdx';`,
-      })
-    );
+    assert.equal(input.children.length, 2);
+    assert.objectContaining(input.children[0], {
+      type: 'mdxJsxFlowElement',
+      name: 'Include__0.Content',
+    });
+    assert.objectContaining(input.children[1], {
+      type: 'mdxjsEsm',
+      value: `import * as Include__0 from '${fixtures}/partial.mdx';`,
+    });
   });
 });

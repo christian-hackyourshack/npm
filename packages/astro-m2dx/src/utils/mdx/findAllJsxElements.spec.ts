@@ -1,14 +1,17 @@
-import { describe, expect, test } from 'vitest';
+import { assert, describe } from 'mintest-green';
 import { parseMdx } from './parseMdx';
 import { findAllJsxElements } from './findAllJsxElements';
 
-describe('findAllJSXElements', function () {
+await describe('findAllJSXElements', function (test) {
   test('flow element', function () {
     const input = parseMdx(`
 <A />
 `);
     const found = findAllJsxElements(input);
-    expect(found.map((n) => n.name)).toStrictEqual(['A']);
+    assert.deepStrictEqual(
+      found.map((n) => n.name),
+      ['A']
+    );
   });
 
   test('text element', function () {
@@ -16,7 +19,10 @@ describe('findAllJSXElements', function () {
 <B>Foo</B>
 `);
     const found = findAllJsxElements(input);
-    expect(found.map((n) => n.name)).toStrictEqual(['B']);
+    assert.deepStrictEqual(
+      found.map((n) => n.name),
+      ['B']
+    );
   });
 
   test('xhtml element', function () {
@@ -24,7 +30,7 @@ describe('findAllJSXElements', function () {
 <h1>My Title</h1>
 `);
     const found = findAllJsxElements(input);
-    expect(found.length).toBe(0);
+    assert.equal(found.length, 0);
   });
 
   test('with xhtml element', function () {
@@ -32,7 +38,10 @@ describe('findAllJSXElements', function () {
 <h1>My Title</h1>
 `);
     const found = findAllJsxElements(input, true);
-    expect(found.map((n) => n.name)).toStrictEqual(['h1']);
+    assert.deepStrictEqual(
+      found.map((n) => n.name),
+      ['h1']
+    );
   });
 
   test('with context', function () {
@@ -52,6 +61,9 @@ import D from 'd';
 
 `);
     const found = findAllJsxElements(input);
-    expect(found.map((n) => n.name)).toStrictEqual(['A', 'B', 'D', 'A']);
+    assert.deepStrictEqual(
+      found.map((n) => n.name),
+      ['A', 'B', 'D', 'A']
+    );
   });
 });

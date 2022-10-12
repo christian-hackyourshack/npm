@@ -1,66 +1,66 @@
-import { describe, expect, test } from 'vitest';
+import { assert, describe } from 'mintest-green';
 import { capitalize, toCamelCase } from './cases';
 
-describe('toCamelCase', function () {
+await describe('toCamelCase', function (test) {
   test('no seperator', function () {
-    expect(toCamelCase('foobar')).toEqual('foobar');
+    assert.equal(toCamelCase('foobar'), 'foobar');
   });
 
   test('one seperator', function () {
-    expect(toCamelCase('foo-bar')).toEqual('fooBar');
+    assert.equal(toCamelCase('foo-bar'), 'fooBar');
   });
 
   test('. seperator', function () {
-    expect(toCamelCase('foo.bar')).toEqual('fooBar');
+    assert.equal(toCamelCase('foo.bar'), 'fooBar');
   });
 
   test('_ is no seperator', function () {
-    expect(toCamelCase('foo_bar')).toEqual('foo_bar');
+    assert.equal(toCamelCase('foo_bar'), 'foo_bar');
   });
 
   test('two seperators', function () {
-    expect(toCamelCase('foo-bar-baz')).toEqual('fooBarBaz');
+    assert.equal(toCamelCase('foo-bar-baz'), 'fooBarBaz');
   });
 
   test('double seperators', function () {
-    expect(toCamelCase('foo--baz')).toEqual('fooBaz');
+    assert.equal(toCamelCase('foo--baz'), 'fooBaz');
   });
 
   test('triple seperators', function () {
-    expect(toCamelCase('foo---baz')).toEqual('fooBaz');
+    assert.equal(toCamelCase('foo---baz'), 'fooBaz');
   });
 
   test('empty string', function () {
-    expect(toCamelCase('')).toEqual('');
+    assert.equal(toCamelCase(''), '');
   });
 
   test('capital string', function () {
-    expect(toCamelCase('A-b-C')).toEqual('ABC');
+    assert.equal(toCamelCase('A-b-C'), 'ABC');
   });
 });
 
-describe('capitalize', function () {
+await describe('capitalize', function (test) {
   test('simple', function () {
-    expect(capitalize('foobar')).toEqual('Foobar');
+    assert.equal(capitalize('foobar'), 'Foobar');
   });
 
   test('already upper', function () {
-    expect(capitalize('Foobar')).toEqual('Foobar');
+    assert.equal(capitalize('Foobar'), 'Foobar');
   });
 
   test('', function () {
-    expect(capitalize('')).toEqual('');
+    assert.equal(capitalize(''), '');
   });
 
   test('special character ß', function () {
-    expect(capitalize('ß')).toEqual('SS');
+    assert.equal(capitalize('ß'), 'SS');
   });
 
   test('special character ä', function () {
-    expect(capitalize('ä')).toEqual('Ä');
+    assert.equal(capitalize('ä'), 'Ä');
   });
 
   test('smiley', function () {
-    expect(capitalize('😀')).toEqual('😀');
+    assert.equal(capitalize('😀'), '😀');
   });
 });
