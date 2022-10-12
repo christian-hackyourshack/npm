@@ -1,0 +1,46 @@
+{
+  "name": "mintest-green",
+  "version": "0.0.0",
+  "description": "Minimal test framework",
+  "author": "christian@hackyourshack.org",
+  "homepage": "https://mintest-green.netlify.app/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/christian-hackyourshack/npm.git"
+  },
+  "license": "MIT",
+  "keywords": [
+    "testing",
+    "test-runner",
+    "jest"
+  ],
+  "type": "module",
+  "files": [
+    "dist/**/*"
+  ],
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "concurrently \"pnpm:build:*\"",
+    "build:modules": "node ./esbuild.config.mjs",
+    "build:types": "tsc",
+    "clean": "rimraf -rf ./dist/",
+    "test": "tsx ./src/mintest.spec.ts",
+    "test:watch": "tsx watch ./src/mintest.spec.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^18.8.2",
+    "concurrently": "^7.4.0",
+    "esbuild": "^0.15.10",
+    "esbuild-node-externals": "^1.5.0",
+    "rimraf": "^3.0.2",
+    "tsconfig": "workspace:*",
+    "tsx": "^3.10.1"
+  }
+}

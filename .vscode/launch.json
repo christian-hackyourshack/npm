@@ -12,6 +12,12 @@
       "type": "node-terminal",
       "request": "launch",
       "command": "pnpm --filter @web/astro-m2dx dev"
+    },
+    {
+      "name": "[mintest-green] pnpm test:watch",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "pnpm --filter mintest-green test:watch"
     }
   ]
 }
