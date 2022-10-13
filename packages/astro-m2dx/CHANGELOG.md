@@ -1,5 +1,14 @@
 # astro-m2dx
 
+## 0.4.3
+
+### Patch Changes
+
+- [`1632e6f`](https://github.com/christian-hackyourshack/npm/commit/1632e6ff0c702469e7c9db31ba54ddf25f50b253) Thanks [@christian-hackyourshack](https://github.com/christian-hackyourshack)! - Added special cases for styleDirective
+
+  - `<li>` receives class correctly now
+  - `<img>` receives class now, if the :style directive is immediately attached to the img
+
 ## 0.4.2
 
 ### Patch Changes
