@@ -1,5 +1,11 @@
 # mintest-green
 
+## 0.0.3
+
+### Patch Changes
+
+- [`22638ee`](https://github.com/christian-hackyourshack/npm/commit/22638eeca5d9a2d938cd0f285d5ac780c4bc7bf9) Thanks [@christian-hackyourshack](https://github.com/christian-hackyourshack)! - Transpiled mintest.ts for better interoperability
+
 ## 0.0.2
 
 ### Patch Changes
