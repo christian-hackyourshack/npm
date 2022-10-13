@@ -15,12 +15,11 @@
     "jest"
   ],
   "bin": {
-    "mintest": "./bin/mintest.ts"
+    "mintest": "./dist/mintest.js"
   },
   "type": "module",
   "files": [
-    "dist/**/*",
-    "bin/mintest.ts"
+    "dist/**/*"
   ],
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -35,8 +34,8 @@
     "build:modules": "node ./esbuild.config.mjs",
     "build:types": "tsc",
     "clean": "rimraf -rf ./dist/",
-    "test": "./bin/mintest.ts",
-    "test:watch": "tsx watch ./bin/mintest.ts"
+    "test": "src/mintest.ts",
+    "test:watch": "tsx watch src/mintest.ts"
   },
   "devDependencies": {
     "@types/glob": "^8.0.0",
