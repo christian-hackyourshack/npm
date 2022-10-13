@@ -33,7 +33,7 @@
     "build:types": "tsc --project tsconfig.build.json",
     "clean": "rimraf -rf ./dist/",
     "test": "mintest",
-    "test:watch": "tsx watch ./node_modules/mintest-green/bin/mintest.ts"
+    "test:watch": "tsx watch node_modules/mintest-green/dist/mintest.js"
   },
   "dependencies": {
     "acorn": "^8.8.0",

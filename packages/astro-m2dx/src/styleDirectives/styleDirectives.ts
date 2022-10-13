@@ -1,13 +1,39 @@
 import type { Root } from 'mdast';
-import { isContainerDirective, isDirective, isLeafDirective } from '../utils/mdx';
+import type { Image } from 'mdast-util-to-hast/lib/handlers/image';
+import {
+  isContainerDirective,
+  isDirective,
+  isImage,
+  isLeafDirective,
+  isListItem,
+  isTextDirective,
+} from '../utils/mdx';
 import { Node, visit } from '../utils/mdx/visit';
 
 export function styleDirectives(root: Root): void {
-  visit(root, isDirective, (directive, parent, index) => {
+  visit(root, isDirective, (directive, parent, index, ancestors) => {
     if (parent) {
       if (directive.name === 'style') {
         if (isContainerDirective(directive)) {
+          // add the classes to the directive (div) element itself
           addClasses(directive, directive.attributes.class);
+        } else if (isTextDirective(directive)) {
+          let image: Node;
+          if (
+            index > 0 &&
+            (image = parent.children[index - 1]) &&
+            isImage(image) &&
+            image.position!.end.column === directive.position!.start.column
+          ) {
+            addClasses(image, directive.attributes.class);
+          } else if (ancestors.length > 1 && isListItem(ancestors[1])) {
+            // listItems have a wrapped paragraph that is removed by rehype,
+            // so we want to add the style to the listItem
+            addClasses(ancestors[1], directive.attributes.class);
+          } else {
+            addClasses(parent, directive.attributes.class);
+          }
+          parent.children.splice(index, 1);
         } else {
           addClasses(parent, directive.attributes.class);
           parent.children.splice(index, 1);

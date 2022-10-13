@@ -23,7 +23,8 @@ export type Predicate<T = unknown> = (node: unknown) => node is T;
 export type Visitor<T = Node> = (
   node: T,
   parent: Parent | undefined,
-  index: number
+  index: number,
+  ancestors: Parent[]
 ) => Action | void;
 
 export function visit(current: Node, visitor: Visitor): Action | void;
@@ -46,7 +47,7 @@ export function visit(
     visitor = predicate as unknown as Visitor;
     predicate = undefined;
   }
-  return visit_(current, undefined, -1, predicate as Predicate, visitor);
+  return visit_(current, undefined, -1, predicate as Predicate, visitor, []);
 }
 
 function visit_<T>(
@@ -54,10 +55,11 @@ function visit_<T>(
   parent: Parent | undefined,
   index: number,
   predicate: Predicate<T> | undefined,
-  visitor: Visitor
+  visitor: Visitor,
+  ancestors: Parent[]
 ): Action | void {
   if (!predicate || predicate(current)) {
-    const action = visitor(current, parent, index);
+    const action = visitor(current, parent, index, ancestors);
     switch (action) {
       case EXIT:
         return EXIT;
@@ -68,7 +70,7 @@ function visit_<T>(
   if (isParent(current)) {
     for (let index = 0; index < current.children.length; index++) {
       const child = current.children[index];
-      if (visit_(child, current, index, predicate, visitor) === EXIT) {
+      if (visit_(child, current, index, predicate, visitor, [current, ...ancestors]) === EXIT) {
         return EXIT;
       }
     }
