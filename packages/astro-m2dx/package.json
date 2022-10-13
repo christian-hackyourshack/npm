@@ -33,6 +33,7 @@
     "build:types": "tsc --project tsconfig.build.json",
     "clean": "rimraf -rf ./dist/",
     "test": "mintest",
+    "test:dev": "tsx watch src/styleDirectives/styleDirectives.spec.ts",
     "test:watch": "tsx watch node_modules/mintest-green/dist/mintest.js"
   },
   "dependencies": {

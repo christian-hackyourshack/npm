@@ -2,6 +2,12 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "[astro-m2dx] pnpm test:dev",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "pnpm --filter astro-m2dx test:dev"
+    },
+    {
       "name": "[astro-m2dx] pnpm test:watch",
       "type": "node-terminal",
       "request": "launch",

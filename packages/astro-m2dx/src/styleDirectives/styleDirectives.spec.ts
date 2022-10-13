@@ -101,4 +101,22 @@ A lot of text here.
       'Incorrect HTML output'
     );
   });
+
+  test('::list-style does not skip list', function () {
+    const actual = transformToHTML(`
+::list-style{.foo}
+
+- List Item 1:style{.bar}
+- List Item 2 :style{.baz}
+
+`);
+    assert.equal(
+      actual,
+      `<ul class="foo">
+<li class="bar">List Item 1</li>
+<li class="baz">List Item 2 </li>
+</ul>`,
+      'Incorrect HTML output'
+    );
+  });
 });
