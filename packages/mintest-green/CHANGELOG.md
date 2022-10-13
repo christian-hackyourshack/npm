@@ -1,5 +1,13 @@
 # mintest-green
 
+## 0.0.2
+
+### Patch Changes
+
+- [`23fe58e`](https://github.com/christian-hackyourshack/npm/commit/23fe58efc79a293c631724243b71a2e98a076e05) Thanks [@christian-hackyourshack](https://github.com/christian-hackyourshack)! - Added binary runner (tsx based)
+
+- [`4a7180e`](https://github.com/christian-hackyourshack/npm/commit/4a7180e50ee666d7da6bdcc61398db3160292f55) Thanks [@christian-hackyourshack](https://github.com/christian-hackyourshack)! - Added snapshot feature
+
 ## 0.0.1
 
 ### Patch Changes

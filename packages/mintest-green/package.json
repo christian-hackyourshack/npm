@@ -1,6 +1,6 @@
 {
   "name": "mintest-green",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Minimal test framework",
   "author": "christian@hackyourshack.org",
   "homepage": "https://mintest-green.netlify.app/",
