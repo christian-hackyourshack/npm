@@ -1,5 +1,13 @@
 # astro-m2dx
 
+## 0.4.4
+
+### Patch Changes
+
+- [`80baba2`](https://github.com/christian-hackyourshack/npm/commit/80baba241a40006637eb8e1931c29260431e5a5f) Thanks [@christian-hackyourshack](https://github.com/christian-hackyourshack)! - Fixed: Tree manipulation of removing current node skips next child
+
+  Using splice to remove the current node during visit would skip the next child. Now the child array is copied before moving it.
+
 ## 0.4.3
 
 ### Patch Changes
