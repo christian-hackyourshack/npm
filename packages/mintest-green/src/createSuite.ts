@@ -92,19 +92,24 @@ async function runAll(functions: Fn[]) {
 function info(e: unknown) {
   if (e instanceof Error) {
     if (e instanceof AssertionError) {
-      print(`Expected ${e.actual} ${e.operator} ${e.expected}: ${e.message}`);
+      print(`'${e.actual}' ${e.operator} '${e.expected}': ${e.message}`);
     } else {
       print(e.message);
     }
-    print.gray(` [${caller(e, 1)}]`);
+    print.gray(` [${origin(e)}]`);
   } else {
     return `${e}`;
   }
 }
 
 const BETWEEN_BRACES = /\(([^)]+)\)/;
-function caller(e = new Error(), index = -1) {
+function caller() {
+  const stack = (new Error().stack ?? '').split('\n');
+  return (stack[stack.length - 1].match(BETWEEN_BRACES) ?? ['', 'unknown'])[1];
+}
+
+function origin(e: Error) {
   const stack = (e.stack ?? '').split('\n');
-  index = index < 0 ? stack.length + index : index;
-  return (stack[index].match(BETWEEN_BRACES) ?? ['', 'unknown'])[1];
+  const index = stack.findIndex((s) => s.includes('at Function.self.run')) - 1;
+  return (stack[index > 0 ? index : 1].match(BETWEEN_BRACES) ?? ['', 'unknown'])[1];
 }

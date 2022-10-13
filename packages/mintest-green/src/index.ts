@@ -1,3 +1,3 @@
-export * from './assert';
+export { default as assert } from './assert';
 export * from './describe';
 export * from './runSuites';

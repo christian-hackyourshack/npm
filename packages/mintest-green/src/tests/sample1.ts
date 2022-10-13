@@ -1,4 +1,4 @@
-import { assert } from '../assert';
+import { assert } from '..';
 import { describe } from '../describe';
 
 await describe('Sample 1', function (test) {

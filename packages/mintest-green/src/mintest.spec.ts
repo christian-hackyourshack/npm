@@ -1,4 +1,4 @@
-import { assert } from './assert';
+import { assert } from '.';
 import { describe } from './describe';
 
 const counters = {
