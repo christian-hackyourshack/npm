@@ -69,12 +69,12 @@ function visit_<T>(
   }
   if (isParent(current)) {
     const children = [...current.children];
-    for (let index = 0; index < children.length; index++) {
-      const action = visit_(children[index], current, index, predicate, visitor, [
-        current,
-        ...ancestors,
-      ]);
-      if (action === EXIT) return EXIT;
+    for (const child of children) {
+      const index = current.children.indexOf(child);
+      if (index >= 0) {
+        const action = visit_(child, current, index, predicate, visitor, [current, ...ancestors]);
+        if (action === EXIT) return EXIT;
+      }
     }
   }
 }

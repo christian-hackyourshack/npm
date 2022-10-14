@@ -35,15 +35,15 @@ the question remains, wheter you _should_
     assert.equal(input.children.length, 6);
     assert.objectContaining(input.children[3], {
       type: 'mdxJsxFlowElement',
-      name: 'Directives__22ca94e3f2c2.quote',
+      name: 'Directives__9840d01ee9ad.quote',
     });
     assert.objectContaining(input.children[4], {
       type: 'mdxJsxFlowElement',
-      name: 'Directives__22ca94e3f2c2.card',
+      name: 'Directives__9840d01ee9ad.card',
     });
     assert.objectContaining((input.children[4] as unknown as MdxJsxFlowElement).children[3], {
       type: 'mdxJsxFlowElement',
-      name: 'Directives__22ca94e3f2c2.call-to-action',
+      name: 'Directives__9840d01ee9ad.call-to-action',
     });
   });
 
@@ -55,7 +55,7 @@ the question remains, wheter you _should_
     assert.equal(input.children.length, 2);
     assert.objectContaining(input.children[0], {
       type: 'mdxJsxFlowElement',
-      name: 'Directives__22ca94e3f2c2.call-to-action',
+      name: 'Directives__9840d01ee9ad.call-to-action',
     });
   });
 });

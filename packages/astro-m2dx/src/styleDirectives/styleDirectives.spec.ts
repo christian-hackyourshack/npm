@@ -119,4 +119,28 @@ A lot of text here.
       'Incorrect HTML output'
     );
   });
+
+  test('Second ::list-style is applied, too', function () {
+    const actual = transformToHTML(`
+
+::list-style{.bar}
+
+- foo
+
+::list-style{.foo}
+
+- bar
+
+`);
+    assert.equal(
+      actual,
+      `<ul class="bar">
+<li>foo</li>
+</ul>
+<ul class="foo">
+<li>bar</li>
+</ul>`,
+      'Incorrect HTML output'
+    );
+  });
 });

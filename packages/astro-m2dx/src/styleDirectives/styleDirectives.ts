@@ -1,5 +1,4 @@
 import type { Root } from 'mdast';
-import type { Image } from 'mdast-util-to-hast/lib/handlers/image';
 import {
   isContainerDirective,
   isDirective,
