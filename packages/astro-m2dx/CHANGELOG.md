@@ -1,5 +1,13 @@
 # astro-m2dx
 
+## 0.4.5
+
+### Patch Changes
+
+- [`77169e5`](https://github.com/christian-hackyourshack/npm/commit/77169e540a3b0614cd3f63de4f175a611a6d5703) Thanks [@christian-hackyourshack](https://github.com/christian-hackyourshack)! - Fixed: Tree manipulation skips other children
+
+  Tree manipulation skewed indices of children, hence we now recompute the index after each child
+
 ## 0.4.4
 
 ### Patch Changes
