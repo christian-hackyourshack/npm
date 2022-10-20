@@ -1,5 +1,13 @@
 # astro-m2dx
 
+## 0.4.6
+
+### Patch Changes
+
+- [`5f35fbe`](https://github.com/christian-hackyourshack/npm/commit/5f35fbe6a385fed0dcbcbf76e486a722f53ce64c) Thanks [@christian-hackyourshack](https://github.com/christian-hackyourshack)! - Added visit helper to mdx index
+
+- [`8ed183c`](https://github.com/christian-hackyourshack/npm/commit/8ed183c569b3c38f32bb2632f0627fde184ccc99) Thanks [@christian-hackyourshack](https://github.com/christian-hackyourshack)! - Moved toText(Node) method to utils
+
 ## 0.4.5
 
 ### Patch Changes
