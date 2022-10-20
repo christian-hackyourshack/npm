@@ -1,7 +1,5 @@
 import type { Root } from 'mdast';
-import type { Node } from '../utils/mdx';
-import { isHeading, isInlineCode, isRoot, isText } from '../utils/mdx';
-import { CONTINUE, EXIT, SKIP, visit } from '../utils/mdx/visit';
+import { CONTINUE, EXIT, isHeading, isRoot, SKIP, toText, visit } from '../utils/mdx';
 
 export function scanTitleAndAbstract(
   root: Root,
@@ -38,17 +36,4 @@ export function scanTitleAndAbstract(
   }
 
   return [title, abstract.length === 0 ? undefined : abstract.join('\n\n').trim()];
-}
-
-function toText(root: Node) {
-  const buffer: string[] = [];
-  visit(root, (node) => {
-    if (isText(node) || isInlineCode(node)) {
-      buffer.push(node.value);
-    }
-  });
-  return buffer
-    .map((s) => s.trim())
-    .join(' ')
-    .trim();
 }
