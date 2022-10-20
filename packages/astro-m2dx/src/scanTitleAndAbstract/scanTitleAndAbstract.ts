@@ -1,5 +1,5 @@
 import type { Root } from 'mdast';
-import { CONTINUE, EXIT, isHeading, isRoot, SKIP, toText, visit } from '../utils/mdx';
+import { CONTINUE, EXIT, isHeading, isRoot, SKIP, toText, visit } from 'm2dx-utils';
 
 export function scanTitleAndAbstract(
   root: Root,

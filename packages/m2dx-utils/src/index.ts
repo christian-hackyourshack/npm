@@ -1,10 +1,11 @@
-export type { MdxjsEsm } from 'mdast-util-mdx';
 export * from './createJsxElement';
 export * from './createProgram';
+export * from './estree';
 export * from './findAllImages';
 export * from './findAllImportSpecifiers';
 export * from './findAllJsxElements';
 export * from './mdast';
+export * from './parseEsm';
 export * from './parseMdx';
 export * from './toText';
 export * from './visit';

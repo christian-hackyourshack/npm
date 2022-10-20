@@ -29,8 +29,8 @@
   },
   "scripts": {
     "build": "concurrently \"pnpm:build:*\"",
-    "build:modules": "vite build",
-    "build:types": "tsc --project tsconfig.build.json",
+    "build:modules": "node ./esbuild.config.mjs",
+    "build:types": "tsc",
     "clean": "rimraf -rf ./dist/",
     "test": "mintest",
     "test:dev": "tsx watch src/utils/mdx/toText.spec.ts",
@@ -41,19 +41,21 @@
     "estree-util-visit": "^1.2.0",
     "gray-matter": "^4.0.3",
     "js-yaml": "^4.1.0",
+    "m2dx-utils": "workspace:*",
     "mdast-util-mdx": "^2.0.0",
     "remark": "^14.0.2",
     "remark-directive": "^2.0.1",
-    "remark-mdx": "^2.1.3"
+    "remark-mdx": "^2.1.5"
   },
   "devDependencies": {
     "@types/estree": "^1.0.0",
     "@types/js-yaml": "^4.0.5",
     "@types/mdast": "^3.0.10",
-    "@types/node": "^18.8.2",
+    "@types/node": "^18.11.2",
     "@types/unist": "2.0.6",
-    "@vitest/ui": "^0.23.4",
     "concurrently": "^7.4.0",
+    "esbuild": "^0.15.12",
+    "esbuild-node-externals": "^1.5.0",
     "eslint-config-base": "workspace:*",
     "hast-util-to-html": "^8.0.3",
     "mdast-util-to-hast": "^12.2.4",
@@ -61,12 +63,9 @@
     "rehype-format": "^4.0.1",
     "rimraf": "^3.0.2",
     "tsconfig": "workspace:*",
-    "tsx": "^3.10.1",
+    "tsx": "^3.10.4",
     "typescript": "^4.8.4",
     "unified": "^10.1.2",
-    "vfile": "^5.3.5",
-    "vite": "^3.1.4",
-    "vite-config": "workspace:*",
-    "vitest": "^0.23.4"
+    "vfile": "^5.3.5"
   }
 }

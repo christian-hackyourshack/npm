@@ -1,6 +1,6 @@
 import type { Root } from 'mdast';
 import type { MdxjsEsm } from 'mdast-util-mdx';
-import { isImportDeclaration } from '../esm';
+import { isImportDeclaration } from './estree';
 import { isMdxjsEsm } from './mdast';
 import { visit } from './visit';
 

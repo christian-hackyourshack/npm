@@ -8,8 +8,7 @@ import {
   isProperty,
   isVariableDeclarator,
   parseEsm,
-} from '.';
-import { isLiteral } from '../mdx';
+} from 'm2dx-utils';
 
 export interface Export {
   file: string;

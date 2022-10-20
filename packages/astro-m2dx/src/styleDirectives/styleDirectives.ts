@@ -8,7 +8,7 @@ import {
   isTextDirective,
   Node,
   visit,
-} from '../utils/mdx';
+} from 'm2dx-utils';
 
 export function styleDirectives(root: Root): void {
   visit(root, isDirective, (directive, parent, index, ancestors) => {

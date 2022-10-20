@@ -39,13 +39,13 @@
   },
   "devDependencies": {
     "@types/glob": "^8.0.0",
-    "@types/node": "^18.8.2",
+    "@types/node": "^18.11.2",
     "concurrently": "^7.4.0",
-    "esbuild": "^0.15.10",
+    "esbuild": "^0.15.12",
     "esbuild-node-externals": "^1.5.0",
     "rimraf": "^3.0.2",
     "tsconfig": "workspace:*",
-    "tsx": "^3.10.1"
+    "tsx": "^3.10.4"
   },
   "dependencies": {
     "glob": "^8.0.3"

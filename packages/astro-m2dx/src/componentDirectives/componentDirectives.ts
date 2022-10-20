@@ -1,9 +1,8 @@
+import { createJsxElement, createProgram, isDirective, visitAsync } from 'm2dx-utils';
 import type { BlockContent, Root } from 'mdast';
-import { Export, Exports } from '../utils/esm/Exports';
-import { createJsxElement, createProgram, isDirective, MdxjsEsm } from '../utils/mdx';
-import { visitAsync } from '../utils/mdx';
 import { capitalize, toCamelCase } from '../utils/text/cases';
 import { hash } from '../utils/text/hash';
+import { Export, Exports } from './Exports';
 
 export async function componentDirectives(root: Root, files: string[]) {
   const exports = new Exports(files.reverse());
@@ -29,18 +28,17 @@ export async function componentDirectives(root: Root, files: string[]) {
         parent.children[index] = component;
         if (!imports.includes(alias)) {
           imports.push(alias);
-          root.children.push(createImport(found, alias));
+          root.children.push(createProgram(toImport(found, alias)));
         }
       }
     }
   });
 }
 
-function createImport({ file, name, isDefault }: Export, as: string): MdxjsEsm {
-  const src = isDefault //
+function toImport({ file, name, isDefault }: Export, as: string): string {
+  return isDefault //
     ? `import ${as} from '${file}';`
     : `import {${name} as ${as}} from '${file}'`;
-  return createProgram(src);
 }
 
 function getAlias(file: string, name: string) {

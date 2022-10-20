@@ -8,7 +8,7 @@ import {
   isProperty,
   isVariableDeclarator,
   parseEsm,
-} from '../utils/esm';
+} from 'm2dx-utils';
 
 export interface JsxExport {
   file: string;

@@ -1,5 +1,5 @@
 import type { MdxjsEsm } from 'mdast-util-mdx';
-import { parseEsm } from '../esm';
+import { parseEsm } from './parseEsm';
 
 export function createProgram(value: string): MdxjsEsm {
   const estree = parseEsm(value);

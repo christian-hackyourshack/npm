@@ -1,6 +1,6 @@
 import { join } from 'path';
 import { assert, describe } from 'mintest-green';
-import { parseMdx } from '../utils/mdx';
+import { parseMdx } from 'm2dx-utils';
 import { includeDirective } from './includeDirective';
 
 const fixtures = join(process.cwd(), 'fixtures', 'includeDirective');

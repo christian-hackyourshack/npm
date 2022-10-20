@@ -1,6 +1,6 @@
 import type { ObjectExpression } from 'estree';
 import type { Root } from 'mdast';
-import { createProgram } from '../utils/mdx';
+import { createProgram } from 'm2dx-utils';
 import { findExportInMdx } from './findExportInMdx';
 
 export function exportComponents(root: Root, files: string[]) {

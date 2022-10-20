@@ -1,9 +1,7 @@
 import type { Identifier, Program, VariableDeclaration, VariableDeclarator } from 'estree';
 import { EXIT as esEXIT, visit as esVisit } from 'estree-util-visit';
+import { EXIT, isMdxjsEsm, isVariableDeclarator, visit } from 'm2dx-utils';
 import type { Root } from 'mdast';
-import { isVariableDeclarator } from '../utils/esm';
-import { isMdxjsEsm } from '../utils/mdx';
-import { EXIT, visit } from '../utils/mdx/visit';
 
 /** Exported only for testing purposes */
 export function findExportInMdx(root: Root): VariableDeclarator | undefined {

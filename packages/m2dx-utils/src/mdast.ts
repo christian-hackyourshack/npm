@@ -52,6 +52,8 @@ export type Node = UnistNode & {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 } & Record<string, any>;
 
+export interface Program extends MdxjsEsm {}
+
 export function isRoot(node: unknown): node is Root {
   return !!node && (node as Root).type === 'root';
 }

@@ -1,5 +1,5 @@
+import { parseMdx } from 'm2dx-utils';
 import { assert, describe } from 'mintest-green';
-import { MdxjsEsm, parseMdx } from '../utils/mdx';
 import { exportComponents } from './exportComponents';
 import { findExportInMdx } from './findExportInMdx';
 

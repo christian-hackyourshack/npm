@@ -1,7 +1,6 @@
+import { createJsxElement, createProgram, isLeafDirective, visit } from 'm2dx-utils';
 import type { Root, Text } from 'mdast';
 import { join } from 'path';
-import { createJsxElement, createProgram, isLeafDirective } from '../utils/mdx';
-import { visit } from '../utils/mdx/visit';
 
 export function includeDirective(root: Root, dir: string, directiveName = 'include'): void {
   let count = 0;

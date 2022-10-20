@@ -1,18 +1,18 @@
 {
-  "name": "remark-sectionize-headings",
-  "version": "0.0.1",
-  "description": "Remark plugin to wrap headings and their following child paragraphs in sections",
+  "name": "m2dx-utils",
+  "version": "0.0.0",
+  "description": "Utilities for MDX/mdast",
   "author": "christian@hackyourshack.org",
-  "homepage": "https://github.com/christian-hackyourshack/npm/tree/main/packages/remark-sectionize-headings",
+  "homepage": "https://m2dx-utils.netlify.app/",
   "repository": {
     "type": "git",
     "url": "https://github.com/christian-hackyourshack/npm.git"
   },
   "license": "MIT",
   "keywords": [
-    "remark-plugin",
-    "headings",
-    "section"
+    "MDX",
+    "mdast",
+    "TypeScript"
   ],
   "type": "module",
   "files": [
@@ -20,33 +20,34 @@
   ],
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "exports": {
-    ".": {
-      "import": "./dist/index.js",
-      "types": "./dist/index.d.ts"
-    }
-  },
   "scripts": {
     "build": "concurrently \"pnpm:build:*\"",
     "build:modules": "node ./esbuild.config.mjs",
     "build:types": "tsc",
-    "clean": "rimraf -rf ./dist/"
+    "clean": "rimraf -rf ./dist/",
+    "test": "mintest",
+    "test:dev": "tsx watch src/utils/mdx/toText.spec.ts",
+    "test:watch": "tsx watch node_modules/mintest-green/dist/mintest.js"
   },
   "dependencies": {
-    "unist-util-visit": "^4.1.1"
+    "acorn": "^8.8.0",
+    "estree-util-visit": "^1.2.0",
+    "mdast-util-mdx": "^2.0.0",
+    "remark": "^14.0.2",
+    "remark-directive": "^2.0.1",
+    "remark-mdx": "^2.1.5"
   },
   "devDependencies": {
+    "@types/estree": "^1.0.0",
     "@types/mdast": "^3.0.10",
     "@types/node": "^18.11.2",
+    "@types/unist": "2.0.6",
     "concurrently": "^7.4.0",
     "esbuild": "^0.15.12",
     "esbuild-node-externals": "^1.5.0",
-    "eslint-config-base": "workspace:*",
+    "mintest-green": "workspace:*",
     "rimraf": "^3.0.2",
     "tsconfig": "workspace:*",
-    "tsx": "^3.10.4",
-    "typescript": "^4.8.4",
-    "unified": "^10.1.2",
-    "vfile": "^5.3.5"
+    "tsx": "^3.10.4"
   }
 }

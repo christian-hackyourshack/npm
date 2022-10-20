@@ -1,7 +1,7 @@
+import { createProgram } from 'm2dx-utils';
 import type { Root } from 'mdast';
 import { findUnresolved } from './findUnresolved';
 import { JsxExport, JsxExports } from './JsxExports';
-import { createProgram, MdxjsEsm } from '../utils/mdx';
 
 export async function autoImports(root: Root, files: string[], failUnresolved = false) {
   // TODO: Align this implementation with componentDirectives
@@ -19,7 +19,7 @@ export async function autoImports(root: Root, files: string[], failUnresolved = 
         u.name = `${jsxExport.as}.${u.name}`;
         if (!appliedAutoImports.includes(jsxExport.as)) {
           appliedAutoImports.push(jsxExport.as);
-          root.children.push(createImport(jsxExport));
+          root.children.push(createProgram(toImport(jsxExport)));
         }
       } else if (failUnresolved) {
         throw new Error(
@@ -30,9 +30,8 @@ export async function autoImports(root: Root, files: string[], failUnresolved = 
   );
 }
 
-export function createImport({ file, as, name, isDefault }: JsxExport): MdxjsEsm {
-  const src = isDefault //
+function toImport({ file, as, name, isDefault }: JsxExport): string {
+  return isDefault //
     ? `import ${as} from '${file}';`
     : `import {${name} as ${as}} from '${file}'`;
-  return createProgram(src);
 }

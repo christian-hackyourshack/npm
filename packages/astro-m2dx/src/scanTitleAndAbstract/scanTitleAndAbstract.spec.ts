@@ -1,5 +1,5 @@
 import { assert, describe } from 'mintest-green';
-import { parseMdx } from '../utils/mdx';
+import { parseMdx } from 'm2dx-utils';
 import { scanTitleAndAbstract } from './index';
 
 await describe('scanTitleAndAbstract', function (test) {

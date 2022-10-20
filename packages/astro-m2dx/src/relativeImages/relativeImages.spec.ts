@@ -1,8 +1,8 @@
-import type { MdxJsxFlowElement } from 'mdast-util-mdx';
+import { parseMdx } from 'm2dx-utils';
+import type { MdxjsEsm, MdxJsxFlowElement } from 'mdast-util-mdx';
+import { assert, describe } from 'mintest-green';
 import { join } from 'path';
 import type { Parent } from 'unist';
-import { assert, describe } from 'mintest-green';
-import { type MdxjsEsm, parseMdx } from '../utils/mdx';
 import { relativeImages } from './relativeImages';
 
 const fixtures = join(process.cwd(), 'fixtures', 'relativeImages');
