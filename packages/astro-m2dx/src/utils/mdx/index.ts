@@ -6,3 +6,4 @@ export * from './findAllImportSpecifiers';
 export * from './findAllJsxElements';
 export * from './mdast';
 export * from './parseMdx';
+export * from './visit';

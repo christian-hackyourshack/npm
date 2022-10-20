@@ -1,6 +1,7 @@
 import type { Root } from 'mdast';
-import { CONTINUE, EXIT, Node, SKIP, visit } from '../utils/mdx/visit';
+import type { Node } from '../utils/mdx';
 import { isHeading, isInlineCode, isRoot, isText } from '../utils/mdx';
+import { CONTINUE, EXIT, SKIP, visit } from '../utils/mdx/visit';
 
 export function scanTitleAndAbstract(
   root: Root,

@@ -44,7 +44,13 @@ import type {
   MdxJsxTextElement,
   MdxTextExpression,
 } from 'mdast-util-mdx';
-import type { Node, Parent } from 'unist';
+import type { Node as UnistNode, Parent } from 'unist';
+
+export type Node = UnistNode & {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  data?: Record<string, any>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+} & Record<string, any>;
 
 export function isRoot(node: unknown): node is Root {
   return !!node && (node as Root).type === 'root';
@@ -90,18 +96,39 @@ export function isParent(node: unknown): node is Parent {
   if (!node) return false;
   const type = (node as Node).type;
   switch (type) {
-    case 'html':
-    case 'code':
-    case 'yaml':
-    case 'text':
-    case 'inlineCode':
     case 'break':
+    case 'code':
+    case 'footnoteReference':
+    case 'html':
     case 'image':
     case 'imageReference':
-    case 'footnoteReference':
+    case 'inlineCode':
+    case 'text':
+    case 'yaml':
       return false;
     default:
       return true;
+  }
+}
+
+export function isPhrasingContent(node: unknown): node is PhrasingContent {
+  if (!node) return false;
+  const type = (node as Node).type;
+  switch (type) {
+    case 'break':
+    case 'delete':
+    case 'emphasis':
+    case 'footnote':
+    case 'footnoteReference':
+    case 'html':
+    case 'image':
+    case 'imageReference':
+    case 'inlineCode':
+    case 'strong':
+    case 'text':
+      return true;
+    default:
+      return false;
   }
 }
 

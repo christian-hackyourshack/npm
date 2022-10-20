@@ -6,8 +6,9 @@ import {
   isLeafDirective,
   isListItem,
   isTextDirective,
+  Node,
+  visit,
 } from '../utils/mdx';
-import { Node, visit } from '../utils/mdx/visit';
 
 export function styleDirectives(root: Root): void {
   visit(root, isDirective, (directive, parent, index, ancestors) => {
