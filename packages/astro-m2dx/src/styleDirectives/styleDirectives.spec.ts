@@ -1,6 +1,5 @@
 import { assert, describe } from 'mintest-green';
-import { parseMdx } from 'm2dx-utils';
-import { rehype } from '../utils/rehype/rehype';
+import { parseMdx, rehype } from 'm2dx-utils';
 import { styleDirectives } from './styleDirectives';
 
 function transformToHTML(input: string) {
@@ -9,7 +8,7 @@ function transformToHTML(input: string) {
   return rehype(mdx);
 }
 
-await describe('styleDirectives', function (test) {
+export const result = await describe('styleDirectives', function (test) {
   test('playground', function () {
     const actual = transformToHTML(`
 # Astro Docs

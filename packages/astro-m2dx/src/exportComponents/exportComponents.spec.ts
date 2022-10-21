@@ -3,7 +3,7 @@ import { assert, describe } from 'mintest-green';
 import { exportComponents } from './exportComponents';
 import { findExportInMdx } from './findExportInMdx';
 
-await describe('exportComponents', function (test) {
+export const result = await describe('exportComponents', function (test) {
   test('single file, no existing components', function () {
     const input = parseMdx(`
 # My Title

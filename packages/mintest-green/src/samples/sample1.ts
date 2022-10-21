@@ -1,7 +1,7 @@
 import { assert } from '..';
 import { describe } from '../describe';
 
-await describe('Sample 1', function (test) {
+export const result = await describe('Sample 1', function (test) {
   test('it works', function () {
     assert.equal(2 + 2, 4);
   });

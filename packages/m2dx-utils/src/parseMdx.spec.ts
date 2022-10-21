@@ -3,7 +3,7 @@ import { assert, describe } from 'mintest-green';
 import type { LeafDirective } from './mdast';
 import { parseMdx } from './parseMdx';
 
-await describe('parseMdx', function (test) {
+export const result = await describe('parseMdx', function (test) {
   test('empty', function () {
     const actual = parseMdx(``);
     assert.equal(actual.type, 'root');

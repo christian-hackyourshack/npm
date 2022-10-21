@@ -1,7 +1,6 @@
+import { capitalize, shortHash, toCamelCase } from '@internal/utils';
 import { createJsxElement, createProgram, isDirective, visitAsync } from 'm2dx-utils';
 import type { BlockContent, Root } from 'mdast';
-import { capitalize, toCamelCase } from '../utils/text/cases';
-import { hash } from '../utils/text/hash';
 import { Export, Exports } from './Exports';
 
 export async function componentDirectives(root: Root, files: string[]) {
@@ -42,5 +41,5 @@ function toImport({ file, name, isDefault }: Export, as: string): string {
 }
 
 function getAlias(file: string, name: string) {
-  return capitalize(toCamelCase(`${name}__${hash(file, 6)}`));
+  return capitalize(toCamelCase(`${name}__${shortHash(file, 6)}`));
 }

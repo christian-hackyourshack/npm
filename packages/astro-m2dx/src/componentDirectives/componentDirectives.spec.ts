@@ -1,13 +1,13 @@
-import type { MdxJsxFlowElement } from 'mdast-util-mdx';
-import { join } from 'path';
-import { assert, describe } from 'mintest-green';
 import { parseMdx } from 'm2dx-utils';
+import type { MdxJsxFlowElement } from 'mdast-util-mdx';
+import { assert, describe } from 'mintest-green';
+import { join } from 'path';
 import { componentDirectives } from './componentDirectives';
 
 const fixtures = join(process.cwd(), 'fixtures', 'componentDirectives');
 const files = [join(fixtures, '_directives.ts')];
 
-await describe('componentDirectives', function (test) {
+export const result = await describe('componentDirectives', function (test) {
   test('playground', async function () {
     const input = parseMdx(`
 # Component Directives Playground
@@ -35,15 +35,15 @@ the question remains, wheter you _should_
     assert.equal(input.children.length, 6);
     assert.objectContaining(input.children[3], {
       type: 'mdxJsxFlowElement',
-      name: 'Directives__9840d01ee9ad.quote',
+      name: 'Directives__77a369b4568a.quote',
     });
     assert.objectContaining(input.children[4], {
       type: 'mdxJsxFlowElement',
-      name: 'Directives__9840d01ee9ad.card',
+      name: 'Directives__77a369b4568a.card',
     });
     assert.objectContaining((input.children[4] as unknown as MdxJsxFlowElement).children[3], {
       type: 'mdxJsxFlowElement',
-      name: 'Directives__9840d01ee9ad.call-to-action',
+      name: 'Directives__77a369b4568a.call-to-action',
     });
   });
 
@@ -55,7 +55,7 @@ the question remains, wheter you _should_
     assert.equal(input.children.length, 2);
     assert.objectContaining(input.children[0], {
       type: 'mdxJsxFlowElement',
-      name: 'Directives__9840d01ee9ad.call-to-action',
+      name: 'Directives__77a369b4568a.call-to-action',
     });
   });
 });

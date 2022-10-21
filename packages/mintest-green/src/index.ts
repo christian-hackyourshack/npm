@@ -1,3 +1,3 @@
-export { default as assert } from './assert';
-export * from './describe';
-export * from './runSuites';
+export { default as assert } from './assert/index.js';
+export * from './describe/index.js';
+export * from './run/index.js';

@@ -3,7 +3,7 @@ import { parseExports } from './Exports';
 
 const noFilter = () => true;
 
-await describe('parseExports', function (test) {
+export const result = await describe('parseExports', function (test) {
   test('multiple', function () {
     const input = `
 const imports = {

@@ -1,0 +1,12 @@
+{
+  "name": "@internal/utils",
+  "private": true,
+  "type": "module",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "devDependencies": {
+    "@types/node": "^18.11.2",
+    "tsconfig": "workspace:*",
+    "typescript": "latest"
+  }
+}

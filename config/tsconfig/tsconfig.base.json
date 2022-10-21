@@ -19,5 +19,6 @@
     "skipLibCheck": true,
     "strict": true,
     "target": "ES2022"
-  }
+  },
+  "exclude": ["node_modules"]
 }

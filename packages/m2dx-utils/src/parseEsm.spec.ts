@@ -1,7 +1,7 @@
 import { assert, describe } from 'mintest-green';
 import { parseEsm } from './parseEsm';
 
-await describe('parseEsm', function (test) {
+export const result = await describe('parseEsm', function (test) {
   test('empty', function () {
     const input = ``;
     const actual = parseEsm(input);

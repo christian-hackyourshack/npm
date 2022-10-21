@@ -19,22 +19,22 @@
   "files": [
     "dist/**/*"
   ],
+  "main": "./dist/index.cjs",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "import": "./dist/index.js",
+      "require": "./dist/index.cjs",
       "types": "./dist/index.d.ts"
     }
   },
   "scripts": {
-    "build": "concurrently \"pnpm:build:*\"",
-    "build:modules": "node ./esbuild.config.mjs",
-    "build:types": "tsc",
+    "build": "tsup src/index.ts --format cjs,esm --dts",
     "clean": "rimraf -rf ./dist/",
     "test": "mintest",
     "test:dev": "tsx watch src/utils/mdx/toText.spec.ts",
-    "test:watch": "tsx watch node_modules/mintest-green/dist/mintest.js"
+    "test:watch": "tsx watch node_modules/mintest-green/dist/bin.js"
   },
   "dependencies": {
     "acorn": "^8.8.0",
@@ -63,9 +63,11 @@
     "rehype-format": "^4.0.1",
     "rimraf": "^3.0.2",
     "tsconfig": "workspace:*",
+    "tsup": "^6.3.0",
     "tsx": "^3.10.4",
     "typescript": "^4.8.4",
     "unified": "^10.1.2",
+    "@internal/utils": "workspace:*",
     "vfile": "^5.3.5"
   }
 }

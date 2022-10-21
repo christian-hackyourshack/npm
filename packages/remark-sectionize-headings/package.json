@@ -18,18 +18,18 @@
   "files": [
     "dist/**/*"
   ],
+  "main": "./dist/index.cjs",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "import": "./dist/index.js",
+      "require": "./dist/index.cjs",
       "types": "./dist/index.d.ts"
     }
   },
   "scripts": {
-    "build": "concurrently \"pnpm:build:*\"",
-    "build:modules": "node ./esbuild.config.mjs",
-    "build:types": "tsc",
+    "build": "tsup src/index.ts --format cjs,esm --dts",
     "clean": "rimraf -rf ./dist/"
   },
   "dependencies": {
@@ -44,6 +44,7 @@
     "eslint-config-base": "workspace:*",
     "rimraf": "^3.0.2",
     "tsconfig": "workspace:*",
+    "tsup": "^6.3.0",
     "tsx": "^3.10.4",
     "typescript": "^4.8.4",
     "unified": "^10.1.2",

@@ -2,7 +2,7 @@ import { assert, describe } from 'mintest-green';
 import { parseMdx } from './parseMdx';
 import { findAllJsxElements } from './findAllJsxElements';
 
-await describe('findAllJSXElements', function (test) {
+export const result = await describe('findAllJSXElements', function (test) {
   test('flow element', function () {
     const input = parseMdx(`
 <A />

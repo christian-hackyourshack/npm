@@ -7,5 +7,6 @@ export * from './findAllJsxElements';
 export * from './mdast';
 export * from './parseEsm';
 export * from './parseMdx';
+export * from './rehype';
 export * from './toText';
 export * from './visit';

@@ -14,16 +14,22 @@
       "command": "pnpm --filter astro-m2dx test:watch"
     },
     {
-      "name": "[@web/astro-m2dx] pnpm dev",
+      "name": "[mintest-green] pnpm test:dev",
       "type": "node-terminal",
       "request": "launch",
-      "command": "pnpm --filter @web/astro-m2dx dev"
+      "command": "pnpm --filter mintest-green test:dev"
     },
     {
       "name": "[mintest-green] pnpm test:watch",
       "type": "node-terminal",
       "request": "launch",
       "command": "pnpm --filter mintest-green test:watch"
+    },
+    {
+      "name": "[@app/astro-m2dx] pnpm dev",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "pnpm --filter @app/astro-m2dx dev"
     }
   ]
 }

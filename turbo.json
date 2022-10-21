@@ -9,14 +9,17 @@
       "cache": false
     },
     "dev": {
-      "dependsOn": ["^build"],
-      "outputs": [],
       "cache": false
     },
     "lint": {
       "outputs": []
     },
     "test": {
+      "outputs": [],
+      "inputs": ["src/**/*.[jt]s"]
+    },
+    "test:dev": {
+      "cache": false,
       "outputs": [],
       "inputs": ["src/**/*.[jt]s"]
     }

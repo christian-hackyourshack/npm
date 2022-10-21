@@ -1,5 +1,4 @@
-import { assert } from '.';
-import { describe } from './describe';
+import { assert, describe } from './index.js';
 
 const counters = {
   beforeAll: 0,
@@ -8,7 +7,7 @@ const counters = {
   afterAll: 0,
 };
 
-await describe('mintest', function (test) {
+export const result = await describe('mintest', function (test) {
   test.beforeAll(() => counters.beforeAll++);
   test.beforeEach(() => counters.beforeEach++);
   test.afterEach(() => counters.afterEach++);

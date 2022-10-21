@@ -7,7 +7,7 @@ import { relativeImages } from './relativeImages';
 
 const fixtures = join(process.cwd(), 'fixtures', 'relativeImages');
 
-await describe('relativeImages', function (test) {
+export const result = await describe('relativeImages', function (test) {
   test('playground', async function () {
     const input = parseMdx(`
 # Relative Images

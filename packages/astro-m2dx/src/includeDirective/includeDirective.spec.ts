@@ -5,7 +5,7 @@ import { includeDirective } from './includeDirective';
 
 const fixtures = join(process.cwd(), 'fixtures', 'includeDirective');
 
-await describe('includeDirective', function (test) {
+export const result = await describe('includeDirective', function (test) {
   test('playground', function () {
     const input = parseMdx(`
 ::include[./partial.mdx]

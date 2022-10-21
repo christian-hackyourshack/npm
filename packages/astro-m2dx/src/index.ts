@@ -1,3 +1,4 @@
+import { deepMerge, findUpAll } from '@internal/utils';
 import type { Root } from 'mdast';
 import { join } from 'path';
 import type { Plugin } from 'unified';
@@ -11,8 +12,6 @@ import { relativeImages } from './relativeImages/relativeImages';
 import { scanTitleAndAbstract } from './scanTitleAndAbstract';
 import { styleDirectives } from './styleDirectives/styleDirectives';
 import type { VFile } from './types/VFile';
-import { deepMerge } from './utils/deepMerge';
-import { findUpAll } from './utils/fs';
 
 const DEFAULT_AUTO_IMPORTS_NAME = '_autoimports.ts';
 const DEFAULT_COMPONENT_DIRECTIVES_NAME = '_directives.ts';

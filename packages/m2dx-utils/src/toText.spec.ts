@@ -2,7 +2,7 @@ import { assert, describe } from 'mintest-green';
 import { parseMdx } from './parseMdx';
 import { toText } from './toText';
 
-describe('toText', function (test) {
+export const result = await describe('toText', function (test) {
   test('empty', function () {
     const input = parseMdx(``);
     const actual = toText(input);

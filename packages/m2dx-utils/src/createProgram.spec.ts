@@ -1,8 +1,8 @@
 import { assert, describe } from 'mintest-green';
-import { isImportDeclaration } from '../esm';
 import { createProgram } from './createProgram';
+import { isImportDeclaration } from './estree';
 
-await describe('createProgram', function (test) {
+export const result = await describe('createProgram', function (test) {
   test('default import', function () {
     const actual = createProgram(`import d from 'd.js';`);
     const decl = actual.data!.estree!.body[0];

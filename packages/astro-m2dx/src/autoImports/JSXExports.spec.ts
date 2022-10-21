@@ -2,7 +2,7 @@ import { describe } from 'mintest-green';
 import assert from 'assert';
 import { parseJsxExports } from './JsxExports';
 
-await describe('parseJsxExports', function (test) {
+export const result = await describe('parseJsxExports', function (test) {
   test('multiple', function () {
     const input = `
 const imports = {

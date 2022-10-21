@@ -15,9 +15,9 @@ Another One.
 
 `);
 
-await describe('visit', function (test) {
+export const result = await describe('visit', function (test) {
   test('all', async function () {
-    const elements = [];
+    const elements: string[] = [];
     visit(input, (node) => {
       elements.push(`${node.type}`);
     });
@@ -26,7 +26,7 @@ await describe('visit', function (test) {
   });
 
   test('EXIT after first paragraph', async function () {
-    const elements = [];
+    const elements: string[] = [];
     visit(input, (node) => {
       elements.push(`${node.type}`);
       if (node.type === 'paragraph') {
@@ -38,7 +38,7 @@ await describe('visit', function (test) {
   });
 
   test('SKIP paragraph content', async function () {
-    const elements = [];
+    const elements: string[] = [];
     visit(input, (node) => {
       elements.push(`${node.type}`);
       if (node.type === 'paragraph') {

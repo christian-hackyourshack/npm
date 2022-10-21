@@ -1,8 +1,7 @@
+import { deepMerge, exists, type ObjectLike } from '@internal/utils';
 import { readFile } from 'fs/promises';
 import YAML from 'js-yaml';
 import { dirname, join, normalize } from 'path';
-import { deepMerge, type ObjectLike } from '../utils/deepMerge';
-import { exists } from '../utils/fs';
 
 async function _mergeFrontmatter(
   name: string,

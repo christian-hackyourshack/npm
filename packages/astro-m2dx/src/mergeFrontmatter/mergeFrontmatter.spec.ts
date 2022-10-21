@@ -11,7 +11,7 @@ const dir_d2 = join(fixtures, 'd2');
 
 const name = '_frontmatter.yaml';
 
-await describe('mergeFrontmatter', function (test) {
+export const result = await describe('mergeFrontmatter', function (test) {
   test('not found', async function () {
     const actual = await mergeFrontmatter(name, dir_d2, dir_d2);
     const expected = undefined;

@@ -1,3 +1,4 @@
+import { exists } from '@internal/utils';
 import {
   createJsxElement,
   createProgram,
@@ -9,7 +10,6 @@ import {
 import type { Root } from 'mdast';
 import type { MdxJsxAttribute, MdxJsxAttributeValueExpression } from 'mdast-util-mdx';
 import path, { isAbsolute, join } from 'path';
-import { exists } from '../utils/fs';
 
 export async function relativeImages(root: Root, baseDir: string) {
   const relativeImages = findAllImages(root).filter((f) => !isAbsolute(f[0].url));

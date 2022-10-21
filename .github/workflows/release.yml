@@ -35,9 +35,9 @@ jobs:
         run: pnpm install
 
       - name: Build Packages
-        run: pnpm run build
+        run: pnpm run build:packages
 
-      - name: Create .npmrc
+      - name: Prepare .npmrc for publishing
         run: |
           cat << EOF > "$HOME/.npmrc"
             //registry.npmjs.org/:_authToken=$NPM_TOKEN
@@ -50,7 +50,7 @@ jobs:
         uses: changesets/action@v1
         with:
           version: pnpm run version
-          publish: pnpm run publish
+          publish: pnpm run publish-packages
           commit: '[ci] release'
           title: '[ci] release'
         env:
