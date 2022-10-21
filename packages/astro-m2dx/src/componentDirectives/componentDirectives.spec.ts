@@ -33,18 +33,21 @@ the question remains, wheter you _should_
 `);
     await componentDirectives(input, files);
     assert.equal(input.children.length, 6);
-    assert.objectContaining(input.children[3], {
-      type: 'mdxJsxFlowElement',
-      name: 'Directives__77a369b4568a.quote',
-    });
-    assert.objectContaining(input.children[4], {
-      type: 'mdxJsxFlowElement',
-      name: 'Directives__77a369b4568a.card',
-    });
-    assert.objectContaining((input.children[4] as unknown as MdxJsxFlowElement).children[3], {
-      type: 'mdxJsxFlowElement',
-      name: 'Directives__77a369b4568a.call-to-action',
-    });
+
+    const child3 = input.children[3] as MdxJsxFlowElement;
+    assert.equal(child3.type, 'mdxJsxFlowElement');
+    assert.equal(child3.name!.startsWith('Directives__'), true);
+    assert.equal(child3.name!.endsWith('.quote'), true);
+
+    const child4 = input.children[4] as MdxJsxFlowElement;
+    assert.equal(child4.type, 'mdxJsxFlowElement');
+    assert.equal(child4.name!.startsWith('Directives__'), true);
+    assert.equal(child4.name!.endsWith('.card'), true);
+
+    const child43 = child4.children[3] as MdxJsxFlowElement;
+    assert.equal(child43.type, 'mdxJsxFlowElement');
+    assert.equal(child43.name!.startsWith('Directives__'), true);
+    assert.equal(child43.name!.endsWith('.call-to-action'), true);
   });
 
   test('Non-JSX name', async function () {
@@ -53,9 +56,10 @@ the question remains, wheter you _should_
 `);
     await componentDirectives(input, files);
     assert.equal(input.children.length, 2);
-    assert.objectContaining(input.children[0], {
-      type: 'mdxJsxFlowElement',
-      name: 'Directives__77a369b4568a.call-to-action',
-    });
+
+    const child0 = input.children[0] as MdxJsxFlowElement;
+    assert.equal(child0.type, 'mdxJsxFlowElement');
+    assert.equal(child0.name!.startsWith('Directives__'), true);
+    assert.equal(child0.name!.endsWith('.call-to-action'), true);
   });
 });

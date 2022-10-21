@@ -12,43 +12,39 @@ import type { MdxJsxAttribute, MdxJsxAttributeValueExpression } from 'mdast-util
 import path, { isAbsolute, join } from 'path';
 
 export async function relativeImages(root: Root, baseDir: string) {
-  const relativeImages = findAllImages(root).filter((f) => !isAbsolute(f[0].url));
-
   let imageCount = 0;
-  await Promise.all(
-    relativeImages.map(async ([image, parent]) => {
-      const path = join(baseDir, image.url);
-      if (await exists(path)) {
-        const name = `relImg__${imageCount++}`;
 
-        const src = `src={${name}}`;
-        const alt = image.alt ? ` alt='${image.alt}'` : '';
-        const title = image.title ? ` alt='${image.title}'` : '';
-        const index = parent.children.indexOf(image);
-        if (index < 0) {
-          throw new Error(
-            `relativeImages: image (${image.url} [${image.position?.start.line}:${image.position?.start.column}]) does not have a parent`
-          );
-        }
-        parent.children[index] = createJsxElement(`<img ${src}${alt}${title} />`);
-        const imageImport = createProgram(`import ${name} from '${path}';`);
-        root.children.push(imageImport);
+  const relativeImages = findAllImages(root).filter((f) => !isAbsolute(f[0].url));
+  for (const [image, parent] of relativeImages) {
+    const path = join(baseDir, image.url);
+    if (await exists(path)) {
+      const name = `relImg__${imageCount++}`;
+
+      const src = `src={${name}}`;
+      const alt = image.alt ? ` alt='${image.alt}'` : '';
+      const title = image.title ? ` alt='${image.title}'` : '';
+      const index = parent.children.indexOf(image);
+      if (index < 0) {
+        throw new Error(
+          `relativeImages: image (${image.url} [${image.position?.start.line}:${image.position?.start.column}]) does not have a parent`
+        );
       }
-    })
-  );
+      parent.children[index] = createJsxElement(`<img ${src}${alt}${title} />`);
+      const imageImport = createProgram(`import ${name} from '${path}';`);
+      root.children.push(imageImport);
+    }
+  }
 
   const relativeJsxImages = findAllRelativeJsxImageReferences(root);
-  await Promise.all(
-    relativeJsxImages.map(async (attribute) => {
-      const path = join(baseDir, attribute.value as string);
-      if (await exists(path)) {
-        const name = `relImg__${imageCount++}`;
-        attribute.value = toAttributeValueExpressionStatement(name);
-        const imageImport = createProgram(`import ${name} from '${path}';`);
-        root.children.push(imageImport);
-      }
-    })
-  );
+  for (const attribute of relativeJsxImages) {
+    const path = join(baseDir, attribute.value as string);
+    if (await exists(path)) {
+      const name = `relImg__${imageCount++}`;
+      attribute.value = toAttributeValueExpressionStatement(name);
+      const imageImport = createProgram(`import ${name} from '${path}';`);
+      root.children.push(imageImport);
+    }
+  }
 }
 
 const imageExtensions = ['.jpg', '.jpeg', '.png', '.svg', '.webp', '.gif', '.tiff', '.avif'];
