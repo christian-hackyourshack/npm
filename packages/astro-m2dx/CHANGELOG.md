@@ -1,5 +1,11 @@
 # astro-m2dx
 
+## 0.5.1
+
+### Patch Changes
+
+- [`4803133`](https://github.com/christian-hackyourshack/npm/commit/480313351258a73afbe4c1549272b8560081b0f8) Thanks [@christian-hackyourshack](https://github.com/christian-hackyourshack)! - Fixed some non-deterministic test cases
+
 ## 0.5.0
 
 ### Minor Changes
