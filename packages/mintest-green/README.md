@@ -32,8 +32,7 @@ npm install mintest-green
 ## Use
 
 ```js
-import assert from 'assert';
-import { describe } from './mintest';
+import { assert, describe } from './mintest';
 
 let count = 0;
 function incr() {

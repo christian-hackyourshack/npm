@@ -1,6 +1,6 @@
 import { parseMdx } from 'm2dx-utils';
 import { assert, describe } from 'mintest-green';
-import { exportComponents } from './exportComponents';
+import { exportComponents } from '.';
 import { findExportInMdx } from './findExportInMdx';
 
 export const result = await describe('exportComponents', function (test) {

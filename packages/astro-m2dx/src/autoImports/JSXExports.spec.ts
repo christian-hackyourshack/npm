@@ -1,5 +1,4 @@
-import { describe } from 'mintest-green';
-import assert from 'assert';
+import { assert, describe } from 'mintest-green';
 import { parseJsxExports } from './JsxExports';
 
 export const result = await describe('parseJsxExports', function (test) {

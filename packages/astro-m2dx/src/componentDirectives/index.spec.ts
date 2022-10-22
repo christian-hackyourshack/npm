@@ -2,7 +2,7 @@ import { parseMdx } from 'm2dx-utils';
 import type { MdxJsxFlowElement } from 'mdast-util-mdx';
 import { assert, describe } from 'mintest-green';
 import { join } from 'path';
-import { componentDirectives } from './componentDirectives';
+import { componentDirectives } from '.';
 
 const fixtures = join(process.cwd(), 'fixtures', 'componentDirectives');
 const files = [join(fixtures, '_directives.ts')];

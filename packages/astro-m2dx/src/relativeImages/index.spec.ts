@@ -3,7 +3,7 @@ import type { MdxjsEsm, MdxJsxFlowElement } from 'mdast-util-mdx';
 import { assert, describe } from 'mintest-green';
 import { join } from 'path';
 import type { Parent } from 'unist';
-import { relativeImages } from './relativeImages';
+import { relativeImages } from '.';
 
 const fixtures = join(process.cwd(), 'fixtures', 'relativeImages');
 

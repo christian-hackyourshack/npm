@@ -1,6 +1,6 @@
-import { join } from 'path';
 import { assert, describe } from 'mintest-green';
-import { mergeFrontmatter } from './mergeFrontmatter';
+import { join } from 'path';
+import { mergeFrontmatter } from '.';
 
 const fixtures = join(process.cwd(), 'fixtures', 'mergeFrontmatter');
 

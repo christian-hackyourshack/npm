@@ -1,5 +1,5 @@
-import type { Root } from 'mdast';
 import { findAllImportSpecifiers, findAllJsxElements } from 'm2dx-utils';
+import type { Root } from 'mdast';
 
 export function findUnresolved(root: Root) {
   const imports = findAllImportSpecifiers(root).map((i) => i.name);

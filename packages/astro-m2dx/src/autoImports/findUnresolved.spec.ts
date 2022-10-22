@@ -1,6 +1,5 @@
-import assert from 'assert';
-import { describe } from 'mintest-green';
 import { parseMdx } from 'm2dx-utils';
+import { assert, describe } from 'mintest-green';
 import { findUnresolved } from './findUnresolved';
 
 export const result = await describe('mdx', function (test) {

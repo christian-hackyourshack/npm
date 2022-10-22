@@ -1,6 +1,6 @@
-import { assert, describe } from 'mintest-green';
 import { parseMdx } from 'm2dx-utils';
-import { scanTitleAndAbstract } from './index';
+import { assert, describe } from 'mintest-green';
+import { scanTitleAndAbstract } from '.';
 
 export const result = await describe('scanTitleAndAbstract', function (test) {
   test('Title only', function () {

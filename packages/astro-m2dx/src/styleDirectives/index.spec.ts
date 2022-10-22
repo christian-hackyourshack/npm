@@ -1,6 +1,6 @@
-import { assert, describe } from 'mintest-green';
 import { parseMdx, rehype } from 'm2dx-utils';
-import { styleDirectives } from './styleDirectives';
+import { assert, describe } from 'mintest-green';
+import { styleDirectives } from '.';
 
 function transformToHTML(input: string) {
   const mdx = parseMdx(input);
