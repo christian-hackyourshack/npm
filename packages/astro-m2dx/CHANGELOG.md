@@ -1,5 +1,19 @@
 # astro-m2dx
 
+## 0.5.0
+
+### Minor Changes
+
+- [`26a80fd`](https://github.com/christian-hackyourshack/npm/commit/26a80fdadf41ebe33a6ff64860d8d6cc4fa3038d) Thanks [@christian-hackyourshack](https://github.com/christian-hackyourshack)! - Improved CI/CD workflow
+
+  - packages are checked now before publication
+  - build artifacts are merged into fewer files
+
+### Patch Changes
+
+- Updated dependencies []:
+  - m2dx-utils@0.1.0
+
 ## 0.4.6
 
 ### Patch Changes

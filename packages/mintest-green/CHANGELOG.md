@@ -1,5 +1,14 @@
 # mintest-green
 
+## 0.1.0
+
+### Minor Changes
+
+- [`26a80fd`](https://github.com/christian-hackyourshack/npm/commit/26a80fdadf41ebe33a6ff64860d8d6cc4fa3038d) Thanks [@christian-hackyourshack](https://github.com/christian-hackyourshack)! - Improved CI/CD workflow
+
+  - packages are checked now before publication
+  - build artifacts are merged into fewer files
+
 ## 0.0.3
 
 ### Patch Changes
