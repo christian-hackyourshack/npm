@@ -10,20 +10,21 @@
   "scripts": {
     "build": "turbo run build --no-daemon",
     "clean": "turbo run clean --no-daemon && rimraf -rf node_modules/.cache/turbo",
+    "clean:check": "pnpm clean && pnpm release:build && pnpm release:check",
     "dev": "turbo run dev --parallel",
     "dev:reset": "turbo run clean --no-daemon && rimraf -f pnpm-lock.yaml && rimraf -rf .pnpm-store && rimraf -rf ./**/node_modules/",
     "format": "prettier --write \"**/*.{astro,cjs,js,json,jsx,md,mdx,mjs,ts,tsx}\"",
     "lint": "turbo run lint --no-daemon",
     "prepare:changeset": "changeset add",
-    "release:build": "turbo run build --filter=!./apps/* --no-daemon",
-    "release:check": "pnpm install --frozen-lockfile && turbo run lint test --filter=!./apps/* --no-daemon",
+    "release:build": "turbo run build --filter=!./apps/* --no-daemon && pnpm install --frozen-lockfile",
+    "release:check": "turbo run lint test --filter=!./apps/* --no-daemon",
     "release:version": "changeset version",
     "release:publish": "changeset publish",
     "test": "pnpm install && turbo run test --no-daemon",
     "test:dev": "turbo run test:dev --no-daemon"
   },
   "engines": {
-    "node": ">=14.0.0"
+    "node": "^14.17.0 || ^16.0.0 || >= 18.0.0"
   },
   "packageManager": "pnpm@7.13.6",
   "devDependencies": {
