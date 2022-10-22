@@ -1,31 +1,5 @@
 # astro-m2dx
 
-## 0.5.2
-
-### Patch Changes
-
-- [`d27b1c5`](https://github.com/christian-hackyourshack/npm/commit/d27b1c59c7558f8b8f2397ba59b1249a5eda5b7c) Thanks [@christian-hackyourshack](https://github.com/christian-hackyourshack)! - Fixing issues in github release workflow
-
-- Updated dependencies []:
-  - m2dx-utils@0.1.0
-
-## 0.5.1
-
-### Patch Changes
-
-- [`4803133`](https://github.com/christian-hackyourshack/npm/commit/480313351258a73afbe4c1549272b8560081b0f8) Thanks [@christian-hackyourshack](https://github.com/christian-hackyourshack)! - Fixed some non-deterministic test cases
-
-## 0.5.0
-
-### Minor Changes
-
-- [`2ee447a`](https://github.com/christian-hackyourshack/npm/commit/2ee447ad7631750c84ab69175aa7da134b3fb1f5) Thanks [@christian-hackyourshack](https://github.com/christian-hackyourshack)! - Refactored the CI/CD setup
-
-### Patch Changes
-
-- Updated dependencies [[`2ee447a`](https://github.com/christian-hackyourshack/npm/commit/2ee447ad7631750c84ab69175aa7da134b3fb1f5)]:
-  - m2dx-utils@0.1.0
-
 ## 0.4.6
 
 ### Patch Changes

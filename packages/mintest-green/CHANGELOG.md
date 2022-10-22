@@ -1,17 +1,5 @@
 # mintest-green
 
-## 0.1.1
-
-### Patch Changes
-
-- [`d27b1c5`](https://github.com/christian-hackyourshack/npm/commit/d27b1c59c7558f8b8f2397ba59b1249a5eda5b7c) Thanks [@christian-hackyourshack](https://github.com/christian-hackyourshack)! - Fixing issues in github release workflow
-
-## 0.1.0
-
-### Minor Changes
-
-- [`2ee447a`](https://github.com/christian-hackyourshack/npm/commit/2ee447ad7631750c84ab69175aa7da134b3fb1f5) Thanks [@christian-hackyourshack](https://github.com/christian-hackyourshack)! - Refactored the CI/CD setup
-
 ## 0.0.3
 
 ### Patch Changes
