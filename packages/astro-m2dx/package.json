@@ -48,6 +48,7 @@
     "remark-mdx": "^2.1.5"
   },
   "devDependencies": {
+    "@internal/utils": "workspace:*",
     "@types/estree": "^1.0.0",
     "@types/js-yaml": "^4.0.5",
     "@types/mdast": "^3.0.10",
@@ -67,7 +68,6 @@
     "tsx": "^3.10.4",
     "typescript": "^4.8.4",
     "unified": "^10.1.2",
-    "@internal/utils": "workspace:*",
     "vfile": "^5.3.5"
   }
 }
