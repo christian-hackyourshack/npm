@@ -1,5 +1,5 @@
-import { createSuite } from './createSuite.js';
-import type { Suite } from './Suite.js';
+import { createSuite } from './createSuite';
+import type { Suite } from './Suite';
 
 export async function describe(name: string, spec: (suite: Suite) => unknown) {
   const suite = createSuite(name);
@@ -7,4 +7,4 @@ export async function describe(name: string, spec: (suite: Suite) => unknown) {
   return await suite.run();
 }
 
-export * from './Result.js';
+export * from './Result';

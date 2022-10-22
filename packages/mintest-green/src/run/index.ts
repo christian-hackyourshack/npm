@@ -1,7 +1,7 @@
 import { fill, println, withColor as c } from '@internal/utils';
 import glob from 'glob';
 import { join } from 'path';
-import { isResult, Result } from '../index.js';
+import { isResult, Result } from '..';
 
 export async function run(pattern = 'src/{**/*.spec.ts,tests/**/*.ts}') {
   const start = Date.now();

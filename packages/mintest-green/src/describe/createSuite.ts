@@ -1,7 +1,7 @@
 import { getCallerLocation, getLocation, print, println } from '@internal/utils';
 import { AssertionError } from 'assert';
-import type { Fn } from './Fn.js';
-import { Result } from './Result.js';
+import type { Fn } from './Fn';
+import { Result } from './Result';
 
 export function createSuite(suiteName: string) {
   const start = Date.now();

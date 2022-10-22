@@ -1,6 +1,6 @@
 import assert from 'assert';
-import { objectContaining } from './objectContaining.js';
-import { snapshot } from './snapshot.js';
+import { objectContaining } from './objectContaining';
+import { snapshot } from './snapshot';
 
 type AssertPlus = typeof assert & {
   objectContaining: (actual: unknown, expected: unknown) => void;

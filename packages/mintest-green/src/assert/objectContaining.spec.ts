@@ -1,6 +1,6 @@
 import { AssertionError } from 'assert';
-import { assert, describe } from '../index.js';
-import { objectContaining } from './objectContaining.js';
+import { assert, describe } from '..';
+import { objectContaining } from './objectContaining';
 
 export const result = await describe('objectContaining', function (test) {
   test('accepts equal objects', function () {

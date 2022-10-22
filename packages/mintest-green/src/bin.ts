@@ -1,6 +1,6 @@
 #!/usr/bin/env tsx
 import { exit } from 'process';
-import { run } from './index.js';
+import { run } from '.';
 
 // TODO: Use commander or something similar for some CLI options
 

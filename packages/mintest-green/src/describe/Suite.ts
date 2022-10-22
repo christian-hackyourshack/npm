@@ -1,4 +1,4 @@
-import type { Fn } from './Fn.js';
+import type { Fn } from './Fn';
 
 export type Suite = {
   (name: string, fn: Fn): void;

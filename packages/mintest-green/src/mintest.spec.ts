@@ -1,4 +1,4 @@
-import { assert, describe } from './index.js';
+import { assert, describe } from '.';
 
 const counters = {
   beforeAll: 0,

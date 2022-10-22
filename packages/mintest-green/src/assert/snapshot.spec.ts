@@ -1,7 +1,7 @@
 import { AssertionError } from 'assert';
 import { existsSync, readFileSync, rmSync } from 'fs';
-import { assert, describe } from '../index.js';
-import { getSnapshotPath, snapshot } from './snapshot.js';
+import { assert, describe } from '..';
+import { getSnapshotPath, snapshot } from './snapshot';
 
 export const result = await describe('snapshot', function (test) {
   test('creates a new snapshot', function () {
