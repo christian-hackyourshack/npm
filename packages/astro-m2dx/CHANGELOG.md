@@ -1,5 +1,11 @@
 # astro-m2dx
 
+## 0.5.1
+
+### Patch Changes
+
+- [`1360d78`](https://github.com/christian-hackyourshack/npm/commit/1360d78c15f8cc214acd0909efb3ce584b4da4ac) Thanks [@christian-hackyourshack](https://github.com/christian-hackyourshack)! - Improved robustness of componentDirective
+
 ## 0.5.0
 
 ### Minor Changes
