@@ -16,7 +16,7 @@ You could use them inline, to embed your :logo
 
 You could introduce a component for fancy quotes:
 
-::quote[Markdown with **Magic MDX** can be so fancy!]{author="Kaya" from="Berlin" img="./kaya.jpg"}
+::Quote[Markdown with **Magic MDX** can be so fancy!]{author="Kaya" from="Berlin" img="./kaya.jpg"}
 
 :::card{#demo-card .bg-accent}
 
@@ -37,12 +37,14 @@ the question remains, wheter you _should_
     const child3 = input.children[3] as MdxJsxFlowElement;
     assert.equal(child3.type, 'mdxJsxFlowElement');
     assert.equal(child3.name!.startsWith('Directives__'), true);
-    assert.equal(child3.name!.endsWith('.quote'), true);
+    assert.equal(child3.name!.endsWith('.Quote'), true);
+    assert.equal(child3.attributes.length, 3);
 
     const child4 = input.children[4] as MdxJsxFlowElement;
     assert.equal(child4.type, 'mdxJsxFlowElement');
     assert.equal(child4.name!.startsWith('Directives__'), true);
     assert.equal(child4.name!.endsWith('.card'), true);
+    assert.equal(child4.attributes.length, 2);
 
     const child43 = child4.children[3] as MdxJsxFlowElement;
     assert.equal(child43.type, 'mdxJsxFlowElement');

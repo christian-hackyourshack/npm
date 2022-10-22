@@ -5,7 +5,7 @@ import { CTA } from '@components';
 
 export const directives = {
   logo: Logo,
-  quote: Quote,
+  Quote,
   card: Card,
   'call-to-action': CTA,
 };

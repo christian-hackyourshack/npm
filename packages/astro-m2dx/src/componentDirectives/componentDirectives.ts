@@ -17,6 +17,7 @@ export async function componentDirectives(root: Root, files: string[]) {
         const tag = [alias, directive.name].join('.');
         const component = createJsxElement(`<${tag} />`);
         Object.keys(directive.attributes).forEach((key) => {
+          component.attributes ??= [];
           component.attributes.push({
             type: 'mdxJsxAttribute',
             name: key,
