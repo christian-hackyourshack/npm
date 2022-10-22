@@ -1,5 +1,18 @@
 # astro-m2dx
 
+## 0.6.0
+
+### Minor Changes
+
+- [`bc57d1c`](https://github.com/christian-hackyourshack/npm/commit/bc57d1c1c561671a43b9ad0b776986a8604e101e) Thanks [@christian-hackyourshack](https://github.com/christian-hackyourshack)! - Removed CJS modules from build
+
+  Astro (or probably the underlying Vite) would hick-up on the CJS files in the packages and prefer them over the ESM, resulting in not being able to load Remark (which is ESM only).
+
+### Patch Changes
+
+- Updated dependencies [[`bc57d1c`](https://github.com/christian-hackyourshack/npm/commit/bc57d1c1c561671a43b9ad0b776986a8604e101e)]:
+  - m2dx-utils@0.2.0
+
 ## 0.5.1
 
 ### Patch Changes
