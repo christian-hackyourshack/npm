@@ -19,25 +19,28 @@ jobs:
     name: Create PR or release to NPM
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repo
+      - name: Checkout sources
         uses: actions/checkout@v3
 
-      - name: Setup PNPM
-        uses: pnpm/action-setup@v2.2.1
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2.2.4
 
-      - name: Setup Node.js 16.x
+      - name: Setup node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 16.x
+          node-version: 16
           cache: 'pnpm'
 
-      - name: Install Dependencies
-        run: pnpm install
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
 
-      - name: Build Packages
-        run: pnpm run build:packages
+      - name: Build packages
+        run: pnpm run release:build
 
-      - name: Prepare .npmrc for publishing
+      - name: Check packages
+        run: pnpm run release:check
+
+      - name: Prepare .npmrc for publishing on npm
         run: |
           cat << EOF > "$HOME/.npmrc"
             //registry.npmjs.org/:_authToken=$NPM_TOKEN
@@ -45,12 +48,12 @@ jobs:
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-      - name: Release or Publish
+      - name: Update versions or publish
         id: changesets
         uses: changesets/action@v1
         with:
-          version: pnpm run version
-          publish: pnpm run publish-packages
+          version: pnpm run release:version
+          publish: pnpm run release:publish
           commit: '[ci] release'
           title: '[ci] release'
         env:
