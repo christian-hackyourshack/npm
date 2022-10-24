@@ -1,5 +1,11 @@
 # astro-m2dx
 
+## 0.6.1
+
+### Patch Changes
+
+- [`baa2599`](https://github.com/christian-hackyourshack/npm/commit/baa25992831a983bb5e4474799a5291e44a7d12a) Thanks [@christian-hackyourshack](https://github.com/christian-hackyourshack)! - Allowing :style directives with content now also for leaf and text directive
+
 ## 0.6.0
 
 ### Minor Changes
