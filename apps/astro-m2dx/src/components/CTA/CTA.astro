@@ -8,10 +8,8 @@ export interface Props {
 const { class: className = '', href } = Astro.props;
 ---
 
-<a href={href}>
-  <button
-    class={twMerge('claim w-full text-center text-2xl font-semibold text-slate-700', className)}
-  >
+<a href={href} class="no-underline">
+  <p class={twMerge('claim text-center text-2xl font-semibold text-slate-700', className)}>
     <slot />
-  </button>
+  </p>
 </a>

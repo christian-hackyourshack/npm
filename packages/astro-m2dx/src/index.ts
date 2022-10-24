@@ -23,6 +23,8 @@ const DEFAULT_RAW_MDX_NAME = 'rawmdx';
 const DEFAULT_SCAN_ABSTRACT_NAME = 'abstract';
 const DEFAULT_SCAN_TITLE_NAME = 'title';
 
+export * from './types/VFile';
+
 /**
  * Transformer interface that must be implemented by addons.
  *

@@ -18,25 +18,37 @@ export function styleDirectives(root: Root): void {
           // add the classes to the directive (div) element itself
           addClasses(directive, directive.attributes.class);
         } else if (isTextDirective(directive)) {
-          let image: Node;
-          if (
-            index > 0 &&
-            (image = parent.children[index - 1]) &&
-            isImage(image) &&
-            image.position!.end.column === directive.position!.start.column
-          ) {
-            addClasses(image, directive.attributes.class);
-          } else if (ancestors.length > 1 && isListItem(ancestors[1])) {
-            // listItems have a wrapped paragraph that is removed by rehype,
-            // so we want to add the style to the listItem
-            addClasses(ancestors[1], directive.attributes.class);
+          let node: Node;
+          if (directive.children.length > 0) {
+            const data = directive.data ?? (directive.data = {});
+            data.hName = 'span';
+            addClasses(directive, directive.attributes.class);
+          } else {
+            if (
+              index > 0 &&
+              (node = parent.children[index - 1]) &&
+              isImage(node) &&
+              node.position!.end.column === directive.position!.start.column
+            ) {
+              addClasses(node, directive.attributes.class);
+            } else if (ancestors.length > 1 && isListItem(ancestors[1])) {
+              // listItems have a wrapped paragraph that is removed by rehype,
+              // so we want to add the style to the listItem
+              addClasses(ancestors[1], directive.attributes.class);
+            } else {
+              addClasses(parent, directive.attributes.class);
+            }
+            parent.children.splice(index, 1);
+          }
+        } else {
+          if (directive.children.length > 0) {
+            const data = directive.data ?? (directive.data = {});
+            data.hName = 'div';
+            addClasses(directive, directive.attributes.class);
           } else {
             addClasses(parent, directive.attributes.class);
+            parent.children.splice(index, 1);
           }
-          parent.children.splice(index, 1);
-        } else {
-          addClasses(parent, directive.attributes.class);
-          parent.children.splice(index, 1);
         }
       } else if (directive.name === 'list-style' && isLeafDirective(directive)) {
         const next = parent.children[index + 1];

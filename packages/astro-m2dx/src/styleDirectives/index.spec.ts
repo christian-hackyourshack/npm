@@ -142,4 +142,22 @@ A lot of text here.
       'Incorrect HTML output'
     );
   });
+
+  test('Leaf directive with content', function () {
+    const actual = transformToHTML(`
+::style[Astro]{.text-gradient}
+`);
+    assert.equal(actual, `<div class="text-gradient">Astro</div>`, 'Incorrect HTML output');
+  });
+
+  test('Text directive with content', function () {
+    const actual = transformToHTML(`
+# Welcome to :style[Astro]{.text-gradient}
+`);
+    assert.equal(
+      actual,
+      `<h1>Welcome to <span class="text-gradient">Astro</span></h1>`,
+      'Incorrect HTML output'
+    );
+  });
 });
