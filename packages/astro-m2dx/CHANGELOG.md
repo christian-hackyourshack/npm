@@ -1,5 +1,11 @@
 # astro-m2dx
 
+## 0.6.2
+
+### Patch Changes
+
+- [`41169f7`](https://github.com/christian-hackyourshack/npm/commit/41169f70997b6bebec6f211de90167a47022ccfc) Thanks [@christian-hackyourshack](https://github.com/christian-hackyourshack)! - Replaced node:crypto/shake256 based shortHash with dependency free implementation.
+
 ## 0.6.1
 
 ### Patch Changes
