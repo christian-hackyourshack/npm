@@ -10,7 +10,6 @@
   "scripts": {
     "build": "turbo run build --no-daemon",
     "clean": "turbo run clean --no-daemon && rimraf -rf node_modules/.cache/turbo",
-    "dev:reset": "turbo run clean --no-daemon && rimraf -f pnpm-lock.yaml && rimraf -rf .pnpm-store && rimraf -rf ./**/node_modules/",
     "dev": "turbo run dev --parallel",
     "format": "prettier --write \"**/*.{astro,cjs,js,json,jsx,md,mdx,mjs,ts,tsx}\"",
     "lint": "turbo run lint --no-daemon",
@@ -19,6 +18,7 @@
     "release:build": "turbo run build --filter=!./apps/* --no-daemon && pnpm install --frozen-lockfile",
     "release:check": "turbo run lint test --filter=!./apps/* --no-daemon",
     "release:publish": "changeset publish",
+    "reset": "turbo run clean --no-daemon && rimraf -f pnpm-lock.yaml && rimraf -rf .pnpm-store && rimraf -rf ./**/node_modules/",
     "release:version": "changeset version",
     "test:dev": "turbo run test:dev --no-daemon",
     "test": "pnpm install && turbo run test --no-daemon"
@@ -31,7 +31,7 @@
     "@changesets/changelog-github": "^0.4.7",
     "@changesets/cli": "^2.25.0",
     "eslint-config-base": "workspace:*",
-    "pnpm": "^7.13.6",
+    "pnpm": "^7.14.0",
     "prettier": "^2.7.1",
     "prettier-plugin-astro": "^0.6.0",
     "rimraf": "^3.0.2",

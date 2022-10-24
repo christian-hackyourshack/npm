@@ -1,7 +1,6 @@
 export * from './deepMerge';
 export * from './fill';
 export * from './fs';
-export * from './fullHash';
 export * from './getCallerLocation';
 export * from './getLocation';
 export * from './print';

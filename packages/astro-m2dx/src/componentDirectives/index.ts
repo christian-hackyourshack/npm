@@ -42,5 +42,5 @@ function toImport({ file, name, isDefault }: Export, as: string): string {
 }
 
 function getAlias(file: string, name: string) {
-  return capitalize(toCamelCase(`${name}__${shortHash(file, 6)}`));
+  return capitalize(toCamelCase(`${name}__${shortHash(file)}`));
 }

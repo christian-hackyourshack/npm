@@ -12,7 +12,7 @@ init();
 
 export function snapshot(actual: unknown, id?: string) {
   const { file, line } = getCallerLocation(1);
-  const snapshotName = `snapshot-${shortHash({ file, id: id ?? line }, 12)}`;
+  const snapshotName = `snapshot-${shortHash({ file, id: id ?? line })}`;
   const snapshotPath = join(MINTEST_DIR, snapshotName);
   const actualString = typeof actual === 'string' ? actual : JSON.stringify(actual);
   try {
@@ -44,6 +44,6 @@ export function snapshot(actual: unknown, id?: string) {
 
 export function getSnapshotPath(id: string) {
   const { file } = getCallerLocation(1);
-  const snapshotName = `snapshot-${shortHash({ file, id }, 12)}`;
+  const snapshotName = `snapshot-${shortHash({ file, id })}`;
   return join(MINTEST_DIR, snapshotName);
 }
