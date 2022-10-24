@@ -86,12 +86,10 @@ importers:
     specifiers:
       '@types/node': ^18.11.3
       tsconfig: workspace:*
-      tsx: ^3.11.0
       typescript: ^4.8.4
     devDependencies:
       '@types/node': 18.11.4
       tsconfig: link:../../config/tsconfig
-      tsx: 3.11.0
       typescript: 4.8.4
 
   internal/utils-test:
