@@ -291,13 +291,14 @@ export const plugin: Plugin<[Options], unknown> = (options = {}) => {
 
     file.data.astro.frontmatter = frontmatter;
 
+    let exportComponentFiles: string[] | undefined;
     if (dir && optExportComponents) {
       if (typeof optExportComponents !== 'string') {
         optExportComponents = DEFAULT_EXPORT_COMPONENTS_NAME;
       }
-      const files = await findUpAll(optExportComponents, dir, stop);
-      if (files.length > 0) {
-        exportComponents(root, files);
+      exportComponentFiles = await findUpAll(optExportComponents, dir, stop);
+      if (exportComponentFiles.length > 0) {
+        exportComponents(root, exportComponentFiles);
       }
     }
 
@@ -336,7 +337,7 @@ export const plugin: Plugin<[Options], unknown> = (options = {}) => {
     }
 
     if (dir && optRelativeImages) {
-      await relativeImages(root, dir);
+      await relativeImages(root, dir, exportComponentFiles);
     }
 
     for (const addOn of addOns) {

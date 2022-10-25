@@ -1,4 +1,5 @@
-import { isMdxJsxAttribute, parseMdx } from 'm2dx-utils';
+import { isMdxJsxAttribute, isMdxJsxFlowElement, Node, parseMdx } from 'm2dx-utils';
+import type { Paragraph } from 'mdast';
 import type { MdxjsEsm, MdxJsxFlowElement } from 'mdast-util-mdx';
 import { assert, describe } from 'mintest-green';
 import { join } from 'path';
@@ -53,7 +54,7 @@ import myImage from './test.png';
     // `import relImg__0 from '${fixtures}/test.png';`
   });
 
-  test.only('Markdown image with style', async function () {
+  test('Markdown image with style', async function () {
     const input = parseMdx(`
 ![Astronaut](test.png):style{.avatar}
 `);
@@ -64,5 +65,39 @@ import myImage from './test.png';
       .filter(isMdxJsxAttribute)
       .find((a) => a.name === 'class');
     assert.equal(classAttribute?.value, 'avatar');
+  });
+
+  test('With local image component', async function () {
+    const input = parseMdx(`
+import { Image } from '@components/Image.astro';
+export const components = { img: Image };
+
+![Astronaut](test.png)
+`);
+    await relativeImages(input, fixtures);
+    const image = (input.children[1] as Paragraph).children[0] as Node;
+    if (isMdxJsxFlowElement(image)) {
+      assert.equal(image.name, 'Image');
+    } else {
+      assert.fail(`Expected an MdxJsxFlowElement but got a '${image.type}'`);
+    }
+  });
+
+  test('With injected image component', async function () {
+    const input = parseMdx(`
+![Astronaut](test.png)
+`);
+    const injected = [
+      join(fixtures, '_components-1.ts'),
+      join(fixtures, '_components-2.ts'),
+      join(fixtures, '_components-3.ts'),
+    ];
+    await relativeImages(input, fixtures, injected);
+    const image = (input.children[0] as Paragraph).children[0] as Node;
+    if (isMdxJsxFlowElement(image)) {
+      assert.equal(image.name, 'CustomImage');
+    } else {
+      assert.fail(`Expected an MdxJsxFlowElement but got a '${image.type}'`);
+    }
   });
 });
