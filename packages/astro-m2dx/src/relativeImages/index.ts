@@ -1,4 +1,4 @@
-import { exists } from '@internal/utils';
+import { exists, isObjectLike } from '@internal/utils';
 import {
   createJsxElement,
   createProgram,
@@ -21,15 +21,16 @@ export async function relativeImages(root: Root, baseDir: string) {
       const name = `relImg__${imageCount++}`;
 
       const src = `src={${name}}`;
-      const alt = image.alt ? ` alt='${image.alt}'` : '';
-      const title = image.title ? ` alt='${image.title}'` : '';
+      const alt = image.alt ? ` alt="${image.alt}"` : '';
+      const title = image.title ? ` title="${image.title}"` : '';
+      const attributes = hPropertiesToAttributes(image.data?.hProperties);
       const index = parent.children.indexOf(image);
       if (index < 0) {
         throw new Error(
           `relativeImages: image (${image.url} [${image.position?.start.line}:${image.position?.start.column}]) does not have a parent`
         );
       }
-      parent.children[index] = createJsxElement(`<img ${src}${alt}${title} />`);
+      parent.children[index] = createJsxElement(`<img ${src}${alt}${title}${attributes} />`);
       const imageImport = createProgram(`import ${name} from '${path}';`);
       root.children.push(imageImport);
     }
@@ -45,6 +46,19 @@ export async function relativeImages(root: Root, baseDir: string) {
       root.children.push(imageImport);
     }
   }
+}
+
+function hPropertiesToAttributes(properties: unknown): string {
+  if (!isObjectLike(properties)) {
+    return '';
+  }
+
+  return (
+    ' ' +
+    Object.keys(properties)
+      .map((k) => `${k}="${properties[k]}"`)
+      .join(' ')
+  );
 }
 
 const imageExtensions = ['.jpg', '.jpeg', '.png', '.svg', '.webp', '.gif', '.tiff', '.avif'];

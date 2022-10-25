@@ -1,9 +1,10 @@
-import { parseMdx } from 'm2dx-utils';
+import { isMdxJsxAttribute, parseMdx } from 'm2dx-utils';
 import type { MdxjsEsm, MdxJsxFlowElement } from 'mdast-util-mdx';
 import { assert, describe } from 'mintest-green';
 import { join } from 'path';
 import type { Parent } from 'unist';
 import { relativeImages } from '.';
+import { styleDirectives } from '../styleDirectives';
 
 const fixtures = join(process.cwd(), 'fixtures', 'relativeImages');
 
@@ -50,5 +51,18 @@ import myImage from './test.png';
       value: 'relImg__1',
     });
     // `import relImg__0 from '${fixtures}/test.png';`
+  });
+
+  test.only('Markdown image with style', async function () {
+    const input = parseMdx(`
+![Astronaut](test.png):style{.avatar}
+`);
+    styleDirectives(input);
+    await relativeImages(input, fixtures);
+    const image = (input.children[0] as Parent).children[0] as MdxJsxFlowElement;
+    const classAttribute = image.attributes
+      .filter(isMdxJsxAttribute)
+      .find((a) => a.name === 'class');
+    assert.equal(classAttribute?.value, 'avatar');
   });
 });
