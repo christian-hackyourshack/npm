@@ -24,6 +24,9 @@ export async function relativeImages(root: Root, baseDir: string, files?: string
   let imageComponent: { name: string; requiredImport?: MdxjsEsm } = { name: 'img' };
   if (relativeImages.length > 0) {
     imageComponent = (await findImageComponent(root, files)) ?? imageComponent;
+    if (imageComponent.requiredImport) {
+      root.children.push(imageComponent.requiredImport);
+    }
   }
   for (const [image, parent] of relativeImages) {
     const path = join(baseDir, image.url);
@@ -43,9 +46,6 @@ export async function relativeImages(root: Root, baseDir: string, files?: string
       parent.children[index] = createJsxElement(
         `<${imageComponent.name} ${src}${alt}${title}${attributes} />`
       );
-      if (imageComponent.requiredImport) {
-        root.children.push(imageComponent.requiredImport);
-      }
       const imageImport = createProgram(`import ${name} from '${path}';`);
       root.children.push(imageImport);
     }
