@@ -1,5 +1,17 @@
 # astro-m2dx
 
+## 0.7.0
+
+### Minor Changes
+
+- [`112e59c`](https://github.com/christian-hackyourshack/npm/commit/112e59c587cd98a1741a6ac25ed8e2f130e44221) Thanks [@christian-hackyourshack](https://github.com/christian-hackyourshack)! - relative images are now potentially converted to a JSX component directly
+
+### Patch Changes
+
+- [`bd2831e`](https://github.com/christian-hackyourshack/npm/commit/bd2831e3cdb51bedfff610d1e1a42a27e8ca03a2) Thanks [@christian-hackyourshack](https://github.com/christian-hackyourshack)! - Added option for custom name of style directives
+
+- [`f0112ac`](https://github.com/christian-hackyourshack/npm/commit/f0112acde46c65f5eed4f12a9dc3589eb0398f7b) Thanks [@christian-hackyourshack](https://github.com/christian-hackyourshack)! - Added transfer of all hProperties for created img element
+
 ## 0.6.2
 
 ### Patch Changes
