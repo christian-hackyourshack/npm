@@ -1,5 +1,11 @@
 # astro-m2dx
 
+## 0.7.3
+
+### Patch Changes
+
+- [`2a52d45`](https://github.com/christian-hackyourshack/npm/commit/2a52d45ff5eed6c0ea536a9eef55c194c868509f) Thanks [@christian-hackyourshack](https://github.com/christian-hackyourshack)! - Another fix: Resolved issue with multiple relative images
+
 ## 0.7.2
 
 ### Patch Changes
