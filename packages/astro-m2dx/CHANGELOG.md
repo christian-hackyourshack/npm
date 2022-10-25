@@ -1,5 +1,11 @@
 # astro-m2dx
 
+## 0.7.1
+
+### Patch Changes
+
+- [`eb0a742`](https://github.com/christian-hackyourshack/npm/commit/eb0a7425f54a5cf6a89b852bc0a7a4db349dba53) Thanks [@christian-hackyourshack](https://github.com/christian-hackyourshack)! - Fixed reference of imported image component for relative images
+
 ## 0.7.0
 
 ### Minor Changes
