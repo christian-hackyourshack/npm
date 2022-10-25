@@ -10,10 +10,11 @@ import {
   visit,
 } from 'm2dx-utils';
 
-export function styleDirectives(root: Root): void {
+export function styleDirectives(root: Root, style = 'style'): void {
+  const listStyle = `list-${style}`;
   visit(root, isDirective, (directive, parent, index, ancestors) => {
     if (parent) {
-      if (directive.name === 'style') {
+      if (directive.name === style) {
         if (isContainerDirective(directive)) {
           // add the classes to the directive (div) element itself
           addClasses(directive, directive.attributes.class);
@@ -50,7 +51,7 @@ export function styleDirectives(root: Root): void {
             parent.children.splice(index, 1);
           }
         }
-      } else if (directive.name === 'list-style' && isLeafDirective(directive)) {
+      } else if (directive.name === listStyle && isLeafDirective(directive)) {
         const next = parent.children[index + 1];
         if (next?.type === 'list') {
           addClasses(next, directive.attributes.class);

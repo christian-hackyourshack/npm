@@ -22,6 +22,7 @@ const DEFAULT_MDAST_NAME = 'mdast';
 const DEFAULT_RAW_MDX_NAME = 'rawmdx';
 const DEFAULT_SCAN_ABSTRACT_NAME = 'abstract';
 const DEFAULT_SCAN_TITLE_NAME = 'title';
+const DEFAULT_STYLE_DIRECTIVES_NAME = 'style';
 
 export * from './types/VFile';
 
@@ -41,9 +42,11 @@ export type Options = Partial<{
   /**
    * Apply any custom transformations to the MDAST.
    *
+   * All transformations are executed after all internal astro-m2dx
+   * transformations.
+   *
    * - default: none
-   * - Set of transformer functions that are executed after all internal
-   *   astro-m2dx transformations.
+   * - Set of transformer functions
    */
   addOns: AddOn[];
 
@@ -92,6 +95,9 @@ export type Options = Partial<{
 
   /**
    * Merge YAML frontmatter files into the frontmatter of MDX files.
+   *
+   * The merge is only applied after all file-specific frontmatter items have
+   * been added. These will not be overwritten.
    *
    * - default: `false`, no frontmatter is merged
    * - `true`, to enable frontmatter merging from files with name
@@ -143,13 +149,15 @@ export type Options = Partial<{
    * Scan the content for the abstract and inject it into the frontmatter.
    *
    * The abstract will be taken from the content between the title and the next
-   * heading. BEWARE: The content is raw MDX!
+   * heading. The content is converted to text.
    *
    * - default: `false`
    * - `true`, to have it injected into property `abstract`
    * - `<name>`, to have it injected as property `<name>`
    *
-   * If the frontmatter already has a property with that name, it will **NOT** be overwritten.
+   * If the file's frontmatter already has a property with that name, it will
+   * **NOT** be overwritten. However, the scanned abstract has precedence over
+   * a property from merged frontmatter.
    */
   scanAbstract: boolean | string;
 
@@ -163,17 +171,32 @@ export type Options = Partial<{
    * - `true`, to have it injected into property `title`
    * - `<name>`, to have it injected as property `<name>`
    *
-   * If the frontmatter already has a property with that name, it will **NOT** be overwritten.
+   * If the file's frontmatter already has a property with that name, it will
+   * **NOT** be overwritten. However, the scanned title has precedence over
+   * a property from merged frontmatter.
    */
   scanTitle: boolean | string;
 
   /**
-   * Flag to allow style directives,...
+   * Allow style directives in markdown.
+   *
+   * Style directives allow you to mix some style hints into your markdown, by
+   * applying CSS classes to elements. Style directives come in all three
+   * directive forms: block, leaf and text.
+   *
+   * - The block form creates a containg div, carrying the declared CSS classes
+   * - The leaf form applies the class to either it's content (given in
+   *   [square braces], which will be wrapped in a `<div>`) or it's containing
+   *   parent element
+   * - The text form works the same as the leaf form, except that is used
+   *   inside paragraphs and it's content is wrapped in a `<span>`
    *
    * - default: `false`
-   * - `true`, to enable generic directives
+   * - `true`, to enable default style directives `::style` and `::list-style`
+   * - `<name>`, to enable style directives with custom name `::<name>` and
+   *   `::list-<name>`
    */
-  styleDirectives: boolean;
+  styleDirectives: boolean | string;
 }>;
 
 /**
@@ -187,7 +210,6 @@ export const plugin: Plugin<[Options], unknown> = (options = {}) => {
     addOns = [],
     autoImportsFailUnresolved: optAutoImportsFailUnresolved = false,
     relativeImages: optRelativeImages = false,
-    styleDirectives: optStyleDirectives = false,
   } = options;
   let {
     autoImports: optAutoImports = false,
@@ -199,11 +221,18 @@ export const plugin: Plugin<[Options], unknown> = (options = {}) => {
     rawmdx: optRawmdx = false,
     scanAbstract: optScanAbstract = false,
     scanTitle: optScanTitle = false,
+    styleDirectives: optStyleDirectives = false,
   } = options;
 
   return async function transformer(root: Root, file: VFile) {
+    // ATTENTION: Because multiple features could rely on the same original input or on
+    // transformed input or provide the same values, order (sadly) matters a
+    // lot for the transformations...
+
+    // read the original frontmatter from the file
     let frontmatter = deepMerge(await parseFrontmatter(file.path), file.data.astro.frontmatter);
 
+    // rawmdx is order-independent
     if (optRawmdx) {
       if (typeof optRawmdx !== 'string') {
         optRawmdx = DEFAULT_RAW_MDX_NAME;
@@ -213,6 +242,7 @@ export const plugin: Plugin<[Options], unknown> = (options = {}) => {
       }
     }
 
+    // mdast is order-independent
     if (optMdast) {
       if (typeof optMdast !== 'string') {
         optMdast = DEFAULT_MDAST_NAME;
@@ -222,6 +252,9 @@ export const plugin: Plugin<[Options], unknown> = (options = {}) => {
       }
     }
 
+    // scanning for title and abstract should happen before merging more
+    // general frontmatter from downstream frontmatter.yaml files, because the
+    // parsed content is specific to the file
     if (optScanTitle || optScanAbstract) {
       if (optScanTitle && typeof optScanTitle !== 'string') {
         optScanTitle = DEFAULT_SCAN_TITLE_NAME;
@@ -279,7 +312,10 @@ export const plugin: Plugin<[Options], unknown> = (options = {}) => {
     }
 
     if (optStyleDirectives) {
-      styleDirectives(root);
+      if (typeof optStyleDirectives !== 'string') {
+        optStyleDirectives = DEFAULT_STYLE_DIRECTIVES_NAME;
+      }
+      styleDirectives(root, optStyleDirectives);
     }
 
     if (dir && optIncludeDirective) {

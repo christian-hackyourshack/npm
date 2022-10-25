@@ -31,7 +31,7 @@
     "build": "tsup src/index.ts --format esm --dts",
     "clean": "rimraf -rf ./dist/",
     "test": "mintest",
-    "test:dev": "tsx watch src/styleDirectives/index.spec.ts",
+    "test:dev": "tsx watch src/componentDirectives/index.spec.ts",
     "test:watch": "tsx watch node_modules/mintest-green/dist/bin.js"
   },
   "dependencies": {
