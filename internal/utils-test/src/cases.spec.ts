@@ -1,5 +1,5 @@
+import { capitalize, toCamelCase } from '@internal/utils';
 import { assert, describe } from 'mintest-green';
-import { capitalize, toCamelCase } from './cases';
 
 export const result = await describe('cases', function (test) {
   test('toCamelCase: no seperator', function () {

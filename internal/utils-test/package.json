@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "tsx src/shortHash.spec.ts",
+    "test": "mintest",
     "test:dev": "tsx watch src/shortHash.spec.ts"
   },
   "devDependencies": {

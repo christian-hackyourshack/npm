@@ -1,5 +1,5 @@
+import { isObjectLike } from '@internal/utils';
 import { assert, describe } from 'mintest-green';
-import { isObjectLike } from './ObjectLike';
 
 export const result = await describe('isObjectLike', function (test) {
   test('Empty object', function () {

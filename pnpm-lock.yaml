@@ -175,6 +175,7 @@ importers:
 
   packages/m2dx-utils:
     specifiers:
+      '@internal/utils': workspace:*
       '@types/estree': ^1.0.0
       '@types/mdast': ^3.0.10
       '@types/node': ^18.11.3
@@ -205,6 +206,7 @@ importers:
       remark-directive: 2.0.1
       remark-mdx: 2.1.5
     devDependencies:
+      '@internal/utils': link:../../internal/utils
       '@types/estree': 1.0.0
       '@types/mdast': 3.0.10
       '@types/node': 18.11.4

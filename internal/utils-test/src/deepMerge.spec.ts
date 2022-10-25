@@ -1,5 +1,5 @@
+import { deepMerge } from '@internal/utils';
 import { assert, describe } from 'mintest-green';
-import { deepMerge } from './index';
 
 export const result = await describe('deepMerge', function (test) {
   test('deepMerge adds simple values', function () {

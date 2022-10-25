@@ -1,5 +1,5 @@
+import { lastSegment } from '@internal/utils';
 import { assert, describe } from 'mintest-green';
-import { lastSegment } from './splitting';
 
 export const result = await describe('split', function (test) {
   test('no seperator', function () {
