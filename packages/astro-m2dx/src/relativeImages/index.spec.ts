@@ -95,14 +95,16 @@ export const components = { img: Image };
     await relativeImages(input, fixtures, injected);
     const image = (input.children[0] as Paragraph).children[0] as Node;
     if (isMdxJsxFlowElement(image)) {
-      assert.equal(image.name, '_imageComponentFromExportedComponents.img');
+      const [alias] = image.name?.split('.') ?? [];
+      assert.equal(alias.startsWith('_ic__'), true);
+      assert.equal(image.name!.endsWith('.img'), true);
+      const imported = input.children[1] as MdxjsEsm;
+      assert.equal(
+        imported.value,
+        `import { components as ${alias} } from '${fixtures}/_components-3.ts';`
+      );
     } else {
       assert.fail(`Expected an MdxJsxFlowElement but got a '${image.type}'`);
     }
-    const imported = input.children[1] as MdxjsEsm;
-    assert.equal(
-      imported.value,
-      `import { components as _imageComponentFromExportedComponents } from '${fixtures}/_components-3.ts';`
-    );
   });
 });

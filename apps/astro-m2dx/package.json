@@ -29,7 +29,6 @@
     "eslint-config-base": "workspace:*",
     "rimraf": "^3.0.2",
     "shiki": "^0.11.1",
-    "svgo": "^2.8.0",
-    "tsconfig": "workspace:*"
+    "svgo": "^2.8.0"
   }
 }

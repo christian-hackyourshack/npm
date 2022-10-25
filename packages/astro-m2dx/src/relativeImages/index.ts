@@ -1,4 +1,4 @@
-import { exists, isObjectLike } from '@internal/utils';
+import { exists, isObjectLike, shortHash } from '@internal/utils';
 import type { Identifier, VariableDeclarator } from 'estree';
 import { readFile } from 'fs/promises';
 import {
@@ -63,7 +63,6 @@ export async function relativeImages(root: Root, baseDir: string, files?: string
   }
 }
 
-const IMPORT_BASE = '_imageComponentFromExportedComponents';
 async function findImageComponent(
   root: Root,
   files?: string[]
@@ -76,9 +75,10 @@ async function findImageComponent(
     for (const file of files) {
       img = findImgProperty(await findExportInFile(file));
       if (img) {
+        const alias = `_ic__${shortHash(file)}`;
         return {
-          name: `${IMPORT_BASE}.img`,
-          requiredImport: createProgram(`import { components as ${IMPORT_BASE} } from '${file}';`),
+          name: `${alias}.img`,
+          requiredImport: createProgram(`import { components as ${alias} } from '${file}';`),
         };
       }
     }
