@@ -88,7 +88,7 @@ importers:
       tsconfig: workspace:*
       typescript: ^4.8.4
     devDependencies:
-      '@types/node': 18.11.4
+      '@types/node': 18.11.5
       tsconfig: link:../../config/tsconfig
       typescript: 4.8.4
 
@@ -102,7 +102,7 @@ importers:
       typescript: ^4.8.4
     devDependencies:
       '@internal/utils': link:../utils
-      '@types/node': 18.11.4
+      '@types/node': 18.11.5
       mintest-green: link:../../packages/mintest-green
       tsconfig: link:../../config/tsconfig
       tsx: 3.11.0
@@ -155,7 +155,7 @@ importers:
       '@types/estree': 1.0.0
       '@types/js-yaml': 4.0.5
       '@types/mdast': 3.0.10
-      '@types/node': 18.11.4
+      '@types/node': 18.11.5
       '@types/unist': 2.0.6
       concurrently: 7.5.0
       esbuild: 0.15.12
@@ -209,7 +209,7 @@ importers:
       '@internal/utils': link:../../internal/utils
       '@types/estree': 1.0.0
       '@types/mdast': 3.0.10
-      '@types/node': 18.11.4
+      '@types/node': 18.11.5
       '@types/unist': 2.0.6
       concurrently: 7.5.0
       esbuild: 0.15.12
@@ -235,7 +235,7 @@ importers:
     devDependencies:
       '@internal/utils': link:../../internal/utils
       '@types/glob': 8.0.0
-      '@types/node': 18.11.4
+      '@types/node': 18.11.5
       rimraf: 3.0.2
       tsconfig: link:../../config/tsconfig
       tsup: 6.3.0
@@ -261,7 +261,7 @@ importers:
       unist-util-visit: 4.1.1
     devDependencies:
       '@types/mdast': 3.0.10
-      '@types/node': 18.11.4
+      '@types/node': 18.11.5
       concurrently: 7.5.0
       esbuild: 0.15.12
       esbuild-node-externals: 1.5.0_esbuild@0.15.12
@@ -1187,7 +1187,7 @@ packages:
     resolution: {integrity: sha512-l6NQsDDyQUVeoTynNpC9uRvCUint/gSUXQA2euwmTuWGvPY5LSDUu6tkCtJB2SvGQlJQzLaKqcGZP4//7EDveA==}
     dependencies:
       '@types/minimatch': 5.1.2
-      '@types/node': 18.11.4
+      '@types/node': 18.11.5
     dev: true
 
   /@types/hast/2.3.4:
@@ -1248,8 +1248,8 @@ packages:
     resolution: {integrity: sha512-J8xLz7q2OFulZ2cyGTLE1TbbZcjpno7FaN6zdJNrgAdrJ+DZzh/uFR6YrTb4C+nXakvud8Q4+rbhoIWlYQbUFQ==}
     dev: true
 
-  /@types/node/18.11.4:
-    resolution: {integrity: sha512-BxcJpBu8D3kv/GZkx/gSMz6VnTJREBj/4lbzYOQueUOELkt8WrO6zAcSPmp9uRPEW/d+lUO8QK0W2xnS1hEU0A==}
+  /@types/node/18.11.5:
+    resolution: {integrity: sha512-3JRwhbjI+cHLAkUorhf8RnqUbFXajvzX4q6fMn5JwkgtuwfYtRQYI3u4V92vI6NJuTsbBQWWh3RZjFsuevyMGQ==}
     dev: true
 
   /@types/normalize-package-data/2.4.1:
@@ -1645,7 +1645,7 @@ packages:
       postcss: ^8.1.0
     dependencies:
       browserslist: 4.21.4
-      caniuse-lite: 1.0.30001423
+      caniuse-lite: 1.0.30001425
       fraction.js: 4.2.0
       normalize-range: 0.1.2
       picocolors: 1.0.0
@@ -1733,7 +1733,7 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001423
+      caniuse-lite: 1.0.30001425
       electron-to-chromium: 1.4.284
       node-releases: 2.0.6
       update-browserslist-db: 1.0.10_browserslist@4.21.4
@@ -1801,8 +1801,8 @@ packages:
     engines: {node: '>=10'}
     dev: false
 
-  /caniuse-lite/1.0.30001423:
-    resolution: {integrity: sha512-09iwWGOlifvE1XuHokFMP7eR38a0JnajoyL3/i87c8ZjRWRrdKo1fqjNfugfBD0UDBIOz0U+jtNhJ0EPm1VleQ==}
+  /caniuse-lite/1.0.30001425:
+    resolution: {integrity: sha512-/pzFv0OmNG6W0ym80P3NtapU0QEiDS3VuYAZMGoLLqiC7f6FJFe1MjpQDREGApeenD9wloeytmVDj+JLXPC6qw==}
     dev: false
 
   /ccount/2.0.1:

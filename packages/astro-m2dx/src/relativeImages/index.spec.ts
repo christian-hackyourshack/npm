@@ -95,9 +95,14 @@ export const components = { img: Image };
     await relativeImages(input, fixtures, injected);
     const image = (input.children[0] as Paragraph).children[0] as Node;
     if (isMdxJsxFlowElement(image)) {
-      assert.equal(image.name, 'CustomImage');
+      assert.equal(image.name, '_imageComponentFromExportedComponents.img');
     } else {
       assert.fail(`Expected an MdxJsxFlowElement but got a '${image.type}'`);
     }
+    const imported = input.children[1] as MdxjsEsm;
+    assert.equal(
+      imported.value,
+      `import { components as _imageComponentFromExportedComponents } from '${fixtures}/_components-3.ts';`
+    );
   });
 });
