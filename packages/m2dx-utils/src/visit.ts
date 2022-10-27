@@ -17,9 +17,21 @@ export const SKIP = Symbol();
 export type Action = typeof CONTINUE | typeof EXIT | typeof SKIP | undefined;
 export type Predicate<T = unknown> = (node: unknown) => node is T;
 export type Visitor<T = Node> = (
+  /**
+   * Current node
+   */
   node: T,
+  /**
+   * Immediate parent node
+   */
   parent: WithChildren | undefined,
+  /**
+   * Index of this node in it's parent's children list
+   */
   index: number,
+  /**
+   * List of ancestors, starting with parent, i.e. ancestors[0] === parent
+   */
   ancestors: WithChildren[]
 ) => Action | void;
 

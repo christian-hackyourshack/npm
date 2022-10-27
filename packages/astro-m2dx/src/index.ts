@@ -33,7 +33,7 @@ export * from './types/VFile';
  * @param root root of the MDX AST
  * @param file VFile including frontmatter at `data.astro.frontmatter`
  */
-export type AddOn = (root: Root, file: VFile) => Promise<void | Root>;
+export type AddOn = (root: Root, file: VFile) => void | Root | Promise<void | Root>;
 
 /**
  * Options for plugin astro-m2dx, for details see
