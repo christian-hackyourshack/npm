@@ -89,14 +89,19 @@ The following features are available, toggle them by adding the option to your c
 ### Default Frontmatter
 
 ```js
-frontmatter: boolean | string;
+frontmatter: boolean | string | { name?: string, resolvePaths: true };
 ```
 
 Merge YAML frontmatter files into the frontmatter of MDX files.
 
+The merge is only applied after all file-specific frontmatter items have been added. These will not be overwritten.
+
 - default: `false`, no frontmatter is merged
-- `true`, to enable frontmatter merging from files with name `_frontmatter.yaml`
+- `true`, to enable frontmatter merging from files with name
+  `_frontmatter.yaml` and without resolving relative paths
 - `<name>`, to find frontmatter in YAML files named `<name>`
+- `{ name?: string, resolvePaths: true }`, to resolve relative paths from
+  the merged frontmatter file with respect to that file
 
 Now you can create frontmatter YAML files with the defined name in your `src` directory to define common properties.
 
@@ -108,7 +113,8 @@ A very simple frontmatter file defining a default layout for all MDX files in a 
 layout: @layouts/BlogLayout.astro
 ```
 
-> ⚠️ Beware of relative references inside these files: The values are merged as-is and hence will be relative to the receiving MDX file and not the default frontmatter-file. It is safer to define `paths` in your tsconfig.json.
+> ⚠️ Beware of relative references inside these files: The values are merged as-is and hence will be relative to the receiving MDX file and not the default frontmatter-file. It is safer to define `paths` in your tsconfig.json.  
+> 🦊 You can now specify `resolvePaths: true` to have your relative paths resolved with respect to the \_frotnmatter.yaml file.
 
 ### Export Components
 

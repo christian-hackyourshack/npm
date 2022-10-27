@@ -62,12 +62,12 @@ export function styleDirectives(root: Root, style = 'style'): void {
   });
 }
 
-function addClasses(node: Node, styles: string) {
+function addClasses(node: Node, classes: string) {
   const data = node.data ?? (node.data = {});
   const hProperties = data.hProperties ?? (data.hProperties = {});
 
-  const classes = new Set();
-  !!hProperties.class && (hProperties.class as string).split(/\s/).forEach((s) => classes.add(s));
-  !!styles && styles.split(/\s/).forEach((s) => classes.add(s));
-  hProperties.class = [...classes].join(' ');
+  const merged = new Set();
+  !!hProperties.class && (hProperties.class as string).split(/\s/).forEach((s) => merged.add(s));
+  !!classes && classes.split(/\s/).forEach((s) => merged.add(s));
+  hProperties.class = [...merged].join(' ');
 }

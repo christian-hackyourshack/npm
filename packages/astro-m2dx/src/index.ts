@@ -1,4 +1,6 @@
 import { deepMerge, findUpAll } from '@internal/utils';
+import { readFile } from 'fs/promises';
+import grayMatter from 'gray-matter';
 import type { Root } from 'mdast';
 import { join } from 'path';
 import type { Plugin } from 'unified';
@@ -7,7 +9,6 @@ import { componentDirectives } from './componentDirectives';
 import { exportComponents } from './exportComponents';
 import { includeDirective } from './includeDirective';
 import { mergeFrontmatter } from './mergeFrontmatter';
-import { parseFrontmatter } from './parseFrontmatter';
 import { relativeImages } from './relativeImages';
 import { scanTitleAndAbstract } from './scanTitleAndAbstract';
 import { styleDirectives } from './styleDirectives';
@@ -101,10 +102,12 @@ export type Options = Partial<{
    *
    * - default: `false`, no frontmatter is merged
    * - `true`, to enable frontmatter merging from files with name
-   *   `_frontmatter.yaml`
+   *   `_frontmatter.yaml` and without resolving relative paths
    * - `<name>`, to find frontmatter in YAML files named `<name>`
+   * - { name?: string, resolvePaths: true }, to resolve relative paths from
+   *   the merged frontmatter file with respect to that file
    */
-  frontmatter: boolean | string;
+  frontmatter: boolean | string | { name?: string; resolvePaths?: boolean };
 
   /**
    * Include other MDX files in your MDX file with a
@@ -209,13 +212,13 @@ export const plugin: Plugin<[Options], unknown> = (options = {}) => {
   const {
     addOns = [],
     autoImportsFailUnresolved: optAutoImportsFailUnresolved = false,
+    frontmatter: optFrontmatter = false,
     relativeImages: optRelativeImages = false,
   } = options;
   let {
     autoImports: optAutoImports = false,
     componentDirectives: optComponentDirectives = false,
     exportComponents: optExportComponents = false,
-    frontmatter: optFrontmatter = false,
     includeDirective: optIncludeDirective = false,
     mdast: optMdast = false,
     rawmdx: optRawmdx = false,
@@ -230,16 +233,18 @@ export const plugin: Plugin<[Options], unknown> = (options = {}) => {
     // lot for the transformations...
 
     // read the original frontmatter from the file
-    let frontmatter = deepMerge(await parseFrontmatter(file.path), file.data.astro.frontmatter);
+    const originalSource = await readFile(file.path, 'utf8');
+    let { data: frontmatter } = grayMatter(originalSource);
+    // just in case Astro starts to insert any extra frontmatter at some point
+    // (at the moment the received astro.frontmatter is always an empty object)
+    frontmatter = deepMerge(frontmatter, file.data.astro.frontmatter);
 
     // rawmdx is order-independent
     if (optRawmdx) {
       if (typeof optRawmdx !== 'string') {
         optRawmdx = DEFAULT_RAW_MDX_NAME;
       }
-      if (!frontmatter[optRawmdx]) {
-        frontmatter[optRawmdx] = file.value;
-      }
+      frontmatter[optRawmdx] ??= file.value;
     }
 
     // mdast is order-independent
@@ -247,9 +252,7 @@ export const plugin: Plugin<[Options], unknown> = (options = {}) => {
       if (typeof optMdast !== 'string') {
         optMdast = DEFAULT_MDAST_NAME;
       }
-      if (!frontmatter[optMdast]) {
-        frontmatter[optMdast] = root;
-      }
+      frontmatter[optMdast] ??= root;
     }
 
     // scanning for title and abstract should happen before merging more
@@ -280,11 +283,17 @@ export const plugin: Plugin<[Options], unknown> = (options = {}) => {
     const dir = file.dirname;
 
     if (dir && optFrontmatter) {
-      if (typeof optFrontmatter !== 'string') {
-        optFrontmatter = DEFAULT_FRONTMATTER_NAME;
+      let optFrontmatterName = DEFAULT_FRONTMATTER_NAME;
+      let optFrontmatterResolve = false;
+      if (typeof optFrontmatter === 'string') {
+        optFrontmatterName = optFrontmatter;
+      } else if (typeof optFrontmatter === 'object') {
+        optFrontmatterName = optFrontmatter.name ?? DEFAULT_FRONTMATTER_NAME;
+        optFrontmatterResolve = optFrontmatter.resolvePaths ?? false;
       }
-      const merged = await mergeFrontmatter(optFrontmatter, dir, stop);
+      const merged = await mergeFrontmatter(optFrontmatterName, dir, stop, optFrontmatterResolve);
       if (merged) {
+        // This makes sure, no original frontmatter is overwritten
         frontmatter = deepMerge(merged, frontmatter);
       }
     }
