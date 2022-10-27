@@ -1,5 +1,11 @@
 # astro-m2dx
 
+## 0.7.4
+
+### Patch Changes
+
+- [`fdbb7db`](https://github.com/christian-hackyourshack/npm/commit/fdbb7db0486dc81cc3c5876aefbdf637e345924c) Thanks [@christian-hackyourshack](https://github.com/christian-hackyourshack)! - Added option to resolve paths during frontmatter merge
+
 ## 0.7.3
 
 ### Patch Changes
