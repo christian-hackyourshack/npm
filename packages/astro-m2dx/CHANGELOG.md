@@ -1,5 +1,11 @@
 # astro-m2dx
 
+## 0.7.5
+
+### Patch Changes
+
+- [`2fb46d6`](https://github.com/christian-hackyourshack/npm/commit/2fb46d68907d929457a3603cf669229622a549f1) Thanks [@christian-hackyourshack](https://github.com/christian-hackyourshack)! - Allowing non-async AddOn functions
+
 ## 0.7.4
 
 ### Patch Changes
