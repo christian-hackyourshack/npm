@@ -1,3 +1,4 @@
+import { toLinux } from '@internal/utils';
 import { createJsxElement, createProgram, isLeafDirective, visit } from 'm2dx-utils';
 import type { Root, Text } from 'mdast';
 import { join } from 'path';
@@ -11,7 +12,7 @@ export function includeDirective(root: Root, dir: string, directiveName = 'inclu
         `<${name}.Content components={${name}.components ?? {}} />`
       );
       const ref = (directive.children[0] as Text).value;
-      const importElement = createProgram(`import * as ${name} from '${join(dir, ref)}';`);
+      const importElement = createProgram(`import * as ${name} from '${toLinux(join(dir, ref))}';`);
 
       if (Object.keys(directive.attributes).includes('unwrap') && ancestors.length > 1) {
         const target = ancestors[1];

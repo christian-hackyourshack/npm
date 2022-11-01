@@ -1,4 +1,4 @@
-import { exists, isObjectLike, shortHash } from '@internal/utils';
+import { exists, isObjectLike, shortHash, toLinux } from '@internal/utils';
 import type { Identifier, VariableDeclarator } from 'estree';
 import { readFile } from 'fs/promises';
 import {
@@ -46,7 +46,7 @@ export async function relativeImages(root: Root, baseDir: string, files?: string
       parent.children[index] = createJsxElement(
         `<${imageComponent.name} ${src}${alt}${title}${attributes} />`
       );
-      const imageImport = createProgram(`import ${name} from '${path}';`);
+      const imageImport = createProgram(`import ${name} from '${toLinux(path)}';`);
       root.children.push(imageImport);
     }
   }
@@ -57,7 +57,7 @@ export async function relativeImages(root: Root, baseDir: string, files?: string
     if (await exists(path)) {
       const name = `relImg__${imageCount++}`;
       attribute.value = toAttributeValueExpressionStatement(name);
-      const imageImport = createProgram(`import ${name} from '${path}';`);
+      const imageImport = createProgram(`import ${name} from '${toLinux(path)}';`);
       root.children.push(imageImport);
     }
   }
@@ -78,7 +78,9 @@ async function findImageComponent(
         const alias = `_ic__${shortHash(file)}`;
         return {
           name: `${alias}.img`,
-          requiredImport: createProgram(`import { components as ${alias} } from '${file}';`),
+          requiredImport: createProgram(
+            `import { components as ${alias} } from '${toLinux(file)}';`
+          ),
         };
       }
     }

@@ -1,10 +1,13 @@
+import { toLinux } from '@internal/utils';
 import type { ObjectExpression } from 'estree';
 import { createProgram } from 'm2dx-utils';
 import type { Root } from 'mdast';
 import { findExportInMdx } from './findExportInMdx';
 
 export function exportComponents(root: Root, files: string[]) {
-  const imports = files.map((f, i) => `import { components as _ac${i} } from '${f}';`).join('\n');
+  const imports = files
+    .map((f, i) => `import { components as _ac${i} } from '${toLinux(f)}';`)
+    .join('\n');
   root.children.push(createProgram(imports));
 
   const found = findExportInMdx(root);

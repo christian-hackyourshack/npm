@@ -1,4 +1,4 @@
-import { deepMerge, exists, type ObjectLike } from '@internal/utils';
+import { deepMerge, exists, toLinux, type ObjectLike } from '@internal/utils';
 import { existsSync } from 'fs';
 import { readFile } from 'fs/promises';
 import YAML from 'js-yaml';
@@ -60,10 +60,10 @@ function _resolvePaths(frontmatter: object, base: string) {
       if (typeof value === 'object') {
         _resolvePaths(value, base);
       } else if (typeof value === 'string') {
-        if (value.startsWith('./') || value.startsWith('../')) {
+        if (toLinux(value).startsWith('./') || toLinux(value).startsWith('../')) {
           const file = join(base, value);
           if (existsSync(file)) {
-            (frontmatter as ObjectLike)[key] = file;
+            (frontmatter as ObjectLike)[key] = toLinux(file);
           }
         }
       }

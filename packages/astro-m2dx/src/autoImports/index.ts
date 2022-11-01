@@ -1,3 +1,4 @@
+import { toLinux } from '@internal/utils';
 import { createProgram } from 'm2dx-utils';
 import type { Root } from 'mdast';
 import { findUnresolved } from './findUnresolved';
@@ -32,6 +33,6 @@ export async function autoImports(root: Root, files: string[], failUnresolved = 
 
 function toImport({ file, as, name, isDefault }: JsxExport): string {
   return isDefault //
-    ? `import ${as} from '${file}';`
-    : `import {${name} as ${as}} from '${file}'`;
+    ? `import ${as} from '${toLinux(file)}';`
+    : `import {${name} as ${as}} from '${toLinux(file)}'`;
 }

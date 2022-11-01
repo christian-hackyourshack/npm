@@ -1,4 +1,4 @@
-import { capitalize, shortHash, toCamelCase } from '@internal/utils';
+import { capitalize, shortHash, toCamelCase, toLinux } from '@internal/utils';
 import { createJsxElement, createProgram, isDirective, visitAsync } from 'm2dx-utils';
 import type { BlockContent, Root } from 'mdast';
 import { Export, Exports } from './Exports';
@@ -37,8 +37,8 @@ export async function componentDirectives(root: Root, files: string[]) {
 
 function toImport({ file, name, isDefault }: Export, as: string): string {
   return isDefault //
-    ? `import ${as} from '${file}';`
-    : `import {${name} as ${as}} from '${file}'`;
+    ? `import ${as} from '${toLinux(file)}';`
+    : `import {${name} as ${as}} from '${toLinux(file)}'`;
 }
 
 function getAlias(file: string, name: string) {
