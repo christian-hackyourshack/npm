@@ -1,5 +1,13 @@
 # astro-m2dx
 
+## 0.7.7
+
+### Patch Changes
+
+- [`95e225e`](https://github.com/christian-hackyourshack/npm/commit/95e225e5943b439acb960914737bbc60316f4edd) Thanks [@christian-hackyourshack](https://github.com/christian-hackyourshack)! - Added option 'unwrap' to includeDirective
+
+- [`1a608b2`](https://github.com/christian-hackyourshack/npm/commit/1a608b2dc129a868cf5d070c3fd2bdfff3941751) Thanks [@christian-hackyourshack](https://github.com/christian-hackyourshack)! - Fixed Vite path conflict for all imports
+
 ## 0.7.6
 
 ### Patch Changes
