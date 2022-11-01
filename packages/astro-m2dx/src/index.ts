@@ -13,6 +13,7 @@ import { relativeImages } from './relativeImages';
 import { scanTitleAndAbstract } from './scanTitleAndAbstract';
 import { styleDirectives } from './styleDirectives';
 import type { VFile } from './types/VFile';
+import { toLinux } from './utils';
 
 const DEFAULT_AUTO_IMPORTS_NAME = '_autoimports.ts';
 const DEFAULT_COMPONENT_DIRECTIVES_NAME = '_directives.ts';
@@ -305,7 +306,7 @@ export const plugin: Plugin<[Options], unknown> = (options = {}) => {
       if (typeof optExportComponents !== 'string') {
         optExportComponents = DEFAULT_EXPORT_COMPONENTS_NAME;
       }
-      exportComponentFiles = await findUpAll(optExportComponents, dir, stop);
+      exportComponentFiles = toLinux(...(await findUpAll(optExportComponents, dir, stop)));
       if (exportComponentFiles.length > 0) {
         exportComponents(root, exportComponentFiles);
       }
@@ -315,7 +316,7 @@ export const plugin: Plugin<[Options], unknown> = (options = {}) => {
       if (typeof optAutoImports !== 'string') {
         optAutoImports = DEFAULT_AUTO_IMPORTS_NAME;
       }
-      const files = await findUpAll(optAutoImports, dir, stop);
+      const files = toLinux(...(await findUpAll(optAutoImports, dir, stop)));
       if (files.length > 0) {
         await autoImports(root, files, optAutoImportsFailUnresolved);
       }
@@ -339,7 +340,7 @@ export const plugin: Plugin<[Options], unknown> = (options = {}) => {
       if (typeof optComponentDirectives !== 'string') {
         optComponentDirectives = DEFAULT_COMPONENT_DIRECTIVES_NAME;
       }
-      const files = await findUpAll(optComponentDirectives, dir, stop);
+      const files = toLinux(...(await findUpAll(optComponentDirectives, dir, stop)));
       if (files.length > 0) {
         await componentDirectives(root, files);
       }
