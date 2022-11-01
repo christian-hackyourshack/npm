@@ -1,5 +1,15 @@
 # astro-m2dx
 
+## 0.7.6
+
+### Patch Changes
+
+- [`9bdf033`](https://github.com/christian-hackyourshack/npm/commit/9bdf033c11ad2566ed3662e589000d6d0cdd6d5d) Thanks [@christian-hackyourshack](https://github.com/christian-hackyourshack)! - Fixed a Windows path conflict with Vite
+
+  Vite seems to do manual path manipulation in some places, expecting those paths to be Linux, e.g. I found this issue: https://github.com/vitejs/vite/issues/2422. That specific one does not matter to us, but I suspect more of those places.
+
+  This fix un-normalizes Windows paths to Linux paths, before feeding them to Vite.
+
 ## 0.7.5
 
 ### Patch Changes
