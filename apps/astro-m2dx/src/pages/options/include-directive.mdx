@@ -13,4 +13,16 @@ Include other MDX files in your MDX file with a
 
 This feature renders the included MDX file without modification as loaded from its origin, i.e. if its (merged) frontmatter contains a `layout`, then it will be rendered including the layout.
 
+The directive recognizes the option `unwrap`, that inserts the included file into the parent directly after the node that contains the directive. This can be handy, e.g. if you sectionize your markdown according to headings and want to insert a section inbetween sections:
+
+```mdx
+## Section 1
+
+::include[./section2.mdx]{unwrap}
+
+## Section 3
+```
+
+Without the option unwrap, the `section2.mdx` would always be inluded in the section created for 'Section 1'.
+
 > ⚠️ In order to use this feature, you must insert the plugin `remark-directive` before `astro-m2dx`.
