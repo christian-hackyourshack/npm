@@ -1,5 +1,11 @@
 # remark-sectionize-headings
 
+## 0.2.2
+
+### Patch Changes
+
+- [`d8355e5`](https://github.com/christian-hackyourshack/npm/commit/d8355e519d8e5bffdf7354790a9fbf679d51ea1d) Thanks [@christian-hackyourshack](https://github.com/christian-hackyourshack)! - Fixed passing down of new option
+
 ## 0.2.1
 
 ### Patch Changes
