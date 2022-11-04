@@ -1,5 +1,11 @@
 # remark-sectionize-headings
 
+## 0.2.1
+
+### Patch Changes
+
+- [`9c13796`](https://github.com/christian-hackyourshack/npm/commit/9c137968ebd8c3dbf348a70aac8ac0ada2a72bfc) Thanks [@christian-hackyourshack](https://github.com/christian-hackyourshack)! - Added option to modify generated classes
+
 ## 0.2.0
 
 ### Minor Changes
