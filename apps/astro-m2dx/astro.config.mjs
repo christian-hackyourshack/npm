@@ -9,6 +9,7 @@ import { noteDirective } from './addons/noteDirective.mjs';
 
 /** @type {import('remark-sectionize-headings').Options} */
 const sectionizeOptions = {
+  addClass: 'section',
   levels: [2],
 };
 

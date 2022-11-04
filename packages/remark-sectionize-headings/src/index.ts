@@ -38,7 +38,8 @@ interface Node {
  * @param options For configuration options, see https://github.com/christian-hackyourshack/npm/tree/main/packages/remark-sectionize-headings
  * @returns transformer function
  */
-export const plugin: Plugin<[Partial<Options>], unknown> = ({ levels } = {}, addClass = true) => {
+export const plugin: Plugin<[Partial<Options>], unknown> = (options = {}) => {
+  const { levels, addClass = true } = options;
   function sectionize(node: Node, index: number, parent: Node) {
     // Usually the mdast is a flat list,
     // but you never know which plugins have worked on it before...
@@ -57,7 +58,7 @@ export const plugin: Plugin<[Partial<Options>], unknown> = ({ levels } = {}, add
           hProperties: addClass
             ? {
                 class:
-                  typeof addClass === 'boolean'
+                  typeof addClass === 'boolean' //
                     ? `h${level}`
                     : `${addClass} ${addClass}--h${level}`,
               }
