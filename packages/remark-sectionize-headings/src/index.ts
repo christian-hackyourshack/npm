@@ -6,6 +6,15 @@ import type { Plugin } from 'unified';
  */
 export interface Options {
   /**
+   * This option adds a class corresponding to the heading to the injected
+   * section.
+   *
+   * - string <name>, e.g. `section` to add classes `section section--h1`, ...
+   * - false to disable class addition completely
+   * - default: true, adds classes `h1`, `h2`, ...
+   */
+  addClass?: boolean | string;
+  /**
    * Heading levels to wrap into sections
    *
    * - e.g. `[ 2, 3 ]` for only levels 2 & 3
@@ -29,7 +38,7 @@ interface Node {
  * @param options For configuration options, see https://github.com/christian-hackyourshack/npm/tree/main/packages/remark-sectionize-headings
  * @returns transformer function
  */
-export const plugin: Plugin<[Partial<Options>], unknown> = ({ levels } = {}) => {
+export const plugin: Plugin<[Partial<Options>], unknown> = ({ levels } = {}, addClass = true) => {
   function sectionize(node: Node, index: number, parent: Node) {
     // Usually the mdast is a flat list,
     // but you never know which plugins have worked on it before...
@@ -45,7 +54,14 @@ export const plugin: Plugin<[Partial<Options>], unknown> = ({ levels } = {}) => 
         type: 'section',
         data: {
           hName: 'section',
-          hProperties: { class: `h${level}` },
+          hProperties: addClass
+            ? {
+                class:
+                  typeof addClass === 'boolean'
+                    ? `h${level}`
+                    : `${addClass} ${addClass}--h${level}`,
+              }
+            : {},
         },
         children: [],
       };

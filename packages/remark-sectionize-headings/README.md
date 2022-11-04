@@ -12,6 +12,7 @@ An alternative could be [remark-sectionize](https://www.npmjs.com/package/remark
 - [Install](#install)
 - [Use](#use)
   - [Options](#options)
+    - [`addClass?: boolean | string`](#addclass-boolean--string)
     - [`levels: number[]`](#levels-number)
 
 ## What is this?
@@ -80,6 +81,15 @@ would yield this HTML:
 ```
 
 ### Options
+
+#### `addClass?: boolean | string`
+
+This option adds a class corresponding to the heading to the injected
+section.
+
+- string `<name>`, e.g. `section` to add classes `section section--h1`, ...
+- false to disable class addition completely
+- default: true, adds classes `h1`, `h2`, ...
 
 #### `levels: number[]`
 
