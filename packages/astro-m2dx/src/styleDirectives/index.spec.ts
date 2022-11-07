@@ -101,6 +101,21 @@ A lot of text here.
     );
   });
 
+  test('<a> receives class from directly attached style directive', function () {
+    const actual = transformToHTML(`
+Just some inline style.:style{.bar}
+
+[Visit Berlin](/berlin-tour):style{.foo}
+
+`);
+    assert.equal(
+      actual,
+      `<p class="bar">Just some inline style.</p>
+<p><a href="/berlin-tour" class="foo">Visit Berlin</a></p>`,
+      'Incorrect HTML output'
+    );
+  });
+
   test('::list-style does not skip list', function () {
     const actual = transformToHTML(`
 ::list-style{.foo}

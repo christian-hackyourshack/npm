@@ -40,9 +40,4 @@ export default defineConfig({
     ],
     extendDefaultPlugins: true,
   },
-  vite: {
-    ssr: {
-      external: ['svgo'],
-    },
-  },
 });

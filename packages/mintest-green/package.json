@@ -42,10 +42,10 @@
   "devDependencies": {
     "@internal/utils": "workspace:*",
     "@types/glob": "^8.0.0",
-    "@types/node": "^18.11.3",
+    "@types/node": "^18.11.9",
     "rimraf": "^3.0.2",
     "tsconfig": "workspace:*",
-    "tsup": "^6.3.0",
-    "tsx": "^3.10.4"
+    "tsup": "^6.4.0",
+    "tsx": "^3.11.0"
   }
 }

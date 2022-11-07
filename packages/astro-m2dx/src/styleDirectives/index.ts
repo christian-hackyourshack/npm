@@ -5,6 +5,7 @@ import {
   isImage,
   isLeafDirective,
   isListItem,
+  isText,
   isTextDirective,
   Node,
   visit,
@@ -21,6 +22,7 @@ export function styleDirectives(root: Root, style = 'style'): void {
         } else if (isTextDirective(directive)) {
           let node: Node;
           if (directive.children.length > 0) {
+            // text directive with [content]
             const data = directive.data ?? (directive.data = {});
             data.hName = 'span';
             addClasses(directive, directive.attributes.class);
@@ -28,7 +30,7 @@ export function styleDirectives(root: Root, style = 'style'): void {
             if (
               index > 0 &&
               (node = parent.children[index - 1]) &&
-              isImage(node) &&
+              !isText(node) &&
               node.position!.end.column === directive.position!.start.column
             ) {
               addClasses(node, directive.attributes.class);
