@@ -1,5 +1,11 @@
 # astro-m2dx
 
+## 0.7.8
+
+### Patch Changes
+
+- [`d3dcc67`](https://github.com/christian-hackyourshack/npm/commit/d3dcc67b9858b94ae97d1df39fe5fd9d970c6a1b) Thanks [@christian-hackyourshack](https://github.com/christian-hackyourshack)! - Applying text :style directives to direct predecessors (except text)
+
 ## 0.7.7
 
 ### Patch Changes
