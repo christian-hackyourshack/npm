@@ -1,6 +1,6 @@
 {
   "name": "remark-sectionize-headings",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Remark plugin to wrap headings and their following child paragraphs in sections",
   "author": "christian@hackyourshack.org",
   "homepage": "https://github.com/christian-hackyourshack/npm/tree/main/packages/remark-sectionize-headings",

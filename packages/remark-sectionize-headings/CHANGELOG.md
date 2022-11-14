@@ -1,5 +1,11 @@
 # remark-sectionize-headings
 
+## 0.2.3
+
+### Patch Changes
+
+- [`4cbc77a`](https://github.com/christian-hackyourshack/npm/commit/4cbc77a2a39a21e521b68216b89da61263ef976a) Thanks [@christian-hackyourshack](https://github.com/christian-hackyourshack)! - Fixed an issue with nesting of sections
+
 ## 0.2.2
 
 ### Patch Changes
