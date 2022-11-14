@@ -8,6 +8,12 @@
       "command": "pnpm --filter astro-m2dx test:dev"
     },
     {
+      "name": "[remark-sectionize-headings] pnpm test:dev",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "pnpm --filter remark-sectionize-headings test:dev"
+    },
+    {
       "name": "[astro-m2dx] pnpm test:watch",
       "type": "node-terminal",
       "request": "launch",

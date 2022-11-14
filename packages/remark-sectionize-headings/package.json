@@ -28,7 +28,10 @@
   },
   "scripts": {
     "build": "tsup src/index.ts --format esm --dts",
-    "clean": "rimraf -rf ./dist/"
+    "clean": "rimraf -rf ./dist/",
+    "test": "mintest",
+    "test:dev": "tsx watch src/index.spec.ts",
+    "test:watch": "tsx watch node_modules/mintest-green/dist/bin.js"
   },
   "dependencies": {
     "unist-util-visit": "^4.1.1"
@@ -40,6 +43,10 @@
     "esbuild": "^0.15.13",
     "esbuild-node-externals": "^1.5.0",
     "eslint-config-base": "workspace:*",
+    "hast-util-to-html": "^8.0.3",
+    "mdast-util-to-hast": "^12.2.4",
+    "mintest-green": "workspace:*",
+    "remark": "^14.0.2",
     "rimraf": "^3.0.2",
     "tsconfig": "workspace:*",
     "tsup": "^6.4.0",
