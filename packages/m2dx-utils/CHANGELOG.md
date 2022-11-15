@@ -1,5 +1,11 @@
 # m2dx-utils
 
+## 0.2.2
+
+### Patch Changes
+
+- [`5e7c2f0`](https://github.com/christian-hackyourshack/npm/commit/5e7c2f0b0effd0660f1fb9ded44e16daf7b0000b) Thanks [@christian-hackyourshack](https://github.com/christian-hackyourshack)! - Fixed an issue in embeddedHast.addHClasses
+
 ## 0.2.1
 
 ### Patch Changes
