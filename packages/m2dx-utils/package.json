@@ -30,7 +30,7 @@
     "build": "tsup src/index.ts --format esm --dts",
     "clean": "rimraf -rf ./dist/",
     "test": "mintest",
-    "test:dev": "tsx watch src/utils/mdx/toText.spec.ts",
+    "test:dev": "tsx watch src/embeddedHast.spec.ts",
     "test:watch": "tsx watch node_modules/mintest-green/dist/bin.js"
   },
   "dependencies": {

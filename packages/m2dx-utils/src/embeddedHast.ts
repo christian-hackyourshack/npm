@@ -1,3 +1,4 @@
+import { isString } from '@internal/utils';
 import type { ElementContent, Properties } from 'hast';
 import type { Node } from './mdast';
 
@@ -35,14 +36,17 @@ export function addHProperty(
 }
 
 export function addHClasses(node: Node, ...classes: string[]) {
-  const hProperties = getHProperties(node);
+  if (!classes || classes.length === 0) return;
+
   const merged = new Set();
 
-  const existing = hProperties.class;
+  const existing = getHProperty(node, 'class');
   if (typeof existing === 'string') {
     existing.split(/\s/).forEach((s) => merged.add(s));
   }
 
-  classes.forEach((c) => c.split(/\s/).forEach((s) => merged.add(s)));
-  hProperties.class = [...merged].join(' ');
+  classes.filter(isString).forEach((c) => c?.split(/\s+/).forEach((s) => !!s && merged.add(s)));
+  if (merged.size > 0) {
+    getHProperties(node).class = [...merged].join(' ');
+  }
 }
