@@ -1,15 +1,16 @@
-import type { Root } from 'mdast';
 import {
+  addHClasses,
   isContainerDirective,
   isDirective,
-  isImage,
   isLeafDirective,
   isListItem,
   isText,
   isTextDirective,
   Node,
+  setHName,
   visit,
 } from 'm2dx-utils';
+import type { Root } from 'mdast';
 
 export function styleDirectives(root: Root, style = 'style'): void {
   const listStyle = `list-${style}`;
@@ -18,14 +19,13 @@ export function styleDirectives(root: Root, style = 'style'): void {
       if (directive.name === style) {
         if (isContainerDirective(directive)) {
           // add the classes to the directive (div) element itself
-          addClasses(directive, directive.attributes.class);
+          addHClasses(directive, directive.attributes.class);
         } else if (isTextDirective(directive)) {
           let node: Node;
           if (directive.children.length > 0) {
             // text directive with [content]
-            const data = directive.data ?? (directive.data = {});
-            data.hName = 'span';
-            addClasses(directive, directive.attributes.class);
+            setHName(directive, 'span');
+            addHClasses(directive, directive.attributes.class);
           } else {
             if (
               index > 0 &&
@@ -33,43 +33,35 @@ export function styleDirectives(root: Root, style = 'style'): void {
               !isText(node) &&
               node.position!.end.column === directive.position!.start.column
             ) {
-              addClasses(node, directive.attributes.class);
+              addHClasses(node, directive.attributes.class);
             } else if (ancestors.length > 1 && isListItem(ancestors[1])) {
               // listItems have a wrapped paragraph that is removed by rehype,
               // so we want to add the style to the listItem
-              addClasses(ancestors[1], directive.attributes.class);
+              addHClasses(ancestors[1], directive.attributes.class);
             } else {
-              addClasses(parent, directive.attributes.class);
+              addHClasses(parent, directive.attributes.class);
             }
+            // remove the directive
             parent.children.splice(index, 1);
           }
         } else {
           if (directive.children.length > 0) {
-            const data = directive.data ?? (directive.data = {});
-            data.hName = 'div';
-            addClasses(directive, directive.attributes.class);
+            setHName(directive, 'div');
+            addHClasses(directive, directive.attributes.class);
           } else {
-            addClasses(parent, directive.attributes.class);
+            addHClasses(parent, directive.attributes.class);
+            // remove the directive
             parent.children.splice(index, 1);
           }
         }
       } else if (directive.name === listStyle && isLeafDirective(directive)) {
         const next = parent.children[index + 1];
         if (next?.type === 'list') {
-          addClasses(next, directive.attributes.class);
+          addHClasses(next, directive.attributes.class);
+          // remove the directive
           parent.children.splice(index, 1);
         }
       }
     }
   });
-}
-
-function addClasses(node: Node, classes: string) {
-  const data = node.data ?? (node.data = {});
-  const hProperties = data.hProperties ?? (data.hProperties = {});
-
-  const merged = new Set();
-  !!hProperties.class && (hProperties.class as string).split(/\s/).forEach((s) => merged.add(s));
-  !!classes && classes.split(/\s/).forEach((s) => merged.add(s));
-  hProperties.class = [...merged].join(' ');
 }

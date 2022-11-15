@@ -1,7 +1,7 @@
 import { capitalize, shortHash, toCamelCase, toLinux } from '@internal/utils';
 import { createJsxElement, createProgram, isDirective, visitAsync } from 'm2dx-utils';
 import type { BlockContent, Root } from 'mdast';
-import { Export, Exports } from './Exports';
+import { Export, Exports } from '../Exports';
 
 export async function componentDirectives(root: Root, files: string[]) {
   const exports = new Exports(files.reverse());
@@ -11,11 +11,10 @@ export async function componentDirectives(root: Root, files: string[]) {
   const imports: string[] = [];
   await visitAsync(root, isDirective, async (directive, parent, index) => {
     if (parent) {
-      const found = await exports.find(directive.name);
-      if (found) {
-        const alias = getAlias(found.file, found.name);
-        const tag = [alias, directive.name].join('.');
-        const component = createJsxElement(`<${tag} />`);
+      const e = await exports.find(directive.name);
+      if (e) {
+        const alias = capitalize(toCamelCase(`${e.name}__${shortHash(e.file)}`));
+        const component = createJsxElement(`<${alias}.${directive.name} />`);
         Object.keys(directive.attributes).forEach((key) => {
           component.attributes ??= [];
           component.attributes.push({
@@ -28,7 +27,7 @@ export async function componentDirectives(root: Root, files: string[]) {
         parent.children[index] = component;
         if (!imports.includes(alias)) {
           imports.push(alias);
-          root.children.push(createProgram(toImport(found, alias)));
+          root.children.push(createProgram(toImport(e, alias)));
         }
       }
     }
@@ -39,8 +38,4 @@ function toImport({ file, name, isDefault }: Export, as: string): string {
   return isDefault //
     ? `import ${as} from '${toLinux(file)}';`
     : `import {${name} as ${as}} from '${toLinux(file)}'`;
-}
-
-function getAlias(file: string, name: string) {
-  return capitalize(toCamelCase(`${name}__${shortHash(file)}`));
 }

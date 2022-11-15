@@ -1,4 +1,10 @@
-import type { Identifier, Program, VariableDeclaration } from 'estree';
+import type {
+  Expression,
+  Identifier,
+  PrivateIdentifier,
+  Program,
+  VariableDeclaration,
+} from 'estree';
 import { EXIT, visit } from 'estree-util-visit';
 import { readFile } from 'fs/promises';
 import {
@@ -37,7 +43,7 @@ export class Exports {
         });
         this.exports[file] = exports;
       }
-      const found = exports.find((export_) => export_.identifiers.includes(name));
+      const found = exports.find((e) => e.identifiers.includes(name));
       if (found) {
         return found;
       }
@@ -49,7 +55,25 @@ export class Exports {
 export function parseExports(src: string, predicate: NameFilter): Omit<Export, 'file'>[] {
   const root = parseEsm(src);
   const defaultExport = findDefaultExport(root);
+  return findDeclarators(root, predicate, defaultExport);
+}
 
+function findDefaultExport(root: Program): string | undefined {
+  let name: string | undefined = undefined;
+  visit(root, (n) => {
+    if (isExportDefaultDeclaration(n)) {
+      name = (n.declaration as { name: string }).name;
+      return EXIT;
+    }
+  });
+  return name;
+}
+
+function findDeclarators(
+  root: Program,
+  predicate: NameFilter,
+  defaultExport?: string
+): Omit<Export, 'file' | 'as'>[] {
   const result: Omit<Export, 'file'>[] = [];
   visit(root, (n, k, i, ancestors) => {
     if (isVariableDeclarator(n)) {
@@ -62,10 +86,7 @@ export function parseExports(src: string, predicate: NameFilter): Omit<Export, '
           const identifiers = init.properties
             .filter(isProperty)
             .map((p) => p.key)
-            .map((k) =>
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              isIdentifier(k) ? k.name : (k as any).value ?? `Unknown type for key: ${k.type}`
-            )
+            .map((k) => getName(k))
             .filter(predicate);
           if (identifiers.length > 0) {
             result.push({
@@ -81,13 +102,7 @@ export function parseExports(src: string, predicate: NameFilter): Omit<Export, '
   return result;
 }
 
-function findDefaultExport(root: Program): string | undefined {
-  let name: string | undefined = undefined;
-  visit(root, (n) => {
-    if (isExportDefaultDeclaration(n)) {
-      name = (n.declaration as { name: string }).name;
-      return EXIT;
-    }
-  });
-  return name;
+function getName(key: Expression | PrivateIdentifier): string {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return isIdentifier(key) ? key.name : (key as any).value ?? `Unknown type for key: ${key.type}`;
 }

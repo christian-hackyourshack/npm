@@ -13,10 +13,9 @@ export function noteDirective(root) {
       node.type === 'containerDirective'
     ) {
       if (node.name !== 'note') return;
-
-      const data = node.data || (node.data = {});
       const tagName = node.type === 'textDirective' ? 'span' : 'div';
 
+      const data = node.data || (node.data = {});
       data.hName = tagName;
       data.hProperties = h(tagName, node.attributes).properties;
     }

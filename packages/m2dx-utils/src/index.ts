@@ -1,5 +1,6 @@
 export * from './createJsxElement';
 export * from './createProgram';
+export * from './embeddedHast';
 export * from './estree';
 export * from './findAllImages';
 export * from './findAllImportSpecifiers';
