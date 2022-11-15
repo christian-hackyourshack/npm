@@ -1,5 +1,14 @@
 # astro-m2dx
 
+## 0.7.9
+
+### Patch Changes
+
+- [`05091a9`](https://github.com/christian-hackyourshack/npm/commit/05091a9f6c301026a171276ff86ba9ef154f81a6) Thanks [@christian-hackyourshack](https://github.com/christian-hackyourshack)! - Refactored handling of embedded HAST to public util
+
+- Updated dependencies [[`05091a9`](https://github.com/christian-hackyourshack/npm/commit/05091a9f6c301026a171276ff86ba9ef154f81a6)]:
+  - m2dx-utils@0.2.1
+
 ## 0.7.8
 
 ### Patch Changes
