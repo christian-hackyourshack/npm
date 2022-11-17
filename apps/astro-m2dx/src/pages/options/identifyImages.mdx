@@ -1,0 +1,18 @@
+# Identify Images
+
+```js
+  identifyImages: boolean | string | number | { prefix?: string; digits?: number };
+```
+
+Assign identifiers to all images in the document
+
+- default: `false`, no identifiers are assigned
+- `true`, identifiers are assigned with the default prefix `img_` and
+  default number of digits `3`, the resulting ids look like `img_007`
+- `<prefix>: string`, identifiers use the prefix `<prefix>` and default
+  number of digits `3`
+- `<digits>: number`, identifiers use the default prefix `img_` and the
+  number of digits is `<digits>`
+- `{ prefix: <prefix>, digits: <digits> }`, identifiers use the given values
+  for prefix and digits, e.g.  
+  `{ prefix: 'photo', digits: 5 }` would result in identifiers like `photo12345`

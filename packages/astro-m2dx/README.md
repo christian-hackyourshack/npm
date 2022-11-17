@@ -19,8 +19,9 @@ Have a look at the [full documentation](https://astro-m2dx.netlify.app).
   - [Export Components](#export-components)
   - [Auto-imports](#auto-imports)
   - [Relative Images](#relative-images)
+  - [Unwrap Images](#unwrap-images)
+  - [Identify Images](#identify-images)
   - [Style Directives](#style-directives)
-    - [Prerequisite: `remark-directive`](#prerequisite-remark-directive)
   - [Include directive](#include-directive)
   - [Component directives](#component-directives)
   - [Add-ons](#add-ons)
@@ -233,6 +234,36 @@ import rel_image__0 from './my-image.png';
 
 The resolution will also be applied to obviously relative image references in JSX components, i.e. any attribute value that starts with `./` or `../` and has typical image suffixes will be replaced by a `MdxJsxAttributeValueExpression` similar to the above.
 
+### Unwrap Images
+
+```js
+unwrapImages: boolean;
+```
+
+Unwrap stand-alone images from paragraph
+
+- default: `false`
+- `true`, remove wrapping paragraph element around stand-alone images
+
+### Identify Images
+
+```js
+  identifyImages: boolean | string | number | { prefix?: string; digits?: number };
+```
+
+Assign identifiers to all images in the document
+
+- default: `false`, no identifiers are assigned
+- `true`, identifiers are assigned with the default prefix `img_` and
+  default number of digits `3`, the resulting ids look like `img_007`
+- `<prefix>: string`, identifiers use the prefix `<prefix>` and default
+  number of digits `3`
+- `<digits>: number`, identifiers use the default prefix `img_` and the
+  number of digits is `<digits>`
+- `{ prefix: <prefix>, digits: <digits> }`, identifiers use the given values
+  for prefix and digits, e.g.  
+  `{ prefix: 'photo', digits: 5 }` would result in identifiers like `photo12345`
+
 ### Style Directives
 
 ```js
@@ -295,9 +326,7 @@ will result in this HTML
 </ul>
 ```
 
-#### Prerequisite: `remark-directive`
-
-> ⚠️ In order to use this feature, you must insert the plugin `remark-directive` before `astro-m2dx`.
+> ⚠️ **Prerequisite `remark-directive`:** In order to use this feature, you must insert the plugin `remark-directive` before `astro-m2dx`.
 
 ```js
 import { defineConfig } from 'astro/config';
@@ -353,7 +382,7 @@ The directive recognizes the option `unwrap`, that inserts the included file int
 
 Without the option unwrap, the `section2.mdx` would always be inluded in the section created for 'Section 1'.
 
-> ⚠️ In order to use this feature, you must insert the plugin `remark-directive` before `astro-m2dx`.
+> ⚠️ **Prerequisite `remark-directive`:** In order to use this feature, you must insert the plugin `remark-directive` before `astro-m2dx`.
 
 ### Component directives
 
@@ -384,7 +413,9 @@ export const directives = {
 ::CTA[Dear Astronauts, grab your vacuum cleaner and dust off your MDX, now!]{href="https://www.npmjs.com/package/astro-m2dx"}
 ```
 
-⚠️ Limitation: The names of the defined directives must be valid ES variable names, i.e. you can only use names, that you do not need to quote (especially: no snake-case).
+> ⚠️ **Limitation:** The names of the defined directives must be valid ES variable names, i.e. you can only use names, that you do not need to quote (especially: no snake-case).
+
+> ⚠️ **Prerequisite `remark-directive`:** In order to use this feature, you must insert the plugin `remark-directive` before `astro-m2dx`.
 
 ### Add-ons
 

@@ -7,17 +7,21 @@ import type { Plugin } from 'unified';
 import { autoImports } from './autoImports';
 import { componentDirectives } from './componentDirectives';
 import { exportComponents } from './exportComponents';
+import { identifyImages } from './identifyImages';
 import { includeDirective } from './includeDirective';
 import { mergeFrontmatter } from './mergeFrontmatter';
 import { relativeImages } from './relativeImages';
 import { scanTitleAndAbstract } from './scanTitleAndAbstract';
 import { styleDirectives } from './styleDirectives';
 import type { VFile } from './types/VFile';
+import { unwrapImages } from './unwrapImages';
 
 const DEFAULT_AUTO_IMPORTS_NAME = '_autoimports.ts';
 const DEFAULT_COMPONENT_DIRECTIVES_NAME = '_directives.ts';
 const DEFAULT_EXPORT_COMPONENTS_NAME = '_components.ts';
 const DEFAULT_FRONTMATTER_NAME = '_frontmatter.yaml';
+const DEFAULT_IMAGE_ID_PREFIX = 'img_';
+const DEFAULT_IMAGE_ID_DIGITS = 3;
 const DEFAULT_INCLUDE_DIRECTIVE_NAME = 'include';
 const DEFAULT_MDAST_NAME = 'mdast';
 const DEFAULT_RAW_MDX_NAME = 'rawmdx';
@@ -110,6 +114,22 @@ export type Options = Partial<{
   frontmatter: boolean | string | { name?: string; resolvePaths?: boolean };
 
   /**
+   * Assign identifiers to all images in the document
+   *
+   * - default: `false`, no identifiers are assigned
+   * - `true`, identifiers are assigned with the default prefix `img_` and
+   *   default number of digits `3`, the resulting ids look like `img_007`
+   * - `<prefix>: string`, identifiers use the prefix `<prefix>` and default
+   *   number of digits `3`
+   * - `<digits>: number`, identifiers use the default prefix `img_` and the
+   *   number of digits is `<digits>`
+   * - { prefix: <prefix>, digits: <digits> }, identifiers use the given values
+   *   for prefix and digits, e.g. `{ prefix: 'photo', digits: 5 }` would
+   *   result in identifiers like `photo12345`
+   */
+  identifyImages: boolean | string | number | { prefix?: string; digits?: number };
+
+  /**
    * Include other MDX files in your MDX file with a
    * `::include[./partial.mdx]` directive
    *
@@ -200,6 +220,14 @@ export type Options = Partial<{
    *   `::list-<name>`
    */
   styleDirectives: boolean | string;
+
+  /**
+   * Unwrap stand-alone images from paragraph
+   *
+   * - default: `false`
+   * - `true`, remove wrapping paragraph element around stand-alone images.
+   */
+  unwrapImages: boolean;
 }>;
 
 /**
@@ -213,7 +241,9 @@ export const plugin: Plugin<[Options], unknown> = (options = {}) => {
     addOns = [],
     autoImportsFailUnresolved: optAutoImportsFailUnresolved = false,
     frontmatter: optFrontmatter = false,
+    identifyImages: optIdentifyImages = false,
     relativeImages: optRelativeImages = false,
+    unwrapImages: optUnwrapImages = false,
   } = options;
   let {
     autoImports: optAutoImports = false,
@@ -343,6 +373,23 @@ export const plugin: Plugin<[Options], unknown> = (options = {}) => {
       if (files.length > 0) {
         await componentDirectives(root, files);
       }
+    }
+
+    if (optUnwrapImages) {
+      unwrapImages(root);
+    }
+
+    if (optIdentifyImages) {
+      let prefix: string | undefined;
+      let digits: number | undefined;
+      if (typeof optIdentifyImages === 'string') {
+        prefix = optIdentifyImages;
+      } else if (typeof optIdentifyImages === 'number') {
+        digits = optIdentifyImages;
+      } else if (typeof optIdentifyImages === 'object') {
+        ({ prefix, digits } = optIdentifyImages);
+      }
+      identifyImages(root, prefix ?? DEFAULT_IMAGE_ID_PREFIX, digits ?? DEFAULT_IMAGE_ID_DIGITS);
     }
 
     if (dir && optRelativeImages) {

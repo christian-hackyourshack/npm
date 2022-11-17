@@ -1,5 +1,6 @@
 export * from './deepMerge';
 export * from './fill';
+export * from './fillDigits';
 export * from './filters';
 export * from './fs';
 export * from './getCallerLocation';

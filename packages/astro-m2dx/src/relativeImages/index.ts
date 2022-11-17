@@ -6,6 +6,7 @@ import {
   createProgram,
   findAllImages,
   isIdentifier,
+  isImage,
   isMdxJsxAttribute,
   isMdxJsxFlowElement,
   isObjectExpression,
@@ -13,14 +14,19 @@ import {
   parseEsm,
   visit,
 } from 'm2dx-utils';
-import type { Root } from 'mdast';
+import type { Image, Parent, Root } from 'mdast';
 import type { MdxjsEsm, MdxJsxAttribute, MdxJsxAttributeValueExpression } from 'mdast-util-mdx';
 import path, { isAbsolute, join } from 'path';
 import { findExportInMdx, findExportInProgram } from '../exportComponents/findExportInMdx';
 
 export async function relativeImages(root: Root, baseDir: string, files?: string[]) {
-  let imageCount = 0;
-  const relativeImages = findAllImages(root).filter((f) => !isAbsolute(f[0].url));
+  const relativeImages: [Image, Parent][] = [];
+  visit(root, isImage, (node, parent) => {
+    if (!isAbsolute(node.url)) {
+      relativeImages.push([node as Image, parent as Parent]);
+    }
+  });
+
   let imageComponent: { name: string; requiredImport?: MdxjsEsm } = { name: 'img' };
   if (relativeImages.length > 0) {
     imageComponent = (await findImageComponent(root, files)) ?? imageComponent;
@@ -28,6 +34,7 @@ export async function relativeImages(root: Root, baseDir: string, files?: string
       root.children.push(imageComponent.requiredImport);
     }
   }
+  let imageCount = 0;
   for (const [image, parent] of relativeImages) {
     const path = join(baseDir, image.url);
     if (await exists(path)) {
@@ -36,6 +43,7 @@ export async function relativeImages(root: Root, baseDir: string, files?: string
       const src = `src={${name}}`;
       const alt = image.alt ? ` alt="${image.alt}"` : '';
       const title = image.title ? ` title="${image.title}"` : '';
+      console.log(image.data?.hProperties);
       const attributes = hPropertiesToAttributes(image.data?.hProperties);
       const index = parent.children.indexOf(image);
       if (index < 0) {

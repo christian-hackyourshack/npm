@@ -21,12 +21,14 @@ const m2dxOptions = {
   componentDirectives: true,
   exportComponents: true,
   frontmatter: true,
+  identifyImages: true,
   includeDirective: true,
   rawmdx: true,
   relativeImages: true,
   scanAbstract: true,
   scanTitle: true,
   styleDirectives: true,
+  unwrapImages: true,
 };
 
 // https://astro.build/config
