@@ -1,5 +1,6 @@
 ---
 // Copyright 2022, Hack Your Shack [https://hackyourshack.org]
+import { Image } from '@astrojs/image/components';
 import './style.css';
 
 export interface Props {
@@ -14,7 +15,7 @@ const { class: className, author, from, country, avatar } = Astro.props as Props
 ---
 
 <div class:list={['quote', className]}>
-  {!!avatar && <img class="quote__avatar" src={avatar} alt="" />}
+  {!!avatar && <Image class="quote__avatar" src={avatar} alt="" width={120} />}
   <p class="quote__person">
     <span class="quote__author">{author}</span>
     {!!from && <span class="quote__from">from {from}</span>}

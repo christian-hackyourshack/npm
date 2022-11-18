@@ -1,5 +1,6 @@
 import { defineConfig } from 'astro/config';
 
+import image from '@astrojs/image';
 import mdx from '@astrojs/mdx';
 import tailwind from '@astrojs/tailwind';
 import m2dx from 'astro-m2dx';
@@ -31,15 +32,22 @@ const m2dxOptions = {
   unwrapImages: true,
 };
 
+/** @type {import('@astrojs/image').IntegrationOptions} */
+const imageOptions = {
+  serviceEntryPoint: '@astrojs/image/sharp',
+};
+
+/** @type {import('@astrojs/mdx').MdxOptions} */
+const mdxOptions = {
+  remarkPlugins: [
+    remarkDirective, // required for styleDirectives
+    [sectionizeHeadings, sectionizeOptions],
+    [m2dx, m2dxOptions],
+  ],
+  extendDefaultPlugins: true,
+};
+
 // https://astro.build/config
 export default defineConfig({
-  integrations: [mdx(), tailwind()],
-  markdown: {
-    remarkPlugins: [
-      remarkDirective, // required for styleDirectives
-      [sectionizeHeadings, sectionizeOptions],
-      [m2dx, m2dxOptions],
-    ],
-    extendDefaultPlugins: true,
-  },
+  integrations: [image(imageOptions), mdx(mdxOptions), tailwind()],
 });

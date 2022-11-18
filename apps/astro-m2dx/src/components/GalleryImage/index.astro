@@ -1,0 +1,7 @@
+---
+import { Image } from '@astrojs/image/components';
+
+const { slot, ...props } = Astro.props;
+---
+
+<Image {...props} width={360} />

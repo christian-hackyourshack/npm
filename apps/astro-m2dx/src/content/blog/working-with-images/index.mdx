@@ -30,9 +30,7 @@ import myImg from "./url-to-img.jpg";
 
 This is, what **astro-m2dx** will do for you, if you use [`relativeImages`](/docs#relative-images). With nothing more than that, you can even very easily create an [image gallery](/gallery).
 
-🌴 Nice!
-
-## But...
+🌴 Nice! **But...**
 
 ...as you would have noticed: The image gallery would be _very, very, very_ slow 🐌.
 
@@ -40,4 +38,39 @@ Hence, most of us would like to use some form of image optimization.
 
 ## Here comes @astrojs/image...
 
-😰 It just doesn't work like this:
+**@astrojs/image** is still in beta, but it is already great, except...
+
+😰 It just doesn't work with MDX out of the box.
+
+You **must** use the Image component...
+
+I haven't looked into it in depth, but @astrojs/image somehow changes the handling of images during generation, even if you do not use the provided components (namely `Image` and `Picture`), so that you cannot use the `<img>`-tag anymore.
+
+So, you have to map your MDX images to the Image component, which is done the easiest by activating the **astro-m2dx** feature [`exportComponents`](/docs#export-components) and providing a file `_components.ts` at the root of your MDX content directory
+
+```ts
+import { Image } from '@astrojs/image/components';
+
+export const components = {
+  img: Image,
+};
+```
+
+You also will need to replace all `<img>`-tags in your own components.
+
+For the gallery, I have implemented a small wrapper, that limits the images' width to 360px. I map all images in MDX files in the gallery directory to this component
+
+```astro
+---
+import { Image } from '@astrojs/image/components';
+
+const { slot, ...props } = Astro.props;
+---
+
+<Image {...props} width={360} />
+```
+
+## Coming soon on this channel...
+
+- How to make your images in MDX files truely responsive, using the `Picture` component
+- How to apply art direction by combining the above with [`:style` directives](/docs#style-directives)
