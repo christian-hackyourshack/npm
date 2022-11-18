@@ -1,6 +1,6 @@
 {
   "name": "astro-m2dx",
-  "version": "0.7.10",
+  "version": "0.7.11",
   "description": "Remark plugin to enhance MDX in the scope of Astro site generation",
   "author": "christian@hackyourshack.org",
   "homepage": "https://astro-m2dx.netlify.app/",
