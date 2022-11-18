@@ -1,17 +1,17 @@
 @layer components {
-    .page-width {
-        @apply w-full px-4 sm:px-8 lg:px-16 2xl:px-[calc(max(64px,(100vw-1152px)/2))];
-    }
+  .page-width {
+    @apply mx-4 sm:mx-8 lg:mx-16 2xl:mx-[calc(max(64px,(100vw-1152px)/2))];
+  }
 
-    .page-layout main > * {
-        @apply page-width;
-    }
+  .page-layout main > * {
+    @apply page-width;
+  }
 
-    .page-layout header {
-        @apply page-width;
-    }
+  .page-layout header {
+    @apply page-width;
+  }
 
-    .page-layout footer {
-        @apply page-width;
-    }
+  .page-layout footer {
+    @apply page-width;
+  }
 }

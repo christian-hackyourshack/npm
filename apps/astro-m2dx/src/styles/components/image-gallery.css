@@ -1,0 +1,16 @@
+@layer components {
+  .image-gallery {
+    list-style: none;
+    column-width: 150px;
+    column-gap: 2rem;
+  }
+
+  .image-gallery img,
+  .image-gallery li {
+    margin: 0;
+    padding: 0;
+  }
+  .image-gallery img {
+    margin-bottom: 2rem;
+  }
+}

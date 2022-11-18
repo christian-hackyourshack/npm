@@ -1,0 +1,43 @@
+---
+lastUpdate: 2022-11-18
+---
+
+# Working with images
+
+In Markdown, you traditionally include images with the following syntax
+
+```md
+![This is my alt text](./url-to-img.jpg 'An optional title')
+```
+
+Relative paths will be resolved relative to the markdown file.
+
+You can't do much else without escaping to embedded HTML, e.g. if you want to set the size of an image, you would go about like this
+
+```html
+<img alt="" src="./url-to-img.jpg" width="200" height="100" />
+```
+
+## Here comes Astro MDX...
+
+😰 It just doesn't work like this: Relative images won't work anymore, you must either move your images to the `public` directory, or you must use the `<img>` as a JSX element and import your image and use the imported image as `src` attribute:
+
+```html
+import myImg from "./url-to-img.jpg";
+
+<img alt="" src="{myImg}" width="200" height="100" />
+```
+
+This is, what **astro-m2dx** will do for you, if you use [`relativeImages`](/docs#relative-images). With nothing more than that, you can even very easily create an [image gallery](/gallery).
+
+🌴 Nice!
+
+## But...
+
+...as you would have noticed: The image gallery would be _very, very, very_ slow 🐌.
+
+Hence, most of us would like to use some form of image optimization.
+
+## Here comes @astrojs/image...
+
+😰 It just doesn't work like this:

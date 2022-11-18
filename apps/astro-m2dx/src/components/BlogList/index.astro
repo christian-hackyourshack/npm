@@ -1,0 +1,34 @@
+---
+import type { MDXInstance } from 'astro';
+import { blogSlug } from 'utils/slugs';
+
+export interface Props {
+  sort?: 'byDate';
+}
+const { sort } = Astro.props;
+
+const entries = await Astro.glob('../../content/blog/*/index.mdx');
+if (sort === 'byDate') {
+  console.log('TODO: Sort blog entries by date');
+}
+
+function href(mdx: MDXInstance<Record<string, any>>) {
+  return `/blog/${blogSlug(mdx.file)}`;
+}
+---
+
+<ul>
+  {
+    entries.map((entry) => (
+      <li>
+        <a href={href(entry)}>{entry.frontmatter.title}</a>
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  ul {
+    list-style: none !important;
+  }
+</style>

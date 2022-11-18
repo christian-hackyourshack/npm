@@ -27,7 +27,7 @@ importers:
       '@astrojs/mdx': ^0.11.6
       '@astrojs/tailwind': ^2.1.2
       '@tailwindcss/typography': ^0.5.8
-      astro: ^1.6.9
+      astro: ^1.6.10
       astro-icon: ^0.8.0
       astro-m2dx: workspace:*
       eslint-config-base: workspace:*
@@ -44,7 +44,7 @@ importers:
       '@astrojs/mdx': 0.11.6_rollup@3.3.0
       '@astrojs/tailwind': 2.1.2_tailwindcss@3.2.4
       '@tailwindcss/typography': 0.5.8_tailwindcss@3.2.4
-      astro: 1.6.9
+      astro: 1.6.10
       astro-icon: 0.8.0
       astro-m2dx: link:../../packages/astro-m2dx
       hastscript: 7.1.0
@@ -337,7 +337,7 @@ packages:
       unified: 10.1.2
       unist-util-map: 3.1.2
       unist-util-visit: 4.1.1
-      vfile: 5.3.5
+      vfile: 5.3.6
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -361,7 +361,7 @@ packages:
       remark-smartypants: 2.0.0
       shiki: 0.11.1
       unist-util-visit: 4.1.1
-      vfile: 5.3.5
+      vfile: 5.3.6
     transitivePeerDependencies:
       - rollup
       - supports-color
@@ -616,7 +616,7 @@ packages:
     resolution: {integrity: sha512-mrzLkl6U9YLF8qpqI7TB82PESyEGjm/0Ly91jG575eVxMMlb8fYfOXFZIJ8XfLrJZQbm7dlKry2bJmXBUEkdFg==}
     engines: {node: '>=6.9.0'}
     dependencies:
-      regenerator-runtime: 0.13.10
+      regenerator-runtime: 0.13.11
     dev: true
 
   /@babel/template/7.18.10:
@@ -1037,7 +1037,7 @@ packages:
       unist-util-position-from-estree: 1.1.1
       unist-util-stringify-position: 3.0.2
       unist-util-visit: 4.1.1
-      vfile: 5.3.5
+      vfile: 5.3.6
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -1051,7 +1051,7 @@ packages:
       '@rollup/pluginutils': 4.2.1
       rollup: 3.3.0
       source-map: 0.7.4
-      vfile: 5.3.5
+      vfile: 5.3.6
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -1564,8 +1564,8 @@ packages:
       svgo: 2.8.0
     dev: false
 
-  /astro/1.6.9:
-    resolution: {integrity: sha512-KXFKXobe8MIYl4gduUPLcAazMz+thox6N1pOv3F3QMbJS5rMRXkWloVK/6XebBO7p3DYkOfOGB4qA9ijTc4ftA==}
+  /astro/1.6.10:
+    resolution: {integrity: sha512-W/ZGROkCKsDicpiXB82n8EkY6I0/12wdXS80NGaBdIUR1jZZxdN+0YMmdz+C2kYbjlo45KUsXpC/Tej+5KQYSQ==}
     engines: {node: ^14.18.0 || >=16.12.0, npm: '>=6.14.0'}
     hasBin: true
     dependencies:
@@ -1625,7 +1625,7 @@ packages:
       tsconfig-resolver: 3.0.1
       typescript: 4.9.3
       unist-util-visit: 4.1.1
-      vfile: 5.3.5
+      vfile: 5.3.6
       vite: 3.2.4
       vitefu: 0.2.1_vite@3.2.4
       yargs-parser: 21.1.1
@@ -3341,7 +3341,7 @@ packages:
       '@types/unist': 2.0.6
       hastscript: 7.1.0
       property-information: 6.1.1
-      vfile: 5.3.5
+      vfile: 5.3.6
       vfile-location: 4.0.1
       web-namespaces: 2.0.1
     dev: false
@@ -3390,7 +3390,7 @@ packages:
       parse5: 6.0.1
       unist-util-position: 4.0.3
       unist-util-visit: 4.1.1
-      vfile: 5.3.5
+      vfile: 5.3.6
       web-namespaces: 2.0.1
       zwitch: 2.0.4
     dev: false
@@ -5158,8 +5158,8 @@ packages:
       strip-indent: 3.0.0
     dev: true
 
-  /regenerator-runtime/0.13.10:
-    resolution: {integrity: sha512-KepLsg4dU12hryUO7bp/axHAKvwGOCV0sGloQtpagJ12ai+ojVDqkeGSiRX1zlq+kjIMZ1t7gpze+26QqtdGqw==}
+  /regenerator-runtime/0.13.11:
+    resolution: {integrity: sha512-kY1AZVr2Ra+t+piVaJ4gxaFaReZVH40AKNo7UCX6W+dEwBo/2oZJzqfuN1qLq1oL45o56cPaTXELwrTh8Fpggg==}
     dev: true
 
   /regexp.prototype.flags/1.4.3:
@@ -6220,7 +6220,7 @@ packages:
       is-buffer: 2.0.5
       is-plain-obj: 4.1.0
       trough: 2.1.0
-      vfile: 5.3.5
+      vfile: 5.3.6
 
   /unist-builder/3.0.0:
     resolution: {integrity: sha512-GFxmfEAa0vi9i5sd0R2kcrI9ks0r82NasRq5QHh2ysGngrc6GiqD5CDf1FjPenY4vApmFASBIIlk/jj5J5YbmQ==}
@@ -6335,7 +6335,7 @@ packages:
     resolution: {integrity: sha512-JDxPlTbZrZCQXogGheBHjbRWjESSPEak770XwWPfw5mTc1v1nWGLB/apzZxsx8a0SJVfF8HK8ql8RD308vXRUw==}
     dependencies:
       '@types/unist': 2.0.6
-      vfile: 5.3.5
+      vfile: 5.3.6
     dev: false
 
   /vfile-message/3.1.3:
@@ -6346,6 +6346,15 @@ packages:
 
   /vfile/5.3.5:
     resolution: {integrity: sha512-U1ho2ga33eZ8y8pkbQLH54uKqGhFJ6GYIHnnG5AhRpAh3OWjkrRHKa/KogbmQn8We+c0KVV3rTOgR9V/WowbXQ==}
+    dependencies:
+      '@types/unist': 2.0.6
+      is-buffer: 2.0.5
+      unist-util-stringify-position: 3.0.2
+      vfile-message: 3.1.3
+    dev: true
+
+  /vfile/5.3.6:
+    resolution: {integrity: sha512-ADBsmerdGBs2WYckrLBEmuETSPyTD4TuLxTrw0DvjirxW1ra4ZwkbzG8ndsv3Q57smvHxo677MHaQrY9yxH8cA==}
     dependencies:
       '@types/unist': 2.0.6
       is-buffer: 2.0.5
