@@ -52,6 +52,7 @@ export type Node = UnistNode & {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 } & Record<string, any>;
 
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface Program extends MdxjsEsm {}
 
 export function isRoot(node: unknown): node is Root {
@@ -297,6 +298,12 @@ export function isMdxJsxExpressionAttribute(node: unknown): node is MdxJsxExpres
 
 export function isMdxJsxFlowElement(node: unknown): node is MdxJsxFlowElement {
   return !!node && (node as MdxJsxFlowElement).type === 'mdxJsxFlowElement';
+}
+
+export function isJsxTag(tag: string): (node: unknown) => node is MdxJsxFlowElement {
+  return function (node: unknown): node is MdxJsxFlowElement {
+    return isMdxJsxFlowElement(node) && node.name === tag;
+  };
 }
 
 export function isMdxJsxTextElement(node: unknown): node is MdxJsxTextElement {

@@ -4,7 +4,6 @@ import { readFile } from 'fs/promises';
 import {
   createJsxElement,
   createProgram,
-  findAllImages,
   isIdentifier,
   isImage,
   isMdxJsxAttribute,
@@ -38,19 +37,17 @@ export async function relativeImages(root: Root, baseDir: string, files?: string
   for (const [image, parent] of relativeImages) {
     const path = join(baseDir, image.url);
     if (await exists(path)) {
-      const name = `relImg__${imageCount++}`;
-
-      const src = `src={${name}}`;
-      const alt = image.alt ? ` alt="${image.alt}"` : '';
-      const title = image.title ? ` title="${image.title}"` : '';
-      console.log(image.data?.hProperties);
-      const attributes = hPropertiesToAttributes(image.data?.hProperties);
       const index = parent.children.indexOf(image);
       if (index < 0) {
         throw new Error(
           `relativeImages: image (${image.url} [${image.position?.start.line}:${image.position?.start.column}]) does not have a parent`
         );
       }
+      const name = `relImg__${imageCount++}`;
+      const src = `src={${name}}`;
+      const alt = image.alt ? ` alt="${image.alt}"` : '';
+      const title = image.title ? ` title="${image.title}"` : '';
+      const attributes = hPropertiesToAttributes(image.data?.hProperties);
       parent.children[index] = createJsxElement(
         `<${imageComponent.name} ${src}${alt}${title}${attributes} />`
       );

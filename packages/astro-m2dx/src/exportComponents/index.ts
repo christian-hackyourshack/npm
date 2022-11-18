@@ -20,7 +20,8 @@ export function exportComponents(root: Root, files: string[]) {
       ];
     }
   } else {
-    const src = `export const components = {${files.map((_, i) => `..._ac${i}`).join(',')}};`;
+    const spread = files.map((_, i) => `..._ac${i}`);
+    const src = `export const components = {${spread.join(',')}};`;
     root.children.push(createProgram(src));
   }
 }

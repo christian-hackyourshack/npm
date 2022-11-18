@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "test": "mintest",
-    "test:dev": "tsx watch src/shortHash.spec.ts"
+    "test:dev": "tsx watch src/path.spec.ts"
   },
   "devDependencies": {
     "@internal/utils": "workspace:*",

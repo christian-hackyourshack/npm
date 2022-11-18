@@ -15,7 +15,7 @@ export const CONTINUE = Symbol();
 export const EXIT = Symbol();
 export const SKIP = Symbol();
 export type Action = typeof CONTINUE | typeof EXIT | typeof SKIP | undefined;
-export type Predicate<T = unknown> = (node: unknown) => node is T;
+export type Predicate<T extends Node = Node> = (node: Node) => node is T;
 export type Visitor<T = Node> = (
   /**
    * Current node
@@ -37,7 +37,7 @@ export type Visitor<T = Node> = (
 
 export function visit(current: Node, visitor: Visitor): Action | void;
 
-export function visit<T>(
+export function visit<T extends Node>(
   current: Node,
   predicate: Predicate<T>,
   visitor: Visitor<T>
@@ -58,7 +58,7 @@ export function visit(
   return visit_(current, undefined, -1, predicate as Predicate, visitor, []);
 }
 
-function visit_<T>(
+function visit_<T extends Node>(
   current: Node,
   parent: WithChildren | undefined,
   index: number,
@@ -97,7 +97,7 @@ type AsyncVisitor<T = Node> = (
 
 export async function visitAsync(current: Node, visitor: AsyncVisitor): AsyncResult;
 
-export async function visitAsync<T>(
+export async function visitAsync<T extends Node>(
   current: Node,
   predicate: Predicate<T>,
   visitor: AsyncVisitor<T>
@@ -118,7 +118,7 @@ export async function visitAsync(
   return _visitAsync(current, undefined, -1, predicate as Predicate, visitor);
 }
 
-async function _visitAsync<T>(
+async function _visitAsync<T extends Node>(
   current: Node,
   parent: WithChildren | undefined,
   index: number,

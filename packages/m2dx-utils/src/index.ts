@@ -2,6 +2,7 @@ export * from './createJsxElement';
 export * from './createProgram';
 export * from './embeddedHast';
 export * from './estree';
+export * from './find';
 export * from './findAllImages';
 export * from './findAllImportSpecifiers';
 export * from './findAllJsxElements';

@@ -2,6 +2,12 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "[@app/astro-m2dx] pnpm dev",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "pnpm --filter @app/astro-m2dx dev"
+    },
+    {
       "name": "[astro-m2dx] pnpm test:dev",
       "type": "node-terminal",
       "request": "launch",
@@ -14,34 +20,22 @@
       "command": "pnpm --filter m2dx-utils test:dev"
     },
     {
-      "name": "[remark-sectionize-headings] pnpm test:dev",
-      "type": "node-terminal",
-      "request": "launch",
-      "command": "pnpm --filter remark-sectionize-headings test:dev"
-    },
-    {
-      "name": "[astro-m2dx] pnpm test:watch",
-      "type": "node-terminal",
-      "request": "launch",
-      "command": "pnpm --filter astro-m2dx test:watch"
-    },
-    {
       "name": "[mintest-green] pnpm test:dev",
       "type": "node-terminal",
       "request": "launch",
       "command": "pnpm --filter mintest-green test:dev"
     },
     {
-      "name": "[mintest-green] pnpm test:watch",
+      "name": "[remark-sectionize-headings] pnpm test:dev",
       "type": "node-terminal",
       "request": "launch",
-      "command": "pnpm --filter mintest-green test:watch"
+      "command": "pnpm --filter remark-sectionize-headings test:dev"
     },
     {
-      "name": "[@app/astro-m2dx] pnpm dev",
+      "name": "[utils] pnpm test:dev",
       "type": "node-terminal",
       "request": "launch",
-      "command": "pnpm --filter @app/astro-m2dx dev"
+      "command": "pnpm --filter @internal/utils-test test:dev"
     }
   ]
 }

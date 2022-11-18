@@ -13,7 +13,7 @@ export const result = await describe('embeddedHast', function (test) {
     addHClasses(node, ' ');
     assert.equal(node.data?.hProperties, undefined);
   });
-  test.only('addHClasses - rubbish', function () {
+  test('addHClasses - rubbish', function () {
     const node: Node = { type: 'Element' };
     addHClasses(node, ' ', [], null, undefined, 'foo       bar');
     assert.deepStrictEqual(node.data?.hProperties, { class: 'foo bar' });

@@ -1,4 +1,3 @@
-import path from 'path';
 import { constants } from 'fs';
 import { access } from 'fs/promises';
 import { dirname, join, normalize } from 'path';
@@ -105,13 +104,5 @@ async function findUpAll_(name: string, dir: string, stop: string): Promise<stri
     return [...up, file];
   } else {
     return up;
-  }
-}
-
-export function toLinux(file: string): string {
-  if (path.sep === '\\') {
-    return file.replaceAll('\\', '/');
-  } else {
-    return file;
   }
 }

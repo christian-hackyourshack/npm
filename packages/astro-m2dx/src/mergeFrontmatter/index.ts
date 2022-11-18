@@ -1,5 +1,4 @@
-import { deepMerge, exists, toLinux, type ObjectLike } from '@internal/utils';
-import { existsSync } from 'fs';
+import { deepMerge, exists, normalizeAll, type ObjectLike } from '@internal/utils';
 import { readFile } from 'fs/promises';
 import YAML from 'js-yaml';
 import { dirname, join, normalize } from 'path';
@@ -25,10 +24,11 @@ export async function mergeFrontmatter(
     throw new Error('dir must be a subdirectory of stop');
   }
 
-  return _mergeFrontmatter(name, dir, stop, undefined, resolvePaths);
+  return _mergeFrontmatter(dir, name, dir, stop, undefined, resolvePaths);
 }
 
 async function _mergeFrontmatter(
+  targetDir: string,
   name: string,
   dir: string,
   stop: string,
@@ -38,9 +38,9 @@ async function _mergeFrontmatter(
   const file = join(dir, name);
   if (await exists(file)) {
     const yaml = await readFile(file, 'utf8');
-    const current = YAML.load(yaml) as ObjectLike;
+    let current = YAML.load(yaml) as ObjectLike;
     if (resolvePaths) {
-      _resolvePaths(current, dir);
+      current = normalizeAll(current, dir, targetDir, true);
     }
     if (previous) {
       previous = deepMerge(current, previous);
@@ -51,22 +51,5 @@ async function _mergeFrontmatter(
   if (dir === stop) {
     return previous;
   }
-  return await _mergeFrontmatter(name, dirname(dir), stop, previous, resolvePaths);
-}
-
-function _resolvePaths(frontmatter: object, base: string) {
-  for (const [key, value] of Object.entries(frontmatter)) {
-    if (value) {
-      if (typeof value === 'object') {
-        _resolvePaths(value, base);
-      } else if (typeof value === 'string') {
-        if (toLinux(value).startsWith('./') || toLinux(value).startsWith('../')) {
-          const file = join(base, value);
-          if (existsSync(file)) {
-            (frontmatter as ObjectLike)[key] = toLinux(file);
-          }
-        }
-      }
-    }
-  }
+  return await _mergeFrontmatter(targetDir, name, dirname(dir), stop, previous, resolvePaths);
 }

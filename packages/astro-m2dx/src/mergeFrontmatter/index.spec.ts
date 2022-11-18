@@ -9,6 +9,7 @@ const dir_d11 = join(dir_d1, 'd11');
 const dir_d111 = join(dir_d11, 'd111');
 const dir_d2 = join(fixtures, 'd2');
 const dir_rp = join(fixtures, 'relativePaths');
+const dir_rp_sub = join(dir_rp, 'sub');
 
 const name = '_frontmatter.yaml';
 
@@ -59,10 +60,10 @@ export const result = await describe('mergeFrontmatter', function (test) {
   });
 
   test('relative paths resolved', async function () {
-    const actual = await mergeFrontmatter(name, dir_rp, dir_rp, true);
+    const actual = await mergeFrontmatter(name, dir_rp_sub, dir_rp, true);
     const expected = {
       site: {
-        logo: join(dir_rp, 'logo.png'),
+        logo: '../logo.png',
       },
       url: './astro-m2dx.netlify.app',
     };

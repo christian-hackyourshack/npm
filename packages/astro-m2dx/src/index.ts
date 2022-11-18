@@ -1,4 +1,4 @@
-import { deepMerge, findUpAll } from '@internal/utils';
+import { deepMerge, findUpAll, normalizeAll } from '@internal/utils';
 import { readFile } from 'fs/promises';
 import grayMatter from 'gray-matter';
 import type { Root } from 'mdast';
@@ -10,6 +10,7 @@ import { exportComponents } from './exportComponents';
 import { identifyImages } from './identifyImages';
 import { includeDirective } from './includeDirective';
 import { mergeFrontmatter } from './mergeFrontmatter';
+import { normalizePaths } from './normalizePaths';
 import { relativeImages } from './relativeImages';
 import { scanTitleAndAbstract } from './scanTitleAndAbstract';
 import { styleDirectives } from './styleDirectives';
@@ -24,6 +25,13 @@ const DEFAULT_IMAGE_ID_PREFIX = 'img_';
 const DEFAULT_IMAGE_ID_DIGITS = 3;
 const DEFAULT_INCLUDE_DIRECTIVE_NAME = 'include';
 const DEFAULT_MDAST_NAME = 'mdast';
+const DEFAULT_NORMALIZE_PATHS = {
+  withFrontmatter: true,
+  rebase: undefined,
+  checkExistence: true,
+  includeOnly: undefined,
+  exclude: undefined,
+};
 const DEFAULT_RAW_MDX_NAME = 'rawmdx';
 const DEFAULT_SCAN_ABSTRACT_NAME = 'abstract';
 const DEFAULT_SCAN_TITLE_NAME = 'title';
@@ -152,6 +160,42 @@ export type Options = Partial<{
   mdast: boolean | string;
 
   /**
+   * Normalize relative paths in MDX file.
+   *
+   * - default: `false`
+   * - `true`, to have relative paths normalized with default settings
+   *   (see below)
+   * - `{...}`, use the options object to configure individual settings
+   *   - withFrontmatter: boolean, default = true, whether to normalize paths
+   *     in frontmatter
+   *   - rebase: string, default = `undefined` (i.e. resulting paths will be
+   *     absolute), path to use as new base and make all resulting paths
+   *     relative
+   *   - checkExistence: boolean, default = true, normalize path only, if
+   *     normalized path exists, leave untouched otherwise
+   *   - includeOnly: list of MDX element types or JSX tags (if put in angle
+   *     brackets, e.g. `<img>`) to include during path normalization
+   *     (only the named types will be included)
+   *   - exclude: list of MDX element types or JSX tags (if put in angle
+   *     brackets, e.g. `<img>`) to include during path normalization
+   *   - exclude: list of MDX element types to exclude during path
+   *     (e.g. `['link', '<a>']` to exclude markdown links and JSX anchor tags)
+   *
+   * > NOTE: If you want to use this feature together with relativeImages, you
+   *         must exclude the node type `image`.
+   */
+  normalizePaths:
+    | boolean
+    | string
+    | {
+        withFrontmatter?: boolean;
+        rebase?: string;
+        checkExistence?: boolean;
+        includeOnly?: string[];
+        exclude?: string[];
+      };
+
+  /**
    * Inject the raw MDX into the frontmatter.
    *
    * - default: `false`
@@ -251,6 +295,7 @@ export const plugin: Plugin<[Options], unknown> = (options = {}) => {
     exportComponents: optExportComponents = false,
     includeDirective: optIncludeDirective = false,
     mdast: optMdast = false,
+    normalizePaths: optNormalizePaths = false,
     rawmdx: optRawmdx = false,
     scanAbstract: optScanAbstract = false,
     scanTitle: optScanTitle = false,
@@ -326,6 +371,21 @@ export const plugin: Plugin<[Options], unknown> = (options = {}) => {
         // This makes sure, no original frontmatter is overwritten
         frontmatter = deepMerge(merged, frontmatter);
       }
+    }
+
+    if (dir && optNormalizePaths) {
+      if (typeof optNormalizePaths === 'string') {
+        optNormalizePaths = { ...DEFAULT_NORMALIZE_PATHS, rebase: optNormalizePaths };
+      } else if (typeof optNormalizePaths !== 'object') {
+        optNormalizePaths = DEFAULT_NORMALIZE_PATHS;
+      } else {
+        optNormalizePaths = { ...DEFAULT_NORMALIZE_PATHS, ...optNormalizePaths };
+      }
+      if (optNormalizePaths.withFrontmatter) {
+        const { rebase, checkExistence } = optNormalizePaths;
+        frontmatter = normalizeAll(frontmatter, dir, rebase, checkExistence);
+      }
+      normalizePaths(root, dir, optNormalizePaths);
     }
 
     file.data.astro.frontmatter = frontmatter;

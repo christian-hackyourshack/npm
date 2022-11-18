@@ -18,6 +18,7 @@ Have a look at the [full documentation](https://astro-m2dx.netlify.app).
   - [Default Frontmatter](#default-frontmatter)
   - [Export Components](#export-components)
   - [Auto-imports](#auto-imports)
+  - [Normalize Paths](#normalize-paths)
   - [Relative Images](#relative-images)
   - [Unwrap Images](#unwrap-images)
   - [Identify Images](#identify-images)
@@ -204,6 +205,44 @@ Fail if unresolved components cannot be resolved by autoImports.
 
 - default: `false`
 - `true` to throw an error on unresolved components
+
+### Normalize Paths
+
+```js
+normalizePaths:
+  | boolean
+  | string
+  | {
+    withFrontmatter?: boolean;
+    rebase?: string;
+    checkExistence?: boolean;
+    includeOnly?: string[];
+    exclude?: string[];
+  };
+```
+
+Normalize relative paths in MDX file.
+
+- default: `false`
+- `true`, to have relative paths normalized with default settings
+  (see below)
+- `{...}`, use the options object to configure individual settings
+  - withFrontmatter: boolean, default = true, whether to normalize paths
+    in frontmatter
+  - rebase: string, default = `undefined` (i.e. resulting paths will be
+    absolute), path to use as new base and make all resulting paths
+    relative
+  - checkExistence: boolean, default = true, normalize path only, if
+    normalized path exists, leave untouched otherwise
+  - includeOnly: list of MDX element types or JSX tags (if put in angle
+    brackets, e.g. `<img>`) to include during path normalization
+    (only the named types will be included)
+  - exclude: list of MDX element types or JSX tags (if put in angle
+    brackets, e.g. `<img>`) to include during path normalization
+  - exclude: list of MDX element types to exclude during path
+    (e.g. `['link', '<a>']` to exclude markdown links and JSX anchor tags)
+
+> NOTE: If you want to use this feature together with relativeImages, you must exclude the node type `image`.
 
 ### Relative Images
 
@@ -414,7 +453,7 @@ export const directives = {
 ```
 
 > ⚠️ **Limitation:** The names of the defined directives must be valid ES variable names, i.e. you can only use names, that you do not need to quote (especially: no snake-case).
-
+>
 > ⚠️ **Prerequisite `remark-directive`:** In order to use this feature, you must insert the plugin `remark-directive` before `astro-m2dx`.
 
 ### Add-ons
