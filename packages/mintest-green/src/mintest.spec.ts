@@ -24,7 +24,7 @@ export const result = await describe('mintest', function (test) {
   });
 });
 
-assert.deepStrictEqual(counters, {
+await assert.deepStrictEqual(counters, {
   beforeAll: 1, //
   beforeEach: 2,
   afterEach: 2,

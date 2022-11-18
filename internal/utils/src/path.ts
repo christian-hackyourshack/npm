@@ -57,7 +57,7 @@ export function normalizeAll<T>(
   checkExistence = false
 ): T {
   if (typeof src === 'string') {
-    return normalizeRelative(src, base, newbase, false, true) as T;
+    return normalizeRelative(src, base, newbase, false, checkExistence) as T;
   } else if (Array.isArray(src)) {
     let changed = false;
     const newsrc = [];
