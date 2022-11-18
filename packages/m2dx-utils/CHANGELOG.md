@@ -1,5 +1,11 @@
 # m2dx-utils
 
+## 0.2.3
+
+### Patch Changes
+
+- [`cd79a13`](https://github.com/christian-hackyourshack/npm/commit/cd79a138419d83c06e8b920339f86407c2a77403) Thanks [@christian-hackyourshack](https://github.com/christian-hackyourshack)! - Added feature 'normalizePaths'
+
 ## 0.2.2
 
 ### Patch Changes

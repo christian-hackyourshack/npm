@@ -1,5 +1,16 @@
 # astro-m2dx
 
+## 0.7.11
+
+### Patch Changes
+
+- [`cd79a13`](https://github.com/christian-hackyourshack/npm/commit/cd79a138419d83c06e8b920339f86407c2a77403) Thanks [@christian-hackyourshack](https://github.com/christian-hackyourshack)! - Added feature 'normalizePaths'
+
+- [`9b66f23`](https://github.com/christian-hackyourshack/npm/commit/9b66f23e714ab360c96af1c2245cd5cb0ae04df6) Thanks [@christian-hackyourshack](https://github.com/christian-hackyourshack)! - Added new features: unwrapImages & identifyImages
+
+- Updated dependencies [[`cd79a13`](https://github.com/christian-hackyourshack/npm/commit/cd79a138419d83c06e8b920339f86407c2a77403)]:
+  - m2dx-utils@0.2.3
+
 ## 0.7.10
 
 ### Patch Changes
