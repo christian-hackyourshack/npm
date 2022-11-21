@@ -1,0 +1,69 @@
+---
+import { Picture } from '@astrojs/image/components';
+import { metadata } from '@astrojs/image/dist/utils/metadata';
+import { existsSync } from 'fs';
+import { relative } from 'path';
+import URL from 'url';
+
+import type { Props as OriginalProps } from '@astrojs/image/components/Picture.astro';
+import type { TransformOptions } from '@astrojs/image/dist/loaders';
+import type { ImageMetadata } from '@astrojs/image/dist/vite-plugin-astro-image';
+import { isImageMetadata, parseAspectRatio } from './utils';
+
+type PictureProps = Partial<
+  Omit<OriginalProps, 'alt' | 'slot' | 'src'> & Omit<TransformOptions, 'src'>
+>;
+
+export type Props = PictureProps & {
+  alt: string;
+  callback?: (props: Omit<Props, 'callback'>) => Omit<Props, 'callback'>;
+  src: string | ImageMetadata | Promise<{ default: ImageMetadata }>;
+};
+
+let { callback, ...props } = Astro.props as Props;
+
+if (typeof props.src === 'string') {
+  if (existsSync(props.src)) {
+    const data = await metadata(URL.pathToFileURL(props.src));
+    if (data) {
+      props.src = data;
+      props.src.src = './' + relative(process.cwd(), props.src.src);
+    }
+  }
+} else if ('then' in props.src) {
+  props.src = (await props.src).default;
+}
+
+if (callback) {
+  props = callback(props);
+}
+
+if (isImageMetadata(props.src)) {
+  if (!props.width && !props.height && !props.aspectRatio) {
+    if (typeof props.src === 'object') {
+      props.width = props.src?.width;
+      props.height = props.src?.height;
+    }
+  }
+  if (!props.width || !props.height) {
+    const aspectRatio =
+      parseAspectRatio(props.aspectRatio) ?? (props.src.width ?? 1) / (props.src.height ?? 1);
+    if (aspectRatio) {
+      if (props.width) {
+        props.height = props.width / aspectRatio;
+      } else if (props.height) {
+        props.width = props.height * aspectRatio;
+      } else {
+        props.width = props.src?.width ?? 100;
+        props.height = props.width! / aspectRatio;
+      }
+    }
+  }
+}
+
+if (!props.widths || props.widths.length === 0) {
+  props.widths = [props.width ?? 400];
+}
+---
+
+<Picture {...(props as Omit<OriginalProps, 'slot'>)} />

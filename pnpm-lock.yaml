@@ -31,6 +31,7 @@ importers:
       astro: ^1.6.10
       astro-icon: ^0.8.0
       astro-m2dx: workspace:*
+      astro-m2dx-image: workspace:*
       eslint-config-base: workspace:*
       hastscript: ^7.1.0
       postcss-import: ^15.0.0
@@ -50,6 +51,7 @@ importers:
       astro: 1.6.10
       astro-icon: 0.8.0
       astro-m2dx: link:../../packages/astro-m2dx
+      astro-m2dx-image: link:../../packages/astro-m2dx-image
       hastscript: 7.1.0
       postcss-import: 15.0.0_postcss@8.4.19
       remark-directive: 2.0.1
@@ -172,6 +174,17 @@ importers:
       typescript: 4.9.3
       unified: 10.1.2
       vfile: 5.3.5
+
+  packages/astro-m2dx-image:
+    specifiers:
+      '@astrojs/image': ^0.11.6
+      astro: ^1.6.10
+      eslint-config-base: workspace:*
+    dependencies:
+      '@astrojs/image': 0.11.6
+      astro: 1.6.10
+    devDependencies:
+      eslint-config-base: link:../../config/eslint-config-base
 
   packages/m2dx-utils:
     specifiers:
@@ -300,6 +313,24 @@ packages:
 
   /@astrojs/compiler/0.29.17:
     resolution: {integrity: sha512-6ZbRGVunUMHxROD9Cleqkrfrj/kM9o43nLVwycdxCexCB5G372evy2ZM46LhaG/k5B5yC0PByNHTaGny0ll3iQ==}
+
+  /@astrojs/image/0.11.6:
+    resolution: {integrity: sha512-/awb4CWvOdoBv896XZcXw+oYEYLezWiaX5Oyk2g4PQ6rEHtZVROj56CFdUbS9ldmIqp3ni7rXNf1XK3dlP5d1A==}
+    peerDependencies:
+      sharp: '>=0.31.0'
+    peerDependenciesMeta:
+      sharp:
+        optional: true
+    dependencies:
+      '@altano/tiny-async-pool': 1.0.2
+      http-cache-semantics: 4.1.0
+      image-size: 1.0.2
+      kleur: 4.1.5
+      magic-string: 0.25.9
+      mime: 3.0.0
+      slash: 4.0.0
+      web-streams-polyfill: 3.2.1
+    dev: false
 
   /@astrojs/image/0.11.6_sharp@0.31.2:
     resolution: {integrity: sha512-/awb4CWvOdoBv896XZcXw+oYEYLezWiaX5Oyk2g4PQ6rEHtZVROj56CFdUbS9ldmIqp3ni7rXNf1XK3dlP5d1A==}

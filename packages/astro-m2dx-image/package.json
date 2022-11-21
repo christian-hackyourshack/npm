@@ -1,0 +1,37 @@
+{
+  "name": "astro-m2dx-image",
+  "version": "0.0.0",
+  "description": "Astro components for using @astrojs/image in MDX",
+  "author": "christian@hackyourshack.org",
+  "homepage": "https://astro-m2dx.netlify.app/blog/working-with-images",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/christian-hackyourshack/npm.git"
+  },
+  "license": "MIT",
+  "keywords": [
+    "astro",
+    "markdown",
+    "mdx",
+    "images",
+    "@astrojs/image"
+  ],
+  "type": "module",
+  "files": [
+    "lib/**/*"
+  ],
+  "main": "./lib/index.ts",
+  "exports": {
+    ".": {
+      "import": "./lib/index.ts",
+      "types": "./lib/index.ts"
+    }
+  },
+  "peerDependencies": {
+    "@astrojs/image": "^0.11.6",
+    "astro": "^1.6.10"
+  },
+  "devDependencies": {
+    "eslint-config-base": "workspace:*"
+  }
+}

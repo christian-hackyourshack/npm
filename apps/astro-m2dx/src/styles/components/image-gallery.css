@@ -2,7 +2,8 @@
   .image-gallery {
     list-style: none;
     column-width: 150px;
-    column-gap: 2rem;
+    column-gap: 1rem;
+    padding: 0 !important;
   }
 
   .image-gallery img,
@@ -11,6 +12,6 @@
     padding: 0;
   }
   .image-gallery img {
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
   }
 }

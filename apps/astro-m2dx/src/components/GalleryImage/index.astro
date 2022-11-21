@@ -1,7 +1,32 @@
 ---
-import { Image } from '@astrojs/image/components';
+import { isImageMetadata, parseAspectRatio, Picture, PictureProps } from 'astro-m2dx-image';
 
-const { slot, ...props } = Astro.props;
+const props = Astro.props as PictureProps;
+
+function callback(props: PictureProps): PictureProps {
+  const aspetRatioBound = 1.2;
+  props.aspectRatio = parseAspectRatio(props.aspectRatio);
+  if (!props.aspectRatio) {
+    if (props.width && props.height) {
+      props.aspectRatio = props.width / props.height;
+    } else if (isImageMetadata(props.src)) {
+      props.aspectRatio = props.src.width / (props.src.height ?? 1);
+    }
+  }
+  if (props.aspectRatio) {
+    props.aspectRatio = Math.min(Math.max(1 / aspetRatioBound, props.aspectRatio), aspetRatioBound);
+  }
+  return props;
+}
+
+const customProps: PictureProps = {
+  callback,
+  loading: props.class?.includes('eager') ? 'eager' : undefined,
+  position: 'attention',
+  sizes: '(min-width: 360px) 240px, 100vw',
+  widths: [240, 480],
+  ...props,
+};
 ---
 
-<Image {...props} width={360} />
+<Picture {...customProps} />

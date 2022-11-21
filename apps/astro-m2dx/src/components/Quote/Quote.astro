@@ -1,6 +1,6 @@
 ---
 // Copyright 2022, Hack Your Shack [https://hackyourshack.org]
-import { Image } from '@astrojs/image/components';
+import { Picture } from 'astro-m2dx-image';
 import './style.css';
 
 export interface Props {
@@ -15,7 +15,7 @@ const { class: className, author, from, country, avatar } = Astro.props as Props
 ---
 
 <div class:list={['quote', className]}>
-  {!!avatar && <Image class="quote__avatar" src={avatar} alt="" width={120} />}
+  {!!avatar && <Picture class="quote__avatar" src={avatar} alt="" width={120} aspectRatio={1} />}
   <p class="quote__person">
     <span class="quote__author">{author}</span>
     {!!from && <span class="quote__from">from {from}</span>}
