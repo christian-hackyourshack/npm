@@ -3,6 +3,10 @@
     @apply mx-4 sm:mx-8 lg:mx-16 2xl:mx-[calc(max(64px,(100vw-1152px)/2))];
   }
 
+  .page-layout main > picture {
+    display: block;
+  }
+
   .page-layout main > * {
     @apply page-width;
   }

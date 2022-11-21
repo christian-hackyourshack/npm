@@ -1,5 +1,5 @@
-import { Image } from 'astro-m2dx-image';
+import { Picture } from 'astro-m2dx-image';
 
 export const components = {
-  img: Image,
+  img: Picture,
 };

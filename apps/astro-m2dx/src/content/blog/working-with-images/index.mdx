@@ -10,6 +10,20 @@ In Markdown, you traditionally include images with the following syntax
 ![This is my alt text](./url-to-img.jpg 'An optional title')
 ```
 
+Wouldn't it be cool, to be able to create an image gallery from just a list of images?
+
+```md
+- ![An astronaut](./adam-miller-dBaz0xhCkPY-unsplash.jpg)
+- ![An astronaut](./edgar-moran-LboRnt38jpA-unsplash.jpg)
+- ![An astronaut](./elia-pellegrini-C54fuJ5E8YU-unsplash.jpg)
+  ...
+  =>
+```
+
+![Screenshot of image gallery](./snapshot.webp)
+
+## Uuuups: The following is work in progress...
+
 Relative paths will be resolved relative to the markdown file.
 
 You can't do much else without escaping to embedded HTML, e.g. if you want to set the size of an image, you would go about like this
