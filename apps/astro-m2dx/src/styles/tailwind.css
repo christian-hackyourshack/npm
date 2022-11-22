@@ -3,6 +3,7 @@
 @import 'tailwindcss/utilities';
 
 @import './base/sections.css';
+@import './components/aside.css';
 @import './components/card.css';
 @import './components/footer.css';
 @import './components/header.css';
