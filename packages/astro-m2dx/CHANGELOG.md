@@ -1,5 +1,14 @@
 # astro-m2dx
 
+## 0.7.12
+
+### Patch Changes
+
+- [`5e5a020`](https://github.com/christian-hackyourshack/npm/commit/5e5a0200f239bcb2f9c1c3fe5e776d330dec3ff3) Thanks [@christian-hackyourshack](https://github.com/christian-hackyourshack)! - Bug fixes
+
+  - removed duplicate width/height attributes from img in picture
+  - replaced number-based img ids with hash-based
+
 ## 0.7.11
 
 ### Patch Changes
