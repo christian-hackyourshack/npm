@@ -1,5 +1,15 @@
 # astro-m2dx-image
 
+## 0.0.3
+
+### Patch Changes
+
+- [`b3338d5`](https://github.com/christian-hackyourshack/npm/commit/b3338d50562397f7fd5b2c11e1d4a69a75ef3463) Thanks [@christian-hackyourshack](https://github.com/christian-hackyourshack)! - Resorted to patched Picture component to eliminate CLS
+
+  Due to Github PR https://github.com/withastro/astro/pull/4797, the Picture component removes width and height from the embedded img. That causes massive layout shifts.
+
+  The patched component reverts that change until it is reverted in the Astro repo.
+
 ## 0.0.2
 
 ### Patch Changes
