@@ -125,17 +125,12 @@ export type Options = Partial<{
    * Assign identifiers to all images in the document
    *
    * - default: `false`, no identifiers are assigned
-   * - `true`, identifiers are assigned with the default prefix `img_` and
-   *   default number of digits `3`, the resulting ids look like `img_007`
-   * - `<prefix>: string`, identifiers use the prefix `<prefix>` and default
-   *   number of digits `3`
-   * - `<digits>: number`, identifiers use the default prefix `img_` and the
-   *   number of digits is `<digits>`
-   * - { prefix: <prefix>, digits: <digits> }, identifiers use the given values
-   *   for prefix and digits, e.g. `{ prefix: 'photo', digits: 5 }` would
-   *   result in identifiers like `photo12345`
+   * - `true`, identifiers are assigned with the default prefix `img_` followed
+   *   by a hash value
+   * - `<prefix>: string`, identifiers use the prefix `<prefix>` followed by a
+   *   hash value
    */
-  identifyImages: boolean | string | number | { prefix?: string; digits?: number };
+  identifyImages: boolean | string;
 
   /**
    * Include other MDX files in your MDX file with a
@@ -285,7 +280,6 @@ export const plugin: Plugin<[Options], unknown> = (options = {}) => {
     addOns = [],
     autoImportsFailUnresolved: optAutoImportsFailUnresolved = false,
     frontmatter: optFrontmatter = false,
-    identifyImages: optIdentifyImages = false,
     relativeImages: optRelativeImages = false,
     unwrapImages: optUnwrapImages = false,
   } = options;
@@ -293,6 +287,7 @@ export const plugin: Plugin<[Options], unknown> = (options = {}) => {
     autoImports: optAutoImports = false,
     componentDirectives: optComponentDirectives = false,
     exportComponents: optExportComponents = false,
+    identifyImages: optIdentifyImages = false,
     includeDirective: optIncludeDirective = false,
     mdast: optMdast = false,
     normalizePaths: optNormalizePaths = false,
@@ -440,16 +435,10 @@ export const plugin: Plugin<[Options], unknown> = (options = {}) => {
     }
 
     if (optIdentifyImages) {
-      let prefix: string | undefined;
-      let digits: number | undefined;
-      if (typeof optIdentifyImages === 'string') {
-        prefix = optIdentifyImages;
-      } else if (typeof optIdentifyImages === 'number') {
-        digits = optIdentifyImages;
-      } else if (typeof optIdentifyImages === 'object') {
-        ({ prefix, digits } = optIdentifyImages);
+      if (typeof optIdentifyImages === 'boolean') {
+        optIdentifyImages = DEFAULT_IMAGE_ID_PREFIX;
       }
-      identifyImages(root, prefix ?? DEFAULT_IMAGE_ID_PREFIX, digits ?? DEFAULT_IMAGE_ID_DIGITS);
+      identifyImages(root, file, optIdentifyImages);
     }
 
     if (dir && optRelativeImages) {

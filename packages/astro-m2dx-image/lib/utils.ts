@@ -1,5 +1,6 @@
 import type { TransformOptions } from '@astrojs/image/dist/loaders';
 import type { ImageMetadata } from '@astrojs/image/dist/vite-plugin-astro-image';
+import type { PictureProps } from '.';
 
 export function parseAspectRatio(aspectRatio: TransformOptions['aspectRatio']) {
   if (!aspectRatio) {
@@ -23,4 +24,34 @@ export function isImageMetadata(src: unknown): src is ImageMetadata {
     );
   }
   return false;
+}
+
+export function getDimensions(props: PictureProps) {
+  let result: { width?: number; height?: number } | undefined;
+  if (isImageMetadata(props.src)) {
+    if (!props.width && !props.height && !props.aspectRatio) {
+      result = {};
+      result.width = props.src.width;
+      result.height = props.src.height;
+    } else if (!props.width || !props.height) {
+      const aspectRatio =
+        parseAspectRatio(props.aspectRatio) ?? props.src.width / (props.src.height ?? 1);
+      if (aspectRatio) {
+        if (props.width) {
+          result = {};
+          result.width = props.width;
+          result.height = Math.round(result.width / aspectRatio);
+        } else if (props.height) {
+          result = {};
+          result.height = props.height;
+          result.width = Math.round(result.height * aspectRatio);
+        } else {
+          result = {};
+          result.width = props.src.width;
+          result.height = Math.round(result.width! / aspectRatio);
+        }
+      }
+    }
+  }
+  return result;
 }

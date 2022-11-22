@@ -8,7 +8,7 @@ import URL from 'url';
 import type { Props as OriginalProps } from '@astrojs/image/components/Picture.astro';
 import type { TransformOptions } from '@astrojs/image/dist/loaders';
 import type { ImageMetadata } from '@astrojs/image/dist/vite-plugin-astro-image';
-import { isImageMetadata, parseAspectRatio } from './utils';
+import { isImageMetadata } from './utils';
 
 type PictureProps = Partial<
   Omit<OriginalProps, 'alt' | 'slot' | 'src'> & Omit<TransformOptions, 'src'>
@@ -38,31 +38,10 @@ if (callback) {
   props = callback(props);
 }
 
-if (isImageMetadata(props.src)) {
-  if (!props.width && !props.height && !props.aspectRatio) {
-    if (typeof props.src === 'object') {
-      props.width = props.src?.width;
-      props.height = props.src?.height;
-    }
-  }
-  if (!props.width || !props.height) {
-    const aspectRatio =
-      parseAspectRatio(props.aspectRatio) ?? (props.src.width ?? 1) / (props.src.height ?? 1);
-    if (aspectRatio) {
-      if (props.width) {
-        props.height = props.width / aspectRatio;
-      } else if (props.height) {
-        props.width = props.height * aspectRatio;
-      } else {
-        props.width = props.src?.width ?? 100;
-        props.height = props.width! / aspectRatio;
-      }
-    }
-  }
-}
-
 if (!props.widths || props.widths.length === 0) {
-  props.widths = [props.width ?? 400];
+  let width = props.width;
+  width ??= isImageMetadata(props.src) ? props.src.width : 400;
+  props.widths = [width];
 }
 ---
 

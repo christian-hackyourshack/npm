@@ -1,10 +1,24 @@
-import { fillDigits } from '@internal/utils';
+import { shortHash } from '@internal/utils';
 import { getHProperties, isImage, visit } from 'm2dx-utils';
 import type { Root } from 'mdast';
+import { relative } from 'path';
+import type { VFile } from 'vfile';
 
-export function identifyImages(root: Root, prefix = 'img_', digits = 3): void {
-  let imageCount = 0;
+export function identifyImages(root: Root, file: VFile, prefix = 'img_'): void {
+  const ids: string[] = [];
   visit(root, isImage, (node) => {
-    getHProperties(node).id ??= `${prefix}${fillDigits(imageCount++, digits)}`;
+    const props = getHProperties(node);
+    if (!props.id) {
+      let id = node.alt ?? '' + ':' + node.url;
+      while (ids.includes(id)) {
+        id = id + '_';
+      }
+      ids.push(id);
+      const data = {
+        file: relative(process.cwd(), file.path),
+        id,
+      };
+      props.id = `${prefix}${shortHash(data)}`;
+    }
   });
 }
