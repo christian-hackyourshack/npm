@@ -22,7 +22,6 @@ const DEFAULT_COMPONENT_DIRECTIVES_NAME = '_directives.ts';
 const DEFAULT_EXPORT_COMPONENTS_NAME = '_components.ts';
 const DEFAULT_FRONTMATTER_NAME = '_frontmatter.yaml';
 const DEFAULT_IMAGE_ID_PREFIX = 'img_';
-const DEFAULT_IMAGE_ID_DIGITS = 3;
 const DEFAULT_INCLUDE_DIRECTIVE_NAME = 'include';
 const DEFAULT_MDAST_NAME = 'mdast';
 const DEFAULT_NORMALIZE_PATHS = {

@@ -1,0 +1,75 @@
+---
+// import { getPicture } from '../dist/index.js';
+import { getPicture } from '@astrojs/image';
+import type { HTMLAttributes, ImgHTMLAttributes } from '@astrojs/image/components';
+import { warnForMissingAlt } from '@astrojs/image/components';
+import type { OutputFormat, TransformOptions } from '@astrojs/image/dist/loaders';
+import type { ImageMetadata } from '@astrojs/image/dist/vite-plugin-astro-image';
+
+interface LocalImageProps
+  extends Omit<HTMLAttributes, 'src' | 'width' | 'height'>,
+    Omit<TransformOptions, 'src'>,
+    Pick<astroHTML.JSX.ImgHTMLAttributes, 'loading' | 'decoding'> {
+  src: ImageMetadata | Promise<{ default: ImageMetadata }>;
+  /** Defines an alternative text description of the image. Set to an empty string (alt="") if the image is not a key part of the content (it's decoration or a tracking pixel). */
+  alt: string;
+  sizes: HTMLImageElement['sizes'];
+  widths: number[];
+  formats?: OutputFormat[];
+}
+
+interface RemoteImageProps
+  extends Omit<HTMLAttributes, 'src' | 'width' | 'height'>,
+    TransformOptions,
+    Pick<ImgHTMLAttributes, 'loading' | 'decoding'> {
+  src: string;
+  /** Defines an alternative text description of the image. Set to an empty string (alt="") if the image is not a key part of the content (it's decoration or a tracking pixel). */
+  alt: string;
+  sizes: HTMLImageElement['sizes'];
+  widths: number[];
+  aspectRatio: TransformOptions['aspectRatio'];
+  formats?: OutputFormat[];
+  background: TransformOptions['background'];
+}
+
+export type Props = LocalImageProps | RemoteImageProps;
+
+const {
+  src,
+  alt,
+  sizes,
+  widths,
+  aspectRatio,
+  fit,
+  background,
+  position,
+  formats = ['avif', 'webp'],
+  loading = 'lazy',
+  decoding = 'async',
+  ...attrs
+} = Astro.props as Props;
+
+if (alt === undefined || alt === null) {
+  warnForMissingAlt();
+}
+
+const { image, sources } = await getPicture({
+  src,
+  widths,
+  formats,
+  aspectRatio,
+  fit,
+  background,
+  position,
+});
+
+// PATCH: We want the image dimensions!
+// see https://github.com/withastro/astro/pull/4797
+// delete image.width;
+// delete image.height;
+---
+
+<picture>
+  {sources.map((attrs) => <source {...attrs} sizes={sizes} />)}
+  <img {...image} loading={loading} decoding={decoding} alt={alt} {...attrs} />
+</picture>

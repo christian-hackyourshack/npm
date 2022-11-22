@@ -26,8 +26,6 @@ const m2dxOptions = {
   includeDirective: true,
   normalizePaths: true,
   rawmdx: true,
-  // relativeImages: true,
-  scanAbstract: true,
   scanTitle: true,
   styleDirectives: true,
   unwrapImages: true,
