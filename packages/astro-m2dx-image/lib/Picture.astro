@@ -14,7 +14,7 @@ type PictureProps = Partial<
   Omit<OriginalProps, 'alt' | 'slot' | 'src'> & Omit<TransformOptions, 'src'>
 >;
 
-type CallbackProps = PictureProps & {
+export type CallbackProps = PictureProps & {
   alt: string;
   src: string | ImageMetadata;
 };
