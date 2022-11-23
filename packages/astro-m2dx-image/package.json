@@ -1,6 +1,6 @@
 {
   "name": "astro-m2dx-image",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Astro components for using @astrojs/image in MDX",
   "author": "christian@hackyourshack.org",
   "homepage": "https://astro-m2dx.netlify.app/blog/working-with-images",
