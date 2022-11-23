@@ -2,14 +2,19 @@ import type { TransformOptions } from '@astrojs/image/dist/loaders';
 import { metadata } from '@astrojs/image/dist/utils/metadata';
 import type { ImageMetadata } from '@astrojs/image/dist/vite-plugin-astro-image';
 import { existsSync } from 'fs';
-import { relative } from 'path';
+import { normalize, relative } from 'path';
 import URL from 'url';
 import type { ImageProps, PictureProps } from './types';
 
 export async function resolveSrc(props: ImageProps): Promise<void> {
   if (typeof props.src === 'string') {
-    if (existsSync(props.src)) {
-      const data = await metadata(URL.pathToFileURL(props.src));
+    let src = props.src;
+    if (src.startsWith('file://')) {
+      src = URL.fileURLToPath(src);
+    }
+    src = normalize(src);
+    if (existsSync(src)) {
+      const data = await metadata(URL.pathToFileURL(src));
       if (data) {
         data.src = './' + relative(process.cwd(), data.src);
         props.src = data;

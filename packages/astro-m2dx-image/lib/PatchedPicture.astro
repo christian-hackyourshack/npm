@@ -5,17 +5,17 @@ import { warnForMissingAlt } from '@astrojs/image/components';
 import type { PictureProps } from './types';
 
 const {
-  src,
   alt,
-  sizes,
-  widths = [480],
   aspectRatio,
-  fit,
   background,
-  position,
+  decoding = 'async',
+  fit,
   formats = ['avif', 'webp'],
   loading = 'lazy',
-  decoding = 'async',
+  position,
+  sizes,
+  src,
+  widths = [480],
   ...attrs
 } = Astro.props as PictureProps;
 
@@ -37,6 +37,9 @@ const { image, sources } = await getPicture({
 // see https://github.com/withastro/astro/pull/4797
 // delete image.width;
 // delete image.height;
+delete (image as any).background;
+delete (image as any).fit;
+delete (image as any).position;
 ---
 
 <picture>
