@@ -1,5 +1,16 @@
 # astro-m2dx-image
 
+## 0.0.4
+
+### Patch Changes
+
+- [`27813d8`](https://github.com/christian-hackyourshack/npm/commit/27813d830d08fc670cdd797cfd2c09c25cc43814) Thanks [@christian-hackyourshack](https://github.com/christian-hackyourshack)! - Added few more utilities to work with Picture
+
+  - getIntrinsicAspectRatio
+  - getSrc
+
+  Also simplified getDimensions and improved typing of callback.
+
 ## 0.0.3
 
 ### Patch Changes
