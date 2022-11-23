@@ -77,8 +77,15 @@ export function getDimensions({ width, height, aspectRatio, src }: PictureProps)
   return result;
 }
 
-export function getWidth({ width, height, aspectRatio, src }: PictureProps): number | undefined {
+export function getWidth({
+  width,
+  widths,
+  height,
+  aspectRatio,
+  src,
+}: PictureProps): number | undefined {
   if (width) return width;
+  if (widths && widths.length > 0) return widths[widths.length - 1];
   if (height && aspectRatio) {
     const _aspectRatio = parseAspectRatio(aspectRatio);
     if (_aspectRatio) {
@@ -91,13 +98,38 @@ export function getWidth({ width, height, aspectRatio, src }: PictureProps): num
       if (_aspectRatio) {
         return Math.round(Math.min(src.width, src.height * _aspectRatio));
       }
-    } else if (height) {
-      const _aspectRatio = src.width / (src.height ?? 1);
+    }
+    if (height) {
+      const _aspectRatio = getIntrinsicAspectRatio(src);
       return Math.round(height * _aspectRatio);
-    } else {
-      return src.width;
+    }
+    return src.width;
+  }
+  return undefined;
+}
+
+export function getHeight({ height, width, aspectRatio, src }: PictureProps): number | undefined {
+  if (height) return height;
+  if (width && aspectRatio) {
+    const _aspectRatio = parseAspectRatio(aspectRatio);
+    if (_aspectRatio) {
+      return Math.round(width / _aspectRatio);
     }
   }
+  if (isImageMetadata(src)) {
+    if (aspectRatio) {
+      const _aspectRatio = parseAspectRatio(aspectRatio);
+      if (_aspectRatio) {
+        return Math.round(Math.min(src.height, src.width / _aspectRatio));
+      }
+    }
+    if (width) {
+      const _aspectRatio = getIntrinsicAspectRatio(src);
+      return Math.round(width / _aspectRatio);
+    }
+    return src.width;
+  }
+  return undefined;
 }
 
 export function getIntrinsicAspectRatio(src: ImageMetadata): number {

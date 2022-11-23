@@ -11,7 +11,6 @@ export interface ImageProps
 }
 
 interface BasePictureProps extends Omit<ImageProps, 'format'> {
-  sizes?: HTMLImageElement['sizes'];
   widths?: number[];
   formats?: OutputFormat[];
 }

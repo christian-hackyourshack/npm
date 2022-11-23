@@ -1,7 +1,7 @@
 ---
 import Picture from './PatchedPicture.astro';
 import type { CallbackProps, PictureProps } from './types';
-import { getWidth, resolveSrc } from './utils';
+import { getHeight, getWidth, resolveSrc } from './utils';
 
 export interface Props extends PictureProps {}
 
@@ -9,8 +9,10 @@ let { callback, ...props } = Astro.props as Props;
 await resolveSrc(props);
 callback && (await callback(props as CallbackProps));
 
+props.width ??= getWidth(props) ?? 480;
+props.height ??= getHeight(props) ?? props.width;
 if (!props.widths || props.widths.length === 0) {
-  props.widths = [getWidth(props) ?? 480];
+  props.widths = [props.width];
 }
 ---
 

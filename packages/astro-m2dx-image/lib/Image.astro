@@ -1,12 +1,15 @@
 ---
 import { Image } from '@astrojs/image/components';
 import type { ImageProps } from './types';
-import { resolveSrc } from './utils';
+import { getHeight, getWidth, resolveSrc } from './utils';
 
 export interface Props extends ImageProps {}
 
 const props = Astro.props as Props;
 await resolveSrc(props);
+
+props.width ??= getWidth(props) ?? 480;
+props.height ??= getHeight(props) ?? props.width;
 ---
 
 <Image {...props} />
