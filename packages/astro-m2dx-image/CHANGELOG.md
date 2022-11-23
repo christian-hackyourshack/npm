@@ -1,5 +1,11 @@
 # astro-m2dx-image
 
+## 0.0.5
+
+### Patch Changes
+
+- [`a2983cd`](https://github.com/christian-hackyourshack/npm/commit/a2983cdf38c15d524b52686574707cb356851e98) Thanks [@christian-hackyourshack](https://github.com/christian-hackyourshack)! - Fix: Exporting CallbackProps
+
 ## 0.0.4
 
 ### Patch Changes
