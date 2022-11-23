@@ -1,5 +1,13 @@
 # astro-m2dx-image
 
+## 0.0.7
+
+### Patch Changes
+
+- [`594ac2a`](https://github.com/christian-hackyourshack/npm/commit/594ac2a771d098fe296d58581158fe3b6dddc7c1) Thanks [@christian-hackyourshack](https://github.com/christian-hackyourshack)! - Improved types, added handling of file URLs
+
+- [`0686d07`](https://github.com/christian-hackyourshack/npm/commit/0686d0730d846d45dbadda4a1ff341faf458836e) Thanks [@christian-hackyourshack](https://github.com/christian-hackyourshack)! - Added derived width and height to all images/pictures
+
 ## 0.0.6
 
 ### Patch Changes
