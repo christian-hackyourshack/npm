@@ -1,53 +1,17 @@
 ---
 import Picture from './PatchedPicture.astro';
-import { metadata } from '@astrojs/image/dist/utils/metadata';
-import { existsSync } from 'fs';
-import { relative } from 'path';
-import URL from 'url';
+import type { CallbackProps, PictureProps } from './types';
+import { getWidth, resolveSrc } from './utils';
 
-import type { Props as OriginalProps } from '@astrojs/image/components/Picture.astro';
-import type { TransformOptions } from '@astrojs/image/dist/loaders';
-import type { ImageMetadata } from '@astrojs/image/dist/vite-plugin-astro-image';
-import { isImageMetadata } from './utils';
-
-type PictureProps = Partial<
-  Omit<OriginalProps, 'alt' | 'slot' | 'src'> & Omit<TransformOptions, 'src'>
->;
-
-export type CallbackProps = PictureProps & {
-  alt: string;
-  src: string | ImageMetadata;
-};
-
-export type Props = PictureProps & {
-  alt: string;
-  callback?: (props: CallbackProps) => CallbackProps;
-  src: string | ImageMetadata | Promise<{ default: ImageMetadata }>;
-};
+export interface Props extends PictureProps {}
 
 let { callback, ...props } = Astro.props as Props;
-
-if (typeof props.src === 'string') {
-  if (existsSync(props.src)) {
-    const data = await metadata(URL.pathToFileURL(props.src));
-    if (data) {
-      props.src = data;
-      props.src.src = './' + relative(process.cwd(), props.src.src);
-    }
-  }
-} else if ('then' in props.src) {
-  props.src = (await props.src).default;
-}
-
-if (callback) {
-  props = callback(props as CallbackProps);
-}
+await resolveSrc(props);
+callback && (await callback(props as CallbackProps));
 
 if (!props.widths || props.widths.length === 0) {
-  let width = props.width;
-  width ??= isImageMetadata(props.src) ? props.src.width : 400;
-  props.widths = [width];
+  props.widths = [getWidth(props) ?? 480];
 }
 ---
 
-<Picture {...(props as Omit<OriginalProps, 'slot'>)} />
+<Picture {...props} />

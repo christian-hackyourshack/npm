@@ -1,3 +1,4 @@
-export { default as Image, type Props as ImageProps } from './Image.astro';
-export { default as Picture, type Props as PictureProps } from './Picture.astro';
+export { default as Image } from './Image.astro';
+export { default as Picture } from './Picture.astro';
+export * from './types';
 export * from './utils';

@@ -1,18 +1,12 @@
 ---
 import { Image } from '@astrojs/image/components';
-import { metadata } from '@astrojs/image/dist/utils/metadata';
-import URL from 'url';
-import { relative } from 'path';
-import { existsSync } from 'fs';
+import type { ImageProps } from './types';
+import { resolveSrc } from './utils';
 
-import type { Props } from '@astrojs/image/components/Image.astro';
-export type { Props };
+export interface Props extends ImageProps {}
 
-const { slot, ...props } = Astro.props as Props;
-if (typeof props.src === 'string' && existsSync(props.src)) {
-  props.src = await metadata(URL.pathToFileURL(props.src));
-  props.src.src = './' + relative(process.cwd(), props.src.src);
-}
+const props = Astro.props as Props;
+await resolveSrc(props);
 ---
 
 <Image {...props} />

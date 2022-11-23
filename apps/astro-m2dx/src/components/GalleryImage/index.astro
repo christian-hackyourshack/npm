@@ -3,7 +3,7 @@ import { isImageMetadata, parseAspectRatio, Picture, PictureProps } from 'astro-
 
 const props = Astro.props as PictureProps;
 
-function callback(props: PictureProps): PictureProps {
+function callback(props: PictureProps) {
   const aspetRatioBound = 1.2;
   props.aspectRatio = parseAspectRatio(props.aspectRatio);
   if (!props.aspectRatio) {
@@ -16,7 +16,6 @@ function callback(props: PictureProps): PictureProps {
   if (props.aspectRatio) {
     props.aspectRatio = Math.min(Math.max(1 / aspetRatioBound, props.aspectRatio), aspetRatioBound);
   }
-  return props;
 }
 
 const customProps: PictureProps = {
