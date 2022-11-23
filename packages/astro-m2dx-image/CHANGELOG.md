@@ -1,5 +1,11 @@
 # astro-m2dx-image
 
+## 0.0.8
+
+### Patch Changes
+
+- [`3ac0039`](https://github.com/christian-hackyourshack/npm/commit/3ac003949c023af8c0591a144c4931bfbbab3b9c) Thanks [@christian-hackyourshack](https://github.com/christian-hackyourshack)! - Improved heuristic to derive requested width and height
+
 ## 0.0.7
 
 ### Patch Changes
