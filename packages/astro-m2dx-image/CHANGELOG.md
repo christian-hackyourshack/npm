@@ -1,5 +1,11 @@
 # astro-m2dx-image
 
+## 0.0.6
+
+### Patch Changes
+
+- [`4f43576`](https://github.com/christian-hackyourshack/npm/commit/4f43576993b0a2b143c3308db684514dcf09c67b) Thanks [@christian-hackyourshack](https://github.com/christian-hackyourshack)! - Improved typing of Image and Picture
+
 ## 0.0.5
 
 ### Patch Changes
