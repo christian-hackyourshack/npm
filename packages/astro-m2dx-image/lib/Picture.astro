@@ -14,9 +14,14 @@ type PictureProps = Partial<
   Omit<OriginalProps, 'alt' | 'slot' | 'src'> & Omit<TransformOptions, 'src'>
 >;
 
+type CallbackProps = PictureProps & {
+  alt: string;
+  src: string | ImageMetadata;
+};
+
 export type Props = PictureProps & {
   alt: string;
-  callback?: (props: Omit<Props, 'callback'>) => Omit<Props, 'callback'>;
+  callback?: (props: CallbackProps) => CallbackProps;
   src: string | ImageMetadata | Promise<{ default: ImageMetadata }>;
 };
 
@@ -35,7 +40,7 @@ if (typeof props.src === 'string') {
 }
 
 if (callback) {
-  props = callback(props);
+  props = callback(props as CallbackProps);
 }
 
 if (!props.widths || props.widths.length === 0) {

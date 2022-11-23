@@ -26,32 +26,36 @@ export function isImageMetadata(src: unknown): src is ImageMetadata {
   return false;
 }
 
-export function getDimensions(props: PictureProps) {
-  let result: { width?: number; height?: number } | undefined;
-  if (isImageMetadata(props.src)) {
-    if (!props.width && !props.height && !props.aspectRatio) {
-      result = {};
-      result.width = props.src.width;
-      result.height = props.src.height;
-    } else if (!props.width || !props.height) {
-      const aspectRatio =
-        parseAspectRatio(props.aspectRatio) ?? props.src.width / (props.src.height ?? 1);
-      if (aspectRatio) {
-        if (props.width) {
-          result = {};
-          result.width = props.width;
-          result.height = Math.round(result.width / aspectRatio);
-        } else if (props.height) {
-          result = {};
-          result.height = props.height;
-          result.width = Math.round(result.height * aspectRatio);
+export function getDimensions(props: PictureProps): { width?: number; height?: number } {
+  const { width, height, aspectRatio, src } = props;
+  const result = { width, height };
+  if (isImageMetadata(src)) {
+    if (!width && !height && !aspectRatio) {
+      result.width = src.width;
+      result.height = src.height;
+    } else if (!width || !height) {
+      const _aspectRatio =
+        parseAspectRatio(aspectRatio) ?? //
+        getIntrinsicAspectRatio(src);
+      if (_aspectRatio) {
+        if (width) {
+          result.height = Math.round(width / _aspectRatio);
+        } else if (height) {
+          result.width = Math.round(height * _aspectRatio);
         } else {
-          result = {};
-          result.width = props.src.width;
-          result.height = Math.round(result.width! / aspectRatio);
+          result.width = src.width;
+          result.height = Math.round(result.width / _aspectRatio);
         }
       }
     }
   }
   return result;
+}
+
+export function getIntrinsicAspectRatio(src: ImageMetadata): number {
+  return src.width / (src.height ?? 1);
+}
+
+export function getSrc(src: string | ImageMetadata): string {
+  return typeof src === 'string' ? src : src.src;
 }
