@@ -1,19 +1,70 @@
 ---
-import Picture from './PatchedPicture.astro';
+import { getPicture } from '@astrojs/image';
+import { warnForMissingAlt } from '@astrojs/image/components';
 import type { CallbackProps, PictureProps } from './types';
-import { getHeight, getWidth, resolveSrc } from './utils';
+import { getSrc, getWidth, resolveSrc, warnForMissingWidths } from './utils';
 
 export interface Props extends PictureProps {}
 
-let { callback, ...props } = Astro.props as Props;
+const { callback, ...props } = Astro.props as Props;
 await resolveSrc(props);
 callback && (await callback(props as CallbackProps));
 
-props.width ??= getWidth(props) ?? 480;
-props.height ??= getHeight(props) ?? props.width;
 if (!props.widths || props.widths.length === 0) {
-  props.widths = [props.width];
+  const width = getWidth(props);
+  if (width) {
+    props.widths = [width];
+  }
 }
+
+const {
+  alt,
+  aspectRatio,
+  background,
+  decoding = 'async',
+  fit,
+  formats = ['avif', 'webp'],
+  loading = 'lazy',
+  position,
+  sizes,
+  src,
+  widths: _widths,
+  ...attrs
+} = props as CallbackProps;
+
+if (alt === undefined || alt === null) {
+  warnForMissingAlt();
+}
+
+let widths = _widths;
+if (widths === undefined || widths === null || widths.length === 0) {
+  warnForMissingWidths(getSrc(src), alt);
+  widths = [480];
+}
+
+const { image, sources } = await getPicture({
+  src,
+  widths,
+  formats,
+  aspectRatio,
+  fit,
+  background,
+  position,
+});
+
+// PATCH: We want the image dimensions, but we do not want some other
+// transferred attributes. See https://github.com/withastro/astro/pull/4797
+// We use the new intrinsic dimensions from image instead of the attributes
+delete attrs.height;
+delete attrs.width;
+// delete image.width;
+// delete image.height;
+delete (image as any).background;
+delete (image as any).fit;
+delete (image as any).position;
 ---
 
-<Picture {...props} />
+<picture>
+  {sources.map((attrs) => <source {...attrs} sizes={sizes} />)}
+  <img {...image} loading={loading} decoding={decoding} alt={alt} {...attrs} />
+</picture>

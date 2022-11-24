@@ -122,3 +122,9 @@ export function getIntrinsicAspectRatio(src: ImageMetadata): number {
 export function getSrc(src: string | ImageMetadata): string {
   return typeof src === 'string' ? src : src.src;
 }
+
+export function warnForMissingWidths(src: string, alt: string) {
+  console.warn(
+    `\n[astro-m2dx-image] "widths" was not provided and could not be derived for\n<Picture src="${src}" alt="${alt}" ... />\nusing a random default value of 480, which is possibly not what you want.\n`
+  );
+}
