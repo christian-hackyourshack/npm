@@ -1,5 +1,11 @@
 # astro-m2dx-image
 
+## 0.0.9
+
+### Patch Changes
+
+- [`74f4176`](https://github.com/christian-hackyourshack/npm/commit/74f4176ed789427b62e3f5fabd8c177db5b057c9) Thanks [@christian-hackyourshack](https://github.com/christian-hackyourshack)! - Eliminated duplicate dimensions on <img>
+
 ## 0.0.8
 
 ### Patch Changes
