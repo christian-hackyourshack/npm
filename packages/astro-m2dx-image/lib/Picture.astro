@@ -2,7 +2,14 @@
 import { getPicture } from '@astrojs/image';
 import { warnForMissingAlt } from '@astrojs/image/components';
 import type { CallbackProps, PictureProps } from './types';
-import { getSrc, getWidth, resolveSrc, warnForMissingWidths } from './utils';
+import {
+  getAspectRatio,
+  getFallbackAspectRatio,
+  getFallbackWidths,
+  getSrc,
+  getWidth,
+  resolveSrc,
+} from './utils';
 
 export interface Props extends PictureProps {}
 
@@ -10,16 +17,8 @@ const { callback, ...props } = Astro.props as Props;
 await resolveSrc(props);
 callback && (await callback(props as CallbackProps));
 
-if (!props.widths || props.widths.length === 0) {
-  const width = getWidth(props);
-  if (width) {
-    props.widths = [width];
-  }
-}
-
 const {
   alt,
-  aspectRatio,
   background,
   decoding = 'async',
   fit,
@@ -28,7 +27,6 @@ const {
   position,
   sizes,
   src,
-  widths: _widths,
   ...attrs
 } = props as CallbackProps;
 
@@ -36,27 +34,35 @@ if (alt === undefined || alt === null) {
   warnForMissingAlt();
 }
 
-let widths = _widths;
-if (widths === undefined || widths === null || widths.length === 0) {
-  warnForMissingWidths(getSrc(src), alt);
-  widths = [480];
+const aspectRatio =
+  getAspectRatio(props) ?? //
+  getFallbackAspectRatio(getSrc(src), alt);
+
+let widths = props.widths;
+if (!widths || widths.length === 0) {
+  const width = getWidth(props);
+  widths = width //
+    ? [width]
+    : getFallbackWidths(getSrc(src), alt);
 }
 
 const { image, sources } = await getPicture({
+  aspectRatio,
+  background,
+  fit,
+  formats,
+  position,
   src,
   widths,
-  formats,
-  aspectRatio,
-  fit,
-  background,
-  position,
 });
 
 // PATCH: We want the image dimensions, but we do not want some other
 // transferred attributes. See https://github.com/withastro/astro/pull/4797
 // We use the new intrinsic dimensions from image instead of the attributes
+delete attrs.aspectRatio;
 delete attrs.height;
 delete attrs.width;
+delete attrs.widths;
 // delete image.width;
 // delete image.height;
 delete (image as any).background;

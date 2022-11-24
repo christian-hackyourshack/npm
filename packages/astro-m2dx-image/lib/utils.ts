@@ -1,10 +1,8 @@
-import type { TransformOptions } from '@astrojs/image/dist/loaders';
 import { metadata } from '@astrojs/image/dist/utils/metadata';
-import type { ImageMetadata } from '@astrojs/image/dist/vite-plugin-astro-image';
 import { existsSync } from 'fs';
 import { normalize, relative } from 'path';
 import URL from 'url';
-import type { ImageProps, PictureProps } from './types';
+import type { AspectRatio, ImageMetadata, ImageProps, PictureProps } from './types';
 
 export async function resolveSrc(props: ImageProps): Promise<void> {
   if (typeof props.src === 'string') {
@@ -25,7 +23,17 @@ export async function resolveSrc(props: ImageProps): Promise<void> {
   }
 }
 
-export function parseAspectRatio(aspectRatio: TransformOptions['aspectRatio']) {
+export function isImageMetadata(src: unknown): src is ImageMetadata {
+  if (src && typeof src === 'object') {
+    return (
+      typeof (src as ImageMetadata).width === 'number' &&
+      typeof (src as ImageMetadata).height === 'number'
+    );
+  }
+  return false;
+}
+
+export function parseAspectRatio(aspectRatio: AspectRatio) {
   if (!aspectRatio) {
     return undefined;
   }
@@ -39,23 +47,20 @@ export function parseAspectRatio(aspectRatio: TransformOptions['aspectRatio']) {
   }
 }
 
-export function isImageMetadata(src: unknown): src is ImageMetadata {
-  if (src && typeof src === 'object') {
-    return (
-      typeof (src as ImageMetadata).width === 'number' &&
-      typeof (src as ImageMetadata).height === 'number'
-    );
+export function getAspectRatio({
+  aspectRatio,
+  width,
+  height,
+  src,
+}: PictureProps): AspectRatio | undefined {
+  if (aspectRatio) return aspectRatio;
+  if (width && height) {
+    return width / height;
   }
-  return false;
-}
-
-export function getDimensions(props: PictureProps): {
-  width?: number;
-  height?: number;
-} {
-  const width = getWidth(props);
-  const height = getHeight({ width, ...props });
-  return { width, height };
+  if (isImageMetadata(src) && src.width && src.height) {
+    return src.width / src.height;
+  }
+  return undefined;
 }
 
 export function getWidth({
@@ -72,22 +77,20 @@ export function getWidth({
       return Math.round(height * _aspectRatio);
     }
   }
+  if (widths && widths.length > 0) return widths[widths.length - 1];
   if (isImageMetadata(src)) {
     if (aspectRatio) {
       const _aspectRatio = parseAspectRatio(aspectRatio);
       if (_aspectRatio) {
-        return Math.round(Math.min(src.width, src.height * _aspectRatio));
+        return Math.min(src.width, Math.round(src.height * _aspectRatio));
       }
     }
     if (height) {
       const _aspectRatio = getIntrinsicAspectRatio(src);
       return Math.round(height * _aspectRatio);
     }
-    if (!widths || widths.length === 0) {
-      return src.width;
-    }
+    return src.width;
   }
-  if (widths && widths.length > 0) return widths[widths.length - 1];
   return undefined;
 }
 
@@ -103,16 +106,25 @@ export function getHeight({ height, width, aspectRatio, src }: PictureProps): nu
     if (aspectRatio) {
       const _aspectRatio = parseAspectRatio(aspectRatio);
       if (_aspectRatio) {
-        return Math.round(Math.min(src.height, src.width / _aspectRatio));
+        return Math.min(src.height, Math.round(src.width / _aspectRatio));
       }
     }
     if (width) {
       const _aspectRatio = getIntrinsicAspectRatio(src);
       return Math.round(width / _aspectRatio);
     }
-    return src.width;
+    return src.height;
   }
   return undefined;
+}
+
+export function getDimensions(props: PictureProps): {
+  width?: number;
+  height?: number;
+} {
+  const width = getWidth(props);
+  const height = getHeight({ width, ...props });
+  return { width, height };
 }
 
 export function getIntrinsicAspectRatio(src: ImageMetadata): number {
@@ -123,8 +135,26 @@ export function getSrc(src: string | ImageMetadata): string {
   return typeof src === 'string' ? src : src.src;
 }
 
-export function warnForMissingWidths(src: string, alt: string) {
+export function getFallbackAspectRatio(src: string, alt: string): number {
+  const fallback = 1;
   console.warn(
-    `\n[astro-m2dx-image] "widths" was not provided and could not be derived for\n<Picture src="${src}" alt="${alt}" ... />\nusing a random default value of 480, which is possibly not what you want.\n`
+    `\n[astro-m2dx-image] "aspectRatio" was not provided and could not be derived for\n<Image/Picture src="${src}" alt="${alt}" ... />\nusing a random default value of "${fallback}", which is possibly not what you want.\n`
   );
+  return fallback;
+}
+
+export function getFallbackWidth(src: string, alt: string): number {
+  const fallback = 480;
+  console.warn(
+    `\n[astro-m2dx-image] "width" was not provided and could not be derived for\n<Image src="${src}" alt="${alt}" ... />\nusing a random default value of "${fallback}", which is possibly not what you want.\n`
+  );
+  return fallback;
+}
+
+export function getFallbackWidths(src: string, alt: string): number[] {
+  const fallback = [480];
+  console.warn(
+    `\n[astro-m2dx-image] "widths" was not provided and could not be derived for\n<Picture src="${src}" alt="${alt}" ... />\nusing a random default value of "${fallback}", which is possibly not what you want.\n`
+  );
+  return fallback;
 }
