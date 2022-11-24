@@ -1,5 +1,11 @@
 # astro-m2dx-image
 
+## 0.0.10
+
+### Patch Changes
+
+- [`998e8fa`](https://github.com/christian-hackyourshack/npm/commit/998e8fafc056021c74926ab19a848eaedbf2ab4b) Thanks [@christian-hackyourshack](https://github.com/christian-hackyourshack)! - Improved robustness of default derivation
+
 ## 0.0.9
 
 ### Patch Changes
