@@ -1,20 +1,18 @@
 ---
 import { getPicture } from '@astrojs/image';
-import { warnForMissingAlt } from '@astrojs/image/components';
-import type { CallbackProps, PictureProps } from './types';
 import {
   getAspectRatio,
   getFallbackAspectRatio,
   getFallbackWidths,
-  getSrc,
-  getWidth,
   resolveSrc,
-} from './utils';
+  warnForMissingAlt,
+} from './internal';
+import type { CallbackProps, PictureProps } from './types';
 
 export interface Props extends PictureProps {}
 
 const { callback, ...props } = Astro.props as Props;
-await resolveSrc(props);
+props.src = await resolveSrc(props.src);
 callback && (await callback(props as CallbackProps));
 
 const {
@@ -31,19 +29,17 @@ const {
 } = props as CallbackProps;
 
 if (alt === undefined || alt === null) {
-  warnForMissingAlt();
+  warnForMissingAlt(src.src);
 }
 
-const aspectRatio =
-  getAspectRatio(props) ?? //
-  getFallbackAspectRatio(getSrc(src), alt);
+const aspectRatio = getAspectRatio({ ...props, src }) ?? getFallbackAspectRatio(src.src, alt);
 
 let widths = props.widths;
 if (!widths || widths.length === 0) {
-  const width = getWidth(props);
+  const width = props.width || src.width;
   widths = width //
     ? [width]
-    : getFallbackWidths(getSrc(src), alt);
+    : getFallbackWidths(src.src, alt);
 }
 
 const { image, sources } = await getPicture({
@@ -52,7 +48,8 @@ const { image, sources } = await getPicture({
   fit,
   formats,
   position,
-  src,
+  // For now, unresolve src, if it could not be resolved
+  src: !src.width ? src.src : src,
   widths,
 });
 

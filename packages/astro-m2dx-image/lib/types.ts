@@ -18,7 +18,7 @@ interface BasePictureProps extends Omit<ImageProps, 'format'> {
 }
 
 interface CallbackProps extends Omit<BasePictureProps, 'src'> {
-  src: string | ImageMetadata;
+  src: ImageMetadata;
 }
 
 interface PictureProps extends BasePictureProps {
