@@ -1,5 +1,11 @@
 # astro-m2dx-image
 
+## 0.0.12
+
+### Patch Changes
+
+- [`abfcb72`](https://github.com/christian-hackyourshack/npm/commit/abfcb72b4036b5f96c1037899f0a7d2ed27125b7) Thanks [@christian-hackyourshack](https://github.com/christian-hackyourshack)! - Fixed error in last release
+
 ## 0.0.11
 
 ### Patch Changes
