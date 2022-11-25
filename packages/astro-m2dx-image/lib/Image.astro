@@ -1,26 +1,18 @@
 ---
 import { Image } from '@astrojs/image/components';
-import type { ImageMetadata, ImageProps } from './types';
-import {
-  getAspectRatio,
-  getFallbackAspectRatio,
-  getFallbackWidth,
-  getHeight,
-  getSrc,
-  getWidth,
-  parseAspectRatio,
-  resolveSrc,
-} from './utils';
+import { parseAspectRatio } from '.';
+import { getAspectRatio, getFallbackAspectRatio, getFallbackWidth, resolveSrc } from './internal';
+import type { CallbackProps, ImageProps } from './types';
 
 export interface Props extends ImageProps {}
 
-const props = Astro.props as Props;
-await resolveSrc(props);
+const props = Astro.props as CallbackProps;
+props.src = await resolveSrc(props.src);
 
-props.width ??= getWidth(props);
-props.height ??= getHeight(props);
+props.width ??= props.src.width;
+props.height ??= props.src.height;
 if (!props.width || !props.height) {
-  const src = getSrc(props.src as string | ImageMetadata);
+  const src = props.src.src;
   const alt = props.alt;
   const aspectRatio =
     parseAspectRatio(getAspectRatio(props)) ?? //
