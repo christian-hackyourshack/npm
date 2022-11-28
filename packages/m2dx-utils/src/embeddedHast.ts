@@ -45,8 +45,10 @@ export function addHClasses(node: Node, ...classes: string[]) {
     existing.split(/\s/).forEach((s) => merged.add(s));
   }
 
-  classes.filter(isString).forEach((c) => c?.split(/\s+/).forEach((s) => !!s && merged.add(s)));
+  classes
+    .filter(isString)
+    .forEach((c) => c?.split(/\s/).forEach((s) => !!s && s.trim().length > 0 && merged.add(s)));
   if (merged.size > 0) {
-    getHProperties(node).class = [...merged].join(' ');
+    getHProperties(node)['class'] = [...merged].join(' ');
   }
 }
