@@ -1,5 +1,11 @@
 # astro-m2dx-image
 
+## 0.0.13
+
+### Patch Changes
+
+- [`f31cce6`](https://github.com/christian-hackyourshack/npm/commit/f31cce6027030ce0da4f72e16f96600843cb4a6e) Thanks [@christian-hackyourshack](https://github.com/christian-hackyourshack)! - Searching the className issue in the fog
+
 ## 0.0.12
 
 ### Patch Changes

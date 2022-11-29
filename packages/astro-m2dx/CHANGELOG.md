@@ -1,5 +1,12 @@
 # astro-m2dx
 
+## 0.7.13
+
+### Patch Changes
+
+- Updated dependencies [[`f31cce6`](https://github.com/christian-hackyourshack/npm/commit/f31cce6027030ce0da4f72e16f96600843cb4a6e)]:
+  - m2dx-utils@0.2.4
+
 ## 0.7.12
 
 ### Patch Changes
