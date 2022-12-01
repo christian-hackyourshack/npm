@@ -1,5 +1,11 @@
 # astro-m2dx-image
 
+## 0.0.14
+
+### Patch Changes
+
+- [`e77fa27`](https://github.com/christian-hackyourshack/npm/commit/e77fa27288574bddf1aaaf37f82eee24dd5f5518) Thanks [@christian-hackyourshack](https://github.com/christian-hackyourshack)! - Upgraded dependencies
+
 ## 0.0.13
 
 ### Patch Changes
