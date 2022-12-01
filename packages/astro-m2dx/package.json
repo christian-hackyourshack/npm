@@ -31,7 +31,7 @@
     "build": "tsup src/index.ts --format esm --dts",
     "clean": "rimraf -rf ./dist/",
     "test": "mintest",
-    "test:dev": "tsx watch src/mergeFrontmatter/index.spec.ts",
+    "test:dev": "tsx watch src/styleDirectives/index.spec.ts",
     "test:watch": "tsx watch node_modules/mintest-green/dist/bin.js"
   },
   "dependencies": {
@@ -50,10 +50,10 @@
     "@types/estree": "^1.0.0",
     "@types/js-yaml": "^4.0.5",
     "@types/mdast": "^3.0.10",
-    "@types/node": "^18.11.9",
+    "@types/node": "^18.11.10",
     "@types/unist": "2.0.6",
-    "concurrently": "^7.5.0",
-    "esbuild": "^0.15.13",
+    "concurrently": "^7.6.0",
+    "esbuild": "^0.15.16",
     "esbuild-node-externals": "^1.5.0",
     "eslint-config-base": "workspace:*",
     "hast-util-to-html": "^8.0.3",
@@ -62,10 +62,10 @@
     "rehype-format": "^4.0.1",
     "rimraf": "^3.0.2",
     "tsconfig": "workspace:*",
-    "tsup": "^6.4.0",
-    "tsx": "^3.11.0",
-    "typescript": "^4.8.4",
+    "tsup": "^6.5.0",
+    "tsx": "^3.12.1",
+    "typescript": "^4.9.3",
     "unified": "^10.1.2",
-    "vfile": "^5.3.5"
+    "vfile": "^5.3.6"
   }
 }

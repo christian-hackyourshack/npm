@@ -28,7 +28,7 @@
     }
   },
   "peerDependencies": {
-    "@astrojs/image": "^0.11.6",
+    "@astrojs/image": ">=0.11.6",
     "astro": "^1.6.10"
   },
   "devDependencies": {
