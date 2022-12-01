@@ -1,5 +1,11 @@
 # mintest-green
 
+## 0.2.1
+
+### Patch Changes
+
+- [`e77fa27`](https://github.com/christian-hackyourshack/npm/commit/e77fa27288574bddf1aaaf37f82eee24dd5f5518) Thanks [@christian-hackyourshack](https://github.com/christian-hackyourshack)! - Upgraded dependencies
+
 ## 0.2.0
 
 ### Minor Changes
