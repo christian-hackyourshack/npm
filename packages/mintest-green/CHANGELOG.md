@@ -1,5 +1,11 @@
 # mintest-green
 
+## 0.2.2
+
+### Patch Changes
+
+- [`6856a7c`](https://github.com/christian-hackyourshack/npm/commit/6856a7cd9e1bb3d3a169f06bbc76249c20079432) Thanks [@christian-hackyourshack](https://github.com/christian-hackyourshack)! - Added option to apply styles to included partials
+
 ## 0.2.1
 
 ### Patch Changes
