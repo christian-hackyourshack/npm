@@ -6,15 +6,26 @@ import { includeDirective } from '.';
 const fixtures = join(process.cwd(), 'fixtures', 'includeDirective');
 
 export const result = await describe('includeDirective', function (test) {
-  test('playground', function () {
+  test.only('with class', function () {
     const input = parseMdx(`
-::include[./partial.mdx]
+::include[./partial.mdx]{.aside-full}
 `);
     includeDirective(input, fixtures);
     assert.equal(input.children.length, 2);
     assert.objectContaining(input.children[0], {
-      type: 'mdxJsxFlowElement',
-      name: 'Include__0.Content',
+      type: 'leafDirective',
+      name: 'include',
+      children: [
+        {
+          type: 'mdxJsxFlowElement',
+          name: 'Include__0.Content',
+        },
+      ],
+      data: {
+        hProperties: {
+          class: 'aside-full',
+        },
+      },
     });
     assert.objectContaining(input.children[1], {
       type: 'mdxjsEsm',

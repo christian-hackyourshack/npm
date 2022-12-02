@@ -1,0 +1,19 @@
+---
+lastUpdate: 2022-12-02
+---
+
+# Include directives `::include`
+
+::include[./partial.mdx]{.foobar}
+
+## Applying style to included partials
+
+The `::include` directive now allows to apply CSS classes to included partials
+
+```mdx
+::include[./partial.mdx]{.my-class}
+```
+
+The included partial will now be wrapped in a div with the specified class `my-class`.
+
+Of course, it would be nicer to apply the class to the imported root element, but that is currently not possible in Astro.

@@ -1,4 +1,5 @@
 import assert, { AssertionError } from 'assert';
+import { arrayContaining } from './arrayContaining';
 
 type ObjectLike = Record<string, unknown>;
 
@@ -14,7 +15,6 @@ function isObjectLike(object: unknown): object is ObjectLike {
   );
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function objectContaining(actual: unknown, expected: unknown) {
   if (!isObjectLike(actual)) {
     throw new AssertionError({ message: `actual must be an object but is a ${typeof actual}` });
@@ -43,8 +43,19 @@ export function objectContaining(actual: unknown, expected: unknown) {
           operator: 'objectContaining',
         });
       }
+    } else if (Array.isArray(expectedValue)) {
+      if (Array.isArray(actualValue)) {
+        arrayContaining(actualValue, expectedValue);
+      } else {
+        throw new AssertionError({
+          message: `actual[${k}] is not an array, but ${typeof actualValue}`,
+          actual: actualValue,
+          expected: expectedValue,
+          operator: 'objectContaining',
+        });
+      }
     } else {
-      assert.equal(actualValue, expectedValue, 'objectContaining is unequal');
+      assert.equal(actualValue, expectedValue, `objectContaining is unequal for key '${k}'`);
     }
   });
 }

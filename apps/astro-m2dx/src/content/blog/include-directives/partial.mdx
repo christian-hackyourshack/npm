@@ -1,0 +1,27 @@
+---
+layout:
+---
+
+## Basics
+
+I distinguish between normal MDX files, and the ones that I plan to include and call the latter `partials`.
+
+I do that, because the `:include`-directive cannot simply copy the file content, but it has to work in the MDX-world and imports the included file and renders it. Hence, it is rendered as it is imported, and as such, usually it should not have a layout.
+
+That is, why you'll find this kind of frontmatter in my included files
+
+```mdx
+---
+layout:
+---
+
+## My Partial
+
+...
+```
+
+Of course, you could do that globally, if you put all your partials in a common directory, add a file `_frontmatter.yaml` to that directory and activate the ['Default Frontmatter' feature](/docs/#default-frontmatter).
+
+```yaml
+layout:
+```

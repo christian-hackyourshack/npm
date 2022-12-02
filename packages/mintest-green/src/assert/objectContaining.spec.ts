@@ -34,7 +34,7 @@ export const result = await describe('objectContaining', function (test) {
       objectContaining(actual, expected);
     } catch (e) {
       if (e instanceof AssertionError) {
-        assert.equal(e.message, 'objectContaining is unequal');
+        assert.equal(e.message, "objectContaining is unequal for key 'first'");
         assert.equal(e.operator, '==');
       } else {
         throw e;
