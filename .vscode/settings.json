@@ -9,5 +9,8 @@
   "markdown.extension.toc.levels": "2..6",
   "prettier.printWidth": 100,
   "svg.preview.background": "dark-transparent",
-  "terminal.integrated.cursorWidth": 3
+  "terminal.integrated.cursorWidth": 3,
+  "[typescript]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  }
 }

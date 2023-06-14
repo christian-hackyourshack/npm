@@ -1,5 +1,3 @@
-import type { Plugin } from 'unified';
-
 /**
  * Options for plugin remark-sectionize-headings, for details see
  * https://github.com/christian-hackyourshack/npm/tree/main/packages/remark-sectionize-headings
@@ -18,28 +16,26 @@ export interface Options {
    * Heading levels to wrap into sections
    *
    * - e.g. `[ 2, 3 ]` for only levels 2 & 3
-   * - default: all
+   * - default: undefined, i.e. all
    */
-  levels: number[];
+  levels?: number[];
 }
 
 interface Node {
   type: string;
-  name?: string;
   depth?: number;
-  value?: string;
   data?: Record<string, unknown>;
 }
 
-interface WithChildren extends Node {
+interface Parent extends Node {
   children: Node[];
 }
 
-function hasChildren(node: unknown): node is WithChildren {
+function isParent(node: unknown): node is Parent {
   return (
-    Object.keys(node as WithChildren).includes('children') &&
-    Array.isArray((node as WithChildren).children) &&
-    (node as WithChildren).children.length > 0
+    Object.keys(node as Parent).includes('children') &&
+    Array.isArray((node as Parent).children) &&
+    (node as Parent).children.length > 0
   );
 }
 
@@ -49,23 +45,17 @@ function hasChildren(node: unknown): node is WithChildren {
  * @param options For configuration options, see https://github.com/christian-hackyourshack/npm/tree/main/packages/remark-sectionize-headings
  * @returns transformer function
  */
-export const plugin: Plugin<[Partial<Options>], unknown> = (options = {}) => {
-  return function transformer(root: Node) {
-    sectionize(root, options);
-  };
-};
-
-export function sectionize(root: Node, options: Partial<Options>) {
-  if (hasChildren(root)) {
+function sectionize(root: Node, options: Options) {
+  if (isParent(root)) {
     _sectionize(root.children[0], 0, root, options);
   }
 }
 
-function _sectionize(node: Node, index: number, parent: WithChildren, options: Partial<Options>) {
+function _sectionize(node: Node, index: number, parent: Parent, options: Options) {
   // Usually the mdast is a flat list,
   // but you never know which plugins have worked on it before...
   // let's sectionize the children first, just in case.
-  if (hasChildren(node)) {
+  if (isParent(node)) {
     _sectionize(node.children[0], 0, node, options);
   }
 
@@ -73,17 +63,12 @@ function _sectionize(node: Node, index: number, parent: WithChildren, options: P
   // Only headings have depth 1..6
   const level = node.depth ?? 7;
   if (level < 7 && (!levels || levels.includes(level))) {
-    const section: WithChildren = {
+    const section: Parent = {
       type: 'section',
       data: {
         hName: 'section',
         hProperties: addClass
-          ? {
-              class:
-                typeof addClass === 'boolean' //
-                  ? `h${level}`
-                  : `${addClass} ${addClass}--h${level}`,
-            }
+          ? { class: getClass(addClass, level) }
           : {},
       },
       children: [],
@@ -103,6 +88,12 @@ function _sectionize(node: Node, index: number, parent: WithChildren, options: P
   }
 }
 
+function getClass(addClass: boolean | string, level: number) {
+  return (typeof addClass === 'boolean' //
+    ? `h${level}`
+    : `${addClass} ${addClass}--h${level}`);
+}
+
 function countChildren(children: Node[], start: number, level: number) {
   let count = 1;
   for (; start + count < children.length; count++) {
@@ -112,5 +103,12 @@ function countChildren(children: Node[], start: number, level: number) {
   }
   return count;
 }
+
+// const plugin: Plugin<[Options], unknown> = (options = {}) => {
+const plugin = (options: Options = {}) => {
+  return function transformer(root: Node) {
+    sectionize(root, options);
+  };
+};
 
 export default plugin;
