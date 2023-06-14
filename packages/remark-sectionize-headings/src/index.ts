@@ -21,6 +21,50 @@ export interface Options {
   levels?: number[];
 }
 
+export default function (options: Options = {}) {
+  const { levels, addClass = true } = options;
+  return (root: Node) => {
+    if (isParent(root)) {
+      _sectionize(root.children[0], 0, root);
+    }
+  };
+
+  function _sectionize(node: Node, index: number, parent: Parent) {
+    // Usually the mdast is a flat list,
+    // but you never know which plugins have worked on it before...
+    // let's sectionize the children first, just in case.
+    if (isParent(node)) {
+      _sectionize(node.children[0], 0, node);
+    }
+    // Only headings have depth 1..6
+    const level = node.depth ?? 7;
+    if (level < 7 && (!levels || levels.includes(level))) {
+      const section: Parent = {
+        type: 'section',
+        data: {
+          hName: 'section',
+          hProperties: addClass
+            ? { class: getClass(addClass, level) }
+            : {},
+        },
+        children: [],
+      };
+      const childCount = countChildren(parent.children, index, level);
+      section.children = parent.children.splice(index, childCount, section);
+      if (section.children.length > 1) {
+        // recursively sectionize cildren of the section (skip first heading)
+        _sectionize(section.children[1], 1, section);
+      }
+    }
+
+    // sectionize next siblings
+    const next = index + 1;
+    if (parent.children.length > next) {
+      _sectionize(parent.children[next], next, parent);
+    }
+  }
+};
+
 interface Node {
   type: string;
   depth?: number;
@@ -45,48 +89,7 @@ function isParent(node: unknown): node is Parent {
  * @param options For configuration options, see https://github.com/christian-hackyourshack/npm/tree/main/packages/remark-sectionize-headings
  * @returns transformer function
  */
-function sectionize(root: Node, options: Options) {
-  if (isParent(root)) {
-    _sectionize(root.children[0], 0, root, options);
-  }
-}
 
-function _sectionize(node: Node, index: number, parent: Parent, options: Options) {
-  // Usually the mdast is a flat list,
-  // but you never know which plugins have worked on it before...
-  // let's sectionize the children first, just in case.
-  if (isParent(node)) {
-    _sectionize(node.children[0], 0, node, options);
-  }
-
-  const { levels, addClass = true } = options;
-  // Only headings have depth 1..6
-  const level = node.depth ?? 7;
-  if (level < 7 && (!levels || levels.includes(level))) {
-    const section: Parent = {
-      type: 'section',
-      data: {
-        hName: 'section',
-        hProperties: addClass
-          ? { class: getClass(addClass, level) }
-          : {},
-      },
-      children: [],
-    };
-    const childCount = countChildren(parent.children, index, level);
-    section.children = parent.children.splice(index, childCount, section);
-    if (section.children.length > 1) {
-      // recursively sectionize cildren of the section (skip first heading)
-      _sectionize(section.children[1], 1, section, options);
-    }
-  }
-
-  // sectionize next siblings
-  const next = index + 1;
-  if (parent.children.length > next) {
-    _sectionize(parent.children[next], next, parent, options);
-  }
-}
 
 function getClass(addClass: boolean | string, level: number) {
   return (typeof addClass === 'boolean' //
@@ -103,12 +106,3 @@ function countChildren(children: Node[], start: number, level: number) {
   }
   return count;
 }
-
-// const plugin: Plugin<[Options], unknown> = (options = {}) => {
-const plugin = (options: Options = {}) => {
-  return function transformer(root: Node) {
-    sectionize(root, options);
-  };
-};
-
-export default plugin;

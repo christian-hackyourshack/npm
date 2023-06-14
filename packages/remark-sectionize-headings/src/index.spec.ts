@@ -1,9 +1,9 @@
-import { toHtml } from 'hast-util-to-html';
-import type { Root } from 'mdast';
-import { toHast } from 'mdast-util-to-hast';
 import { assert, describe } from 'mintest-green';
-import { remark as parser } from 'remark';
-import plugin from '.';
+import rehypeStringify from 'rehype-stringify';
+import remarkParse from 'remark-parse';
+import remarkRehype from 'remark-rehype';
+import { unified } from 'unified';
+import sectionize from '.';
 
 const markdown = `
 # Title
@@ -31,24 +31,30 @@ Paragraph
 `;
 
 export const result = await describe('remark-sectionize-headings', function (test) {
-  test('default', function () {
-    const sectionize = plugin();
-    const input = remark(markdown);
-    sectionize(input);
-    const html = rehype(input);
+  test('default', async function () {
+    const file = await unified()
+      .use(remarkParse)
+      .use(sectionize)
+      .use(remarkRehype)
+      .use(rehypeStringify)
+      .process(markdown);
+    const html = file.value;
     assert.equal(
       html,
       `
-<section class="h1"><h1>Title</h1><p>Abstract</p><section class="h2"><h2>Section 1</h2><p>Paragraph</p><section class="h3"><h3>Section 1.1</h3><p>Paragraph</p></section><section class="h3"><h3>Section 1.2</h3><p>Paragraph</p></section></section><section class="h2"><h2>Section 2</h2><section class="h4"><h4>Wrong Nesting</h4></section><section class="h3"><h3>Section 2.1</h3></section></section></section>
-`.trim(),
+    <section class="h1"><h1>Title</h1><p>Abstract</p><section class="h2"><h2>Section 1</h2><p>Paragraph</p><section class="h3"><h3>Section 1.1</h3><p>Paragraph</p></section><section class="h3"><h3>Section 1.2</h3><p>Paragraph</p></section></section><section class="h2"><h2>Section 2</h2><section class="h4"><h4>Wrong Nesting</h4></section><section class="h3"><h3>Section 2.1</h3></section></section></section>
+    `.trim(),
       'Incorrect HTML'
     );
   });
-  test('levels: [2, 3]', function () {
-    const sectionize = plugin({ levels: [2, 3] });
-    const input = remark(markdown);
-    sectionize(input);
-    const html = rehype(input);
+  test('levels: [2, 3]', async function () {
+    const file = await unified()
+      .use(remarkParse)
+      .use(sectionize, { levels: [2, 3] })
+      .use(remarkRehype)
+      .use(rehypeStringify)
+      .process(markdown);
+    const html = file.value;
     assert.equal(
       html,
       `
@@ -60,11 +66,14 @@ export const result = await describe('remark-sectionize-headings', function (tes
       'Incorrect HTML'
     );
   });
-  test('addClass: "section"', function () {
-    const sectionize = plugin({ addClass: "section" });
-    const input = remark(markdown);
-    sectionize(input);
-    const html = rehype(input);
+  test('addClass: "section"', async function () {
+    const file = await unified()
+      .use(remarkParse)
+      .use(sectionize, { addClass: "section" })
+      .use(remarkRehype)
+      .use(rehypeStringify)
+      .process(markdown);
+    const html = file.value;
     assert.equal(
       html,
       `
@@ -73,11 +82,14 @@ export const result = await describe('remark-sectionize-headings', function (tes
       'Incorrect HTML'
     );
   });
-  test('levels: [3], addClass: "subsection"', function () {
-    const sectionize = plugin({ levels: [3], addClass: "subsection" });
-    const input = remark(markdown);
-    sectionize(input);
-    const html = rehype(input);
+  test('levels: [3], addClass: "subsection"', async function () {
+    const file = await unified()
+      .use(remarkParse)
+      .use(sectionize, { levels: [3], addClass: "subsection" })
+      .use(remarkRehype)
+      .use(rehypeStringify)
+      .process(markdown);
+    const html = file.value;
     assert.equal(
       html,
       `
@@ -95,13 +107,3 @@ export const result = await describe('remark-sectionize-headings', function (tes
     );
   });
 });
-
-export function remark(md: string): Root {
-  return parser().parse(md);
-}
-
-export function rehype(root: Root): string {
-  const hast = toHast(root, { allowDangerousHtml: true });
-  const html = toHtml(hast!, { allowDangerousHtml: true });
-  return html;
-}
