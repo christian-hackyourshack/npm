@@ -1,0 +1,43 @@
+{
+  "name": "pre-visit",
+  "version": "0.1.0",
+  "description": "Fully typed utility to visit trees and apply a visitor before visiting other nodes",
+  "author": "christian@hackyourshack.org",
+  "homepage": "https://github.com/christian-hackyourshack/npm/tree/main/packages/pre-visit",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/christian-hackyourshack/npm.git"
+  },
+  "license": "MIT",
+  "keywords": [
+    "tree",
+    "visit",
+    "TypeScript"
+  ],
+  "type": "module",
+  "files": [
+    "dist/**/*"
+  ],
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsup src/index.ts --format esm --dts",
+    "clean": "rimraf -rf ./dist/",
+    "test": "mintest",
+    "test:dev": "tsx watch src/embeddedHast.spec.ts",
+    "test:watch": "tsx watch node_modules/mintest-green/dist/bin.js"
+  },
+  "devDependencies": {
+    "mintest-green": "workspace:*",
+    "rimraf": "^3.0.2",
+    "tsconfig": "workspace:*",
+    "tsup": "^6.5.0",
+    "tsx": "^3.12.1"
+  }
+}
