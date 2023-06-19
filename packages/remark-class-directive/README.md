@@ -1,6 +1,6 @@
 # remark-class-directive
 
-Remark plugin to add html class attributes to nodes generated from markdown by adding `:class` directives
+Remark plugin to add html class attributes to nodes generated from markdown by adding `:class` directives.
 
 ## Content
 
@@ -90,8 +90,10 @@ would yield this HTML:
 </ul>
 ```
 
+As you can see, the `:class` directive is applied to the nearest containing node, i.e. a text-directive (single colon `:class`) is applied to the nearest `span` or `paragraph`, a leaf-directive (double colon `::class`) is applied to the nearest block element (usually a `div` or `section`), a block-directive (triple colon `:::class`) creates it's own `div` element.
+
 ### Options
 
 #### `name?: string`
 
-Name of the directive to use, default is `class`.
+Name of the directive to use, default is `class`, i.e. you can use `::class{.red}` in your markdown.
