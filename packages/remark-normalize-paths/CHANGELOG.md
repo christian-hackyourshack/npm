@@ -1,5 +1,11 @@
 # remark-sectionize-headings
 
+## 0.1.1
+
+### Patch Changes
+
+- [#68](https://github.com/christian-hackyourshack/npm/pull/68) [`8f8049c`](https://github.com/christian-hackyourshack/npm/commit/8f8049c079c3e0491800cdba00440d47f4946bd6) Thanks [@christian-hackyourshack](https://github.com/christian-hackyourshack)! - Updated documentation and tests
+
 ## 0.2.3
 
 ### Patch Changes
