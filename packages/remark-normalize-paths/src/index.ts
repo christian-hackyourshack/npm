@@ -75,10 +75,12 @@ function normalizeRelative(
     ) {
       newsrc = './' + newsrc;
     }
-    if (newsrc !== src && checkExistence && !existsSync(newbase ? join(newbase, newsrc) : newsrc)) {
-      return src;
+    if (newsrc !== src) {
+      const toCheck = newbase ? join(newbase, newsrc) : newsrc;
+      if (!checkExistence || existsSync(toCheck)) {
+        return newsrc;
+      }
     }
-    return newsrc;
   }
   return src;
 }

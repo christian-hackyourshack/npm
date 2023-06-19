@@ -111,7 +111,7 @@ function addHClasses(node: Node, ...classes: string[]) {
   if (!classes || classes.length === 0) return;
 
   const hProperties = getHProperties(node);
-  let existing = (hProperties.class as string)?.split(/\s/) ?? [];
+  const existing = (hProperties.class as string)?.split(/\s/) ?? [];
   if (existing.length > 0) {
     classes = classes.filter((cls) => !existing.includes(cls));
     if (classes.length > 0) {
