@@ -1,9 +1,9 @@
 {
-  "name": "remark-class-directive",
-  "version": "0.1.1",
-  "description": "Remark plugin to add html class attributes to nodes generated from markdown by adding ::class directives",
+  "name": "remark-normalize-paths",
+  "version": "0.1.0",
+  "description": "Remark plugin to normalize relative paths in markdown",
   "author": "christian@hackyourshack.org",
-  "homepage": "https://github.com/christian-hackyourshack/npm/tree/main/packages/remark-class-directive",
+  "homepage": "https://github.com/christian-hackyourshack/npm/tree/main/packages/remark-normalize-paths",
   "repository": {
     "type": "git",
     "url": "https://github.com/christian-hackyourshack/npm.git"
@@ -11,9 +11,8 @@
   "license": "MIT",
   "keywords": [
     "remark-plugin",
-    "directive",
-    "class",
-    "style"
+    "relative paths",
+    "normalize"
   ],
   "type": "module",
   "files": [
@@ -38,17 +37,19 @@
     "pre-visit": "workspace:*"
   },
   "devDependencies": {
+    "@types/node": "^20.3.1",
     "eslint-config-base": "workspace:*",
     "mintest-green": "workspace:*",
+    "rehype-stringify": "^9.0.3",
+    "remark-directive": "^2.0.1",
+    "remark-mdx": "^2.1.5",
+    "remark-parse": "^10.0.2",
+    "remark-rehype": "^10.1.0",
     "rimraf": "^3.0.2",
     "tsconfig": "workspace:*",
     "tsup": "^6.4.0",
     "tsx": "^3.11.0",
     "typescript": "^4.8.4",
-    "unified": "^10.1.2",
-    "remark-directive": "^2.0.1",
-    "remark-parse": "^10.0.2",
-    "remark-rehype": "^10.1.0",
-    "rehype-stringify": "^9.0.3"
+    "unified": "^10.1.2"
   }
 }

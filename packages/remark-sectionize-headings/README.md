@@ -23,8 +23,6 @@ This package is a [`remark`](https://github.com/remarkjs/remark/blob/main/doc/pl
 
 If you want to style sections of your document according to heading levels and need to wrap markdown headings and the following paragraphs in HTML `section` elements.
 
-This is a pure remark plugin and can be used outside of an Astro context.
-
 ## Install
 
 This package is [ESM only](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c).
@@ -36,24 +34,13 @@ npm install remark-sectionize-headings
 
 ## Use
 
-In your `astro.config.mjs`
-
-```js
-import { defineConfig } from 'astro/config';
-
-import mdx from '@astrojs/mdx';
-import sectionizeHeadings from 'remark-sectionize-headings';
-//                              ^^^
-
-// https://astro.build/config
-export default defineConfig({
-  integrations: [mdx()],
-  markdown: {
-    remarkPlugins: [sectionizeHeadings],
-    //              ^^^
-    extendDefaultPlugins: true,
-  },
-});
+```ts
+const file = await unified()
+  .use(remarkParse)
+  .use(sectionize)
+  .use(remarkRehype)
+  .use(rehypeStringify)
+  .process(markdown);
 ```
 
 This uses the default options, where all headings are wrapped according to their level.
