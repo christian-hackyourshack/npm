@@ -14,7 +14,7 @@ const parser = unified()
 
 export const result = await describe('remark-normalize-paths', function (test) {
   test('playground', async function () {
-    const input = parser.parse(`
+    const actual = parser.parse(`
 ![](./picture.jpg)
 
 [Read more](./all/index.html)
@@ -27,7 +27,7 @@ export const result = await describe('remark-normalize-paths', function (test) {
 
 `);
     const transform = remarkNormalizePaths({ exclude: ["link", "<CustomComponent>"] });
-    const actual = transform(input, undefined);
+    transform(actual, undefined);
 
     assert.equal(find(actual, isImage)!.url, '/workspaces/npm/packages/remark-normalize-paths/picture.jpg');
     assert.equal(find(actual, isLink)!.url, './all/index.html');
