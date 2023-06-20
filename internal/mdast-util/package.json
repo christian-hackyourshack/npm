@@ -1,0 +1,14 @@
+{
+  "name": "@internal/mdast-util",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "devDependencies": {
+    "@types/mdast": "^3.0.11",
+    "@types/node": "^18.11.3",
+    "@types/unist": "2.0.6",
+    "tsconfig": "workspace:*"
+  }
+}
