@@ -1,5 +1,11 @@
 # remark-importless-jsx
 
+## 0.1.2
+
+### Patch Changes
+
+- [#72](https://github.com/christian-hackyourshack/npm/pull/72) [`bff80ae`](https://github.com/christian-hackyourshack/npm/commit/bff80ae48772c55c22cc279ba1fbdc3e579051e4) Thanks [@christian-hackyourshack](https://github.com/christian-hackyourshack)! - Fixed signature of file parameter
+
 ## 0.1.1
 
 ### Patch Changes
