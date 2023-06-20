@@ -390,6 +390,49 @@ importers:
       typescript: 4.9.5
       unified: 10.1.2
 
+  packages/remark-jsx-components:
+    specifiers:
+      '@internal/estree-util': workspace:*
+      '@internal/mdast-util': workspace:*
+      '@internal/mdast-util-mdx': workspace:*
+      '@internal/utils': workspace:*
+      '@types/node': 20.3.1
+      eslint-config-base: workspace:*
+      mintest-green: workspace:*
+      pre-visit: workspace:*
+      preact: 10.15.1
+      rehype-stringify: ^9.0.3
+      remark-mdx: ^2.3.0
+      remark-parse: ^10.0.2
+      remark-rehype: ^10.1.0
+      rimraf: ^3.0.2
+      tsconfig: workspace:*
+      tsup: ^6.4.0
+      tsx: ^3.11.0
+      typescript: ^4.8.4
+      unified: ^10.1.2
+    dependencies:
+      pre-visit: link:../pre-visit
+    devDependencies:
+      '@internal/estree-util': link:../../internal/estree-util
+      '@internal/mdast-util': link:../../internal/mdast-util
+      '@internal/mdast-util-mdx': link:../../internal/mdast-util-mdx
+      '@internal/utils': link:../../internal/utils
+      '@types/node': 20.3.1
+      eslint-config-base: link:../../config/eslint-config-base
+      mintest-green: link:../mintest-green
+      preact: 10.15.1
+      rehype-stringify: 9.0.3
+      remark-mdx: 2.3.0
+      remark-parse: 10.0.2
+      remark-rehype: 10.1.0
+      rimraf: 3.0.2
+      tsconfig: link:../../config/tsconfig
+      tsup: 6.7.0_typescript@4.9.5
+      tsx: 3.12.7
+      typescript: 4.9.5
+      unified: 10.1.2
+
   packages/remark-normalize-paths:
     specifiers:
       '@internal/mdast-util': workspace:*

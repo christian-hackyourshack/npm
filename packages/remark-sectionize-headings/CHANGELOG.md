@@ -1,4 +1,4 @@
-# remark-sectionize-headings
+# Changelog
 
 ## 0.2.7
 

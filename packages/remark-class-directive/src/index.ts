@@ -1,8 +1,8 @@
 import { visit } from "pre-visit";
 import { Node, Parent, isDirective } from "@internal/mdast-util"
 /**
- * Options for plugin remark-sectionize-headings, for details see
- * https://github.com/christian-hackyourshack/npm/tree/main/packages/remark-sectionize-headings
+ * Options for plugin remark-class-directive, for details see
+ * https://github.com/christian-hackyourshack/npm/tree/main/packages/remark-class-directive
  */
 export interface Options {
   /**

@@ -38,6 +38,12 @@
       "command": "pnpm --filter remark-importless-jsx test:dev"
     },
     {
+      "name": "[remark-jsx-components] pnpm test:dev",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "pnpm --filter remark-jsx-components test:dev"
+    },
+    {
       "name": "[remark-normalize-paths] pnpm test:dev",
       "type": "node-terminal",
       "request": "launch",

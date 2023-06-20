@@ -5,8 +5,8 @@ import { readFileSync } from "fs";
 import { dirname, join } from "path";
 import { visit } from "pre-visit";
 /**
- * Options for plugin remark-sectionize-headings, for details see
- * https://github.com/christian-hackyourshack/npm/tree/main/packages/remark-sectionize-headings
+ * Options for plugin remark-importless-jsx, for details see
+ * https://github.com/christian-hackyourshack/npm/tree/main/packages/remark-importless-jsx
  */
 export interface Options {
   /**
