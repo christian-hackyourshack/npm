@@ -1,5 +1,5 @@
 import { visit } from "pre-visit";
-
+import { Node, Parent, isDirective } from "@internal/mdast-util"
 /**
  * Options for plugin remark-sectionize-headings, for details see
  * https://github.com/christian-hackyourshack/npm/tree/main/packages/remark-sectionize-headings
@@ -17,7 +17,7 @@ export default function (options: Options = {}) {
   const { name = 'class' } = options;
   const listName = `list-${name}`;
   return (root: unknown) => {
-    visit(root as Node, isDirective, (directive, parent, index, ancestors) => {
+    visit(root as Parent, isDirective, (directive, parent, index, ancestors) => {
       if (parent) {
         if (directive.name === name) {
           if (directive.type === 'containerDirective') {
@@ -32,9 +32,9 @@ export default function (options: Options = {}) {
               let node: Node;
               if (
                 index > 0 &&
-                (node = parent.children[index - 1] as Node) &&
+                (node = parent.children[index - 1]) &&
                 node.type !== 'text' &&
-                node.position.end.column === directive.position.start.column
+                node.position?.end.column === directive.position?.start.column
               ) {
                 addHClasses(node, directive.attributes.class);
               } else if (ancestors.length > 1 && ancestors[1].type === 'listItem') {
@@ -58,7 +58,7 @@ export default function (options: Options = {}) {
             }
           }
         } else if (directive.name === listName && directive.type === 'leafDirective') {
-          const next = parent.children[index + 1] as Node;
+          const next = parent.children[index + 1];
           if (next?.type === 'list') {
             addHClasses(next, directive.attributes.class);
             // remove the directive
@@ -69,36 +69,6 @@ export default function (options: Options = {}) {
     });
   };
 };
-
-interface Node {
-  type: string;
-  position: {
-    start: Column;
-    end: Column;
-  }
-  data?: Record<string, unknown>;
-}
-
-interface Column {
-  column: number;
-}
-
-interface Directive extends Node {
-  type: 'containerDirective' | 'leafDirective' | 'textDirective';
-  children: Node[];
-  name: string;
-  attributes: Record<string, string>;
-}
-
-function isDirective(node: unknown): node is Directive {
-  if (Object.keys(node as Directive).includes('type')) {
-    const type = (node as Directive).type;
-    if (type === 'containerDirective' || type === 'leafDirective' || type === 'textDirective') {
-      return true;
-    }
-  }
-  return false;
-}
 
 type HProperties = Record<string, boolean | number | string | null | undefined | Array<string | number>>;
 

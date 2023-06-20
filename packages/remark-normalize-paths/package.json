@@ -37,6 +37,8 @@
     "pre-visit": "workspace:*"
   },
   "devDependencies": {
+    "@internal/mdast-util": "workspace:*",
+    "@internal/mdast-util-mdx": "workspace:*",
     "@types/node": "^20.3.1",
     "eslint-config-base": "workspace:*",
     "mintest-green": "workspace:*",

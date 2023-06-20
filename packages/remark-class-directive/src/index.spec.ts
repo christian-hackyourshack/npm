@@ -13,7 +13,7 @@ const processor = unified()
   .use(remarkRehype)
   .use(rehypeStringify);
 
-export const result = await describe('styleDirectives', function (test) {
+export const result = await describe('remark-class-directive', function (test) {
   test('playground', async function () {
     const actual = await processor.process(`
 # Astro Docs

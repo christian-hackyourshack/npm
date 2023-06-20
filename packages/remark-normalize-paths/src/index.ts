@@ -1,3 +1,5 @@
+import { Node, isDirective } from "@internal/mdast-util";
+import { isMdxJsxFlowElement } from "@internal/mdast-util-mdx";
 import { existsSync } from 'fs';
 import { isAbsolute, join, relative } from 'path';
 import { Predicate, visit } from "pre-visit";
@@ -7,9 +9,29 @@ import { Predicate, visit } from "pre-visit";
  * https://github.com/christian-hackyourshack/npm/tree/main/packages/remark-normalize-paths
  */
 export interface Options {
+  /**
+   * Path to use as new base path and make all resulting paths relative to this path.
+   * 
+   * Default is`undefined`, i.e.resulting paths will be absolute.
+   */
   rebase?: string;
+  /**
+   * Normalize path only, if normalized path exists, leave untouched otherwise.
+   * 
+   * Default is`true`.
+   */
   checkExistence?: boolean;
+  /**
+   * List of MDX element types or JSX tags(if put in angle brackets, e.g. `<img>`)to include during path normalization(only the named types will be included).
+   * 
+   * Default is`undefined`, i.e.all MDX element types will be included.
+   */
   include?: string[];
+  /**
+   * List of MDX element types or JSX tags(if put in angle brackets, e.g. `<img>`) to exclude during path normalization.E.g. `['link', '<a>']` to exclude markdown links and JSX anchor tags.
+   * 
+   * Default is`undefined`, i.e.no MDX element types will be excluded.
+   */
   exclude?: string[];
 }
 
@@ -18,12 +40,12 @@ export default function ({ rebase, checkExistence, include, exclude }: Options =
   const isIncluded = (
     include && exclude
       ? (node: Node) =>
-        (include.includes(node.type) || include.includes(tag(node))) &&
-        !exclude.includes(node.type) && !exclude.includes(tag(node))
+        (include.includes(node.type) || include.includes(toJsxTag(node))) &&
+        !exclude.includes(node.type) && !exclude.includes(toJsxTag(node))
       : include
-        ? (node: Node) => include.includes(node.type) || include.includes(tag(node))
+        ? (node: Node) => include.includes(node.type) || include.includes(toJsxTag(node))
         : exclude
-          ? (node: Node) => !exclude.includes(node.type) && !exclude.includes(tag(node))
+          ? (node: Node) => !exclude.includes(node.type) && !exclude.includes(toJsxTag(node))
           : () => true) as Predicate<Node>;
 
   return (root: Node, file?: { dirname: string | undefined }) => {
@@ -54,6 +76,13 @@ export default function ({ rebase, checkExistence, include, exclude }: Options =
   };
 };
 
+function toJsxTag(node: Node): string {
+  if (isMdxJsxFlowElement(node)) {
+    return `<${node.name}>`;
+  }
+  return '__NO_TAG__';
+}
+
 function normalizeRelative(
   src: string,
   base?: string,
@@ -83,44 +112,4 @@ function normalizeRelative(
     }
   }
   return src;
-}
-
-interface Node {
-  type: string;
-  url?: string;
-  data?: Record<string, unknown>;
-}
-
-interface MdxJsxFlowElement extends Node {
-  type: "mdxJsxFlowElement"
-  name: string;
-  attributes: Array<{
-    value: unknown;
-  }>;
-}
-
-function isMdxJsxFlowElement(node: unknown): node is MdxJsxFlowElement {
-  return !!node && (node as Node).type === 'mdxJsxFlowElement';
-}
-
-interface Directive extends Node {
-  type: 'containerDirective' | 'leafDirective' | 'textDirective';
-  children: Node[];
-  name: string;
-  attributes: Record<string, string>;
-}
-
-function isDirective(node: unknown): node is Directive {
-  if (node && Object.keys(node).includes('type')) {
-    const type = (node as Node).type;
-    return type === 'containerDirective' || type === 'leafDirective' || type === 'textDirective';
-  }
-  return false;
-}
-
-function tag(node: Node): string {
-  if (isMdxJsxFlowElement(node)) {
-    return `<${node.name}>`;
-  }
-  return '__NO_TAG__';
 }

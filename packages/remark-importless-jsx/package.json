@@ -1,9 +1,9 @@
 {
-  "name": "remark-class-directive",
-  "version": "0.1.1",
-  "description": "Remark plugin to add html class attributes to nodes generated from markdown by adding ::class directives",
+  "name": "remark-importless-jsx",
+  "version": "0.1.0",
+  "description": "Remark plugin to automatically import defined JSX components",
   "author": "christian@hackyourshack.org",
-  "homepage": "https://github.com/christian-hackyourshack/npm/tree/main/packages/remark-class-directive",
+  "homepage": "https://github.com/christian-hackyourshack/npm/tree/main/packages/remark-importless-jsx",
   "repository": {
     "type": "git",
     "url": "https://github.com/christian-hackyourshack/npm.git"
@@ -11,9 +11,8 @@
   "license": "MIT",
   "keywords": [
     "remark-plugin",
-    "directive",
-    "class",
-    "style"
+    "JSX",
+    "import"
   ],
   "type": "module",
   "files": [
@@ -35,21 +34,26 @@
     "test:watch": "tsx watch node_modules/mintest-green/dist/bin.js"
   },
   "dependencies": {
-    "pre-visit": "workspace:*"
+    "pre-visit": "workspace:*",
+    "vfile": "^6.0.0"
   },
   "devDependencies": {
-    "@internal/mdast-util": "workspace:*",
+    "@internal/estree-util": "workspace:*",
+    "@internal/mdast-util-mdx": "workspace:*",
+    "@internal/utils": "workspace:*",
+    "@types/node": "20.3.1",
     "eslint-config-base": "workspace:*",
     "mintest-green": "workspace:*",
+    "preact": "10.15.1",
+    "rehype-stringify": "^9.0.3",
+    "remark-mdx": "^2.3.0",
+    "remark-parse": "^10.0.2",
+    "remark-rehype": "^10.1.0",
     "rimraf": "^3.0.2",
     "tsconfig": "workspace:*",
     "tsup": "^6.4.0",
     "tsx": "^3.11.0",
     "typescript": "^4.8.4",
-    "unified": "^10.1.2",
-    "remark-directive": "^2.0.1",
-    "remark-parse": "^10.0.2",
-    "remark-rehype": "^10.1.0",
-    "rehype-stringify": "^9.0.3"
+    "unified": "^10.1.2"
   }
 }

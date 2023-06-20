@@ -32,6 +32,12 @@
       "command": "pnpm --filter remark-class-directive test:dev"
     },
     {
+      "name": "[remark-importless-jsx] pnpm test:dev",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "pnpm --filter remark-importless-jsx test:dev"
+    },
+    {
       "name": "[remark-normalize-paths] pnpm test:dev",
       "type": "node-terminal",
       "request": "launch",
