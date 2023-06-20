@@ -38,6 +38,7 @@
     "pre-visit": "workspace:*"
   },
   "devDependencies": {
+    "@internal/mdast-util": "workspace:*",
     "eslint-config-base": "workspace:*",
     "mintest-green": "workspace:*",
     "rimraf": "^3.0.2",
