@@ -1,6 +1,6 @@
 {
   "name": "remark-jsx-components",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Remark plugin to add mapping of markdown nodes to jsx components",
   "author": "christian@hackyourshack.org",
   "homepage": "https://github.com/christian-hackyourshack/npm/tree/main/packages/remark-jsx-components",
