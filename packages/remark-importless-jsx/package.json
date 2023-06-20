@@ -34,11 +34,11 @@
     "test:watch": "tsx watch node_modules/mintest-green/dist/bin.js"
   },
   "dependencies": {
-    "pre-visit": "workspace:*",
-    "vfile": "^6.0.0"
+    "pre-visit": "workspace:*"
   },
   "devDependencies": {
     "@internal/estree-util": "workspace:*",
+    "@internal/mdast-util": "workspace:*",
     "@internal/mdast-util-mdx": "workspace:*",
     "@internal/utils": "workspace:*",
     "@types/node": "20.3.1",

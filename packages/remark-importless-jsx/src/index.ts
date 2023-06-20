@@ -1,10 +1,9 @@
 import { createProgram, isExportNamedDeclaration, isImportDeclaration, parseEsm } from "@internal/estree-util";
-import { MdxJsxFlowElement, MdxJsxTextElement, isMdxjsEsm } from "@internal/mdast-util-mdx";
+import { MdxJsxFlowElement, MdxJsxTextElement, isMdxJsxFlowElement, isMdxJsxTextElement, isMdxjsEsm } from "@internal/mdast-util-mdx";
 import { toLinux } from "@internal/utils";
 import { readFileSync } from "fs";
 import { dirname, join } from "path";
 import { visit } from "pre-visit";
-import type { VFile } from "vfile";
 /**
  * Options for plugin remark-sectionize-headings, for details see
  * https://github.com/christian-hackyourshack/npm/tree/main/packages/remark-sectionize-headings
@@ -20,11 +19,11 @@ export interface Options {
 
 export default function (options: Options = {}) {
   const { file: componentsFile = '_components.ts' } = options;
-  return (root: unknown, file: VFile) => {
+  return (root: unknown, { dirname }: { dirname?: string }) => {
     const unresolved = findUnresolved(root);
     if (unresolved.length === 0) return;
 
-    const exports = findExports(file.dirname, componentsFile);
+    const exports = findExports(dirname, componentsFile);
     const imports: string[] = [];
     for (const u of unresolved) {
       const e = exports.find((e) => e.name === u.name);
@@ -75,33 +74,23 @@ interface ImportSpecifier {
   isDefault: boolean;
 }
 
-function findAllJsxElements(root: unknown, withXHTML = false): MdxJsxElement[] {
+function findAllJsxElements(root: unknown): MdxJsxElement[] {
   const result: MdxJsxElement[] = [];
   visit(root, isMdxJsxElement, (node) => {
-    /**
-     * Filter out (X)HTML elements: they are allowed in MDX, but start with
-     * lower-case letters
-     */
-    if (withXHTML || isNotXHTML(node.name)) {
-      result.push(node);
-    }
+    result.push(node);
   });
   return result;
 }
 
 type MdxJsxElement = MdxJsxFlowElement | MdxJsxTextElement;
 
+const JSX_TAG = /^[A-Z]\w+/;
 function isMdxJsxElement(node: unknown): node is MdxJsxElement {
   return (
     !!node &&
-    ((node as MdxJsxFlowElement).type === 'mdxJsxFlowElement' ||
-      (node as MdxJsxTextElement).type === 'mdxJsxTextElement')
+    (isMdxJsxFlowElement(node) || isMdxJsxTextElement(node)) &&
+    JSX_TAG.test(node.name || '')
   );
-}
-
-const XHTML_TAG = /^[a-z]+$/;
-function isNotXHTML(name: string | null) {
-  return !!name && !XHTML_TAG.test(name.charAt(0));
 }
 
 const exportsPerDir = new Map<string, Export[]>();
