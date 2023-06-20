@@ -1,11 +1,11 @@
 import { isMdxjsEsm } from '@internal/mdast-util-mdx';
 import { readFileSync } from 'fs';
 import { assert, describe } from 'mintest-green';
+import { dirname } from 'path';
 import remarkMdx from 'remark-mdx';
 import remarkParse from 'remark-parse';
 import { unified } from 'unified';
 import { fileURLToPath } from 'url';
-import { VFile } from 'vfile';
 import plugin from '.';
 
 const parser = unified()
@@ -16,13 +16,9 @@ const remarkImportlessJsx = plugin();
 export const result = await describe('remark-importless-jsx', function (test) {
   test('playground', async () => {
     const file = fileURLToPath(new URL('../fixtures/sub/test.mdx', import.meta.url));
-    const vfile = new VFile({
-      path: file,
-      value: readFileSync(file, 'utf8')
-    });
 
-    const actual = parser.parse(vfile.value as string);
-    remarkImportlessJsx(actual, vfile);
+    const actual = parser.parse(readFileSync(file, 'utf8'));
+    remarkImportlessJsx(actual, { dirname: dirname(file) });
     const importStatements = actual.children.filter(isMdxjsEsm);
     assert.equal(importStatements.length, 2);
 
