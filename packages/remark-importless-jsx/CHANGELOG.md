@@ -1,4 +1,4 @@
-# remark-importless-jsx
+# Changelog
 
 ## 0.1.2
 
