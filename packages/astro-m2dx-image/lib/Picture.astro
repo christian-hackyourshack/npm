@@ -32,7 +32,8 @@ if (alt === undefined || alt === null) {
   warnForMissingAlt(src.src);
 }
 
-const aspectRatio = getAspectRatio({ ...props, src }) ?? getFallbackAspectRatio(src.src, alt);
+const aspectRatio =
+  getAspectRatio({ ...props, src }) ?? getFallbackAspectRatio(src.src, alt);
 
 let widths = props.widths;
 if (!widths || widths.length === 0) {
@@ -43,6 +44,7 @@ if (!widths || widths.length === 0) {
 }
 
 const { image, sources } = await getPicture({
+  alt,
   aspectRatio,
   background,
   fit,
