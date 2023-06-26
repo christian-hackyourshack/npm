@@ -1,4 +1,4 @@
-# Changelog
+# remark-normalize-paths
 
 ## 0.1.2
 

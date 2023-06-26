@@ -1,9 +1,9 @@
 {
-  "name": "remark-importless-jsx",
-  "version": "0.1.2",
-  "description": "Remark plugin to automatically import defined JSX components",
+  "name": "remark-mdx-imports",
+  "version": "0.0.0",
+  "description": "Remark plugin to automatically import exported MDX components",
   "author": "christian@hackyourshack.org",
-  "homepage": "https://github.com/christian-hackyourshack/npm/tree/main/packages/remark-importless-jsx",
+  "homepage": "https://github.com/christian-hackyourshack/npm/tree/main/packages/remark-mdx-imports",
   "repository": {
     "type": "git",
     "url": "https://github.com/christian-hackyourshack/npm.git"
@@ -11,7 +11,8 @@
   "license": "MIT",
   "keywords": [
     "remark-plugin",
-    "JSX",
+    "MDX",
+    "automatic",
     "import"
   ],
   "type": "module",

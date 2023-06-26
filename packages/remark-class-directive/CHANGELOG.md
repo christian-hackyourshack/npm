@@ -1,4 +1,4 @@
-# Changelog
+# remark-class-directive
 
 ## 0.1.2
 

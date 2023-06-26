@@ -32,16 +32,16 @@
       "command": "pnpm --filter remark-class-directive test:dev"
     },
     {
-      "name": "[remark-importless-jsx] pnpm test:dev",
+      "name": "[remark-mdx-imports] pnpm test:dev",
       "type": "node-terminal",
       "request": "launch",
-      "command": "pnpm --filter remark-importless-jsx test:dev"
+      "command": "pnpm --filter remark-mdx-imports test:dev"
     },
     {
-      "name": "[remark-jsx-components] pnpm test:dev",
+      "name": "[remark-mdx-mappings] pnpm test:dev",
       "type": "node-terminal",
       "request": "launch",
-      "command": "pnpm --filter remark-jsx-components test:dev"
+      "command": "pnpm --filter remark-mdx-mappings test:dev"
     },
     {
       "name": "[remark-normalize-paths] pnpm test:dev",

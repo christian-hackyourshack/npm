@@ -6,8 +6,8 @@ import { readFileSync } from "fs";
 import { dirname, join } from "path";
 import { EXIT, visit } from "pre-visit";
 /**
- * Options for plugin remark-jsx-components, for details see
- * https://github.com/christian-hackyourshack/npm/tree/main/packages/remark-jsx-components
+ * Options for plugin remark-mdx-mappings, for details see
+ * https://github.com/christian-hackyourshack/npm/tree/main/packages/remark-mdx-mappings
  */
 export interface Options {
   /**
