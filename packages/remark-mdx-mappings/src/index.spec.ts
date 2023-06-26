@@ -24,8 +24,8 @@ export const result = await describe('remark-mdx-mappings', function (test) {
 
     const fixtures = fileURLToPath(new URL('../fixtures', import.meta.url));
     assert.equal(mdxStatements[0].value, `
-import { components as _components0 } from '${fixtures}/sub/_components.ts'
-import { components as _components1 } from '${fixtures}/_components.ts'
+import { components as _components0 } from '${fixtures}/_components.ts'
+import { components as _components1 } from '${fixtures}/sub/_components.ts'
 `.trim());
     assert.equal(mdxStatements[1].value, 'export const components = { ..._components0, ..._components1 };');
   })

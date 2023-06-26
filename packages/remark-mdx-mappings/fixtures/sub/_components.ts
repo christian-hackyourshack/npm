@@ -1,5 +1,5 @@
-import { Link } from '@components/Link';
+import { FancyLink } from '@components/FancyLink';
 
 export const components = {
-  link: Link,
+  link: FancyLink,
 };

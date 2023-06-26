@@ -36,7 +36,7 @@ export const result = await describe('remark-normalize-paths', function (test) {
     const dir = process.cwd();
     const parentDir = dirname(dir);
     const transform = remarkNormalizePaths({ exclude: ["link", "<CustomComponent>"] });
-    transform(actual, undefined);
+    transform(actual, { dirname: dir });
 
     assert.equal(find(actual, isImage)!.url, `${dir}/picture.jpg`);
     assert.equal(find(actual, isLink)!.url, './all/index.html');
@@ -71,7 +71,6 @@ export const result = await describe('remark-normalize-paths', function (test) {
     const dir = dirname(file);
     const parentDir = dirname(dir);
     const actual = (await processor.process(vfile)).toString();
-    console.log("---\n\n" + actual + "\n\n---");
     assert.equal(actual, `
 <h1>Test File</h1>
 <h2>Images</h2>

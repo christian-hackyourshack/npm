@@ -48,8 +48,9 @@ export default function ({ rebase, checkExistence, include, exclude }: Options =
           ? (node: Node) => !exclude.includes(node.type) && !exclude.includes(toJsxTag(node))
           : () => true) as Predicate<Node>;
 
-  return (root: Node, { dirname }: { dirname?: string }) => {
-    const base = dirname || process.cwd();
+  return (root: Node, file?: { dirname?: string }) => {
+    const base = file?.dirname;
+    if (!base) return;
     visit(root, isIncluded, (node) => {
       if (node.url && typeof node.url === 'string') {
         node.url = normalize(node.url, base, rebase, checkExistence);
