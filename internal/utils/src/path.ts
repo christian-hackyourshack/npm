@@ -22,14 +22,14 @@ export function toLinux(file: string): string {
  */
 export function normalizeRelative(
   src: string,
-  base?: string,
+  base: string,
   newbase?: string,
   isPath = false,
   checkExistence = false
 ): string {
   let newsrc = toLinux(src);
   if ((isPath && !isAbsolute(src)) || newsrc.startsWith('./') || newsrc.startsWith('../')) {
-    newsrc = join(base ?? process.cwd(), newsrc);
+    newsrc = join(base, newsrc);
     if (newbase) {
       newsrc = relative(newbase, newsrc);
     }
@@ -52,7 +52,7 @@ export function normalizeRelative(
 
 export function normalizeAll<T>(
   src: T,
-  base?: string,
+  base: string,
   newbase?: string,
   checkExistence = false
 ): T {

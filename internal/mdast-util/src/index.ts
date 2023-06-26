@@ -3,6 +3,7 @@ export * from './basic-typeguards';
 export * from './content-typeguards';
 export * from './directives';
 export * from './exports';
+export * from './loadVFile';
 export * from './mixins';
 export * from './node';
-
+export * from './toText';

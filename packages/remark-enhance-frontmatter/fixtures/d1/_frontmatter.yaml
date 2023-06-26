@@ -1,0 +1,4 @@
+template: d1
+site:
+  url: astro-m2dx.netlify.app
+  author: Christian

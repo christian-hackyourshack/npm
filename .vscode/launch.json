@@ -32,6 +32,12 @@
       "command": "pnpm --filter remark-class-directive test:dev"
     },
     {
+      "name": "[remark-enhance-frontmatter] pnpm test:dev",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "pnpm --filter remark-enhance-frontmatter test:dev"
+    },
+    {
       "name": "[remark-mdx-imports] pnpm test:dev",
       "type": "node-terminal",
       "request": "launch",

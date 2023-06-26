@@ -2,7 +2,7 @@ import { List, isImage, isLeafDirective, isLink } from '@internal/mdast-util';
 import { MdxJsxFlowElement, isMdxJsxAttribute, isMdxJsxFlowElement } from '@internal/mdast-util-mdx';
 import { readFileSync } from 'fs';
 import { assert, describe } from 'mintest-green';
-import { dirname } from 'path';
+import { dirname, join } from 'path';
 import { EXIT, Predicate, visit } from 'pre-visit';
 import rehypeStringify from 'rehype-stringify';
 import remarkDirective from 'remark-directive';
@@ -18,6 +18,7 @@ const parser = unified()
   .use(remarkParse)
   .use(remarkDirective)
   .use(remarkMdx);
+const fixtures = fileURLToPath(new URL('../fixtures', import.meta.url));
 
 export const result = await describe('remark-normalize-paths', function (test) {
   test('playground', async function () {
@@ -63,7 +64,7 @@ export const result = await describe('remark-normalize-paths', function (test) {
       .use(remarkRehype)
       .use(rehypeStringify);
     // construct an absolute path to the test file using import.meta.url
-    const file = fileURLToPath(new URL('../fixtures/foo/bar.md', import.meta.url));
+    const file = join(fixtures, 'foo/bar.md');
     const vfile = new VFile({
       path: file,
       value: readFileSync(file, 'utf8')

@@ -1,0 +1,59 @@
+{
+  "name": "remark-enhance-frontmatter",
+  "version": "0.0.0",
+  "description": "Remark plugin to enhance frontmatter in markdown files with common frontmatter files per directory and a few other derived attributes",
+  "author": "christian@hackyourshack.org",
+  "homepage": "https://github.com/christian-hackyourshack/npm/tree/main/packages/remark-normalize-paths",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/christian-hackyourshack/npm.git"
+  },
+  "license": "MIT",
+  "keywords": [
+    "remark-plugin",
+    "frontmatter",
+    "enhance"
+  ],
+  "type": "module",
+  "files": [
+    "dist/**/*"
+  ],
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsup src/index.ts --format esm --dts",
+    "clean": "rimraf -rf ./dist/",
+    "test": "mintest",
+    "test:dev": "tsx watch src/index.spec.ts",
+    "test:watch": "tsx watch node_modules/mintest-green/dist/bin.js"
+  },
+  "dependencies": {
+    "gray-matter": "^4.0.3",
+    "js-yaml": "^4.1.0",
+    "pre-visit": "workspace:*"
+  },
+  "devDependencies": {
+    "@internal/mdast-util": "workspace:*",
+    "@internal/utils": "workspace:*",
+    "@types/js-yaml": "^4.0.5",
+    "@types/node": "^20.3.1",
+    "eslint-config-base": "workspace:*",
+    "mintest-green": "workspace:*",
+    "rehype-stringify": "^9.0.3",
+    "remark-parse": "^10.0.2",
+    "remark-rehype": "^10.1.0",
+    "rimraf": "^3.0.2",
+    "tsconfig": "workspace:*",
+    "tsup": "^6.4.0",
+    "tsx": "^3.11.0",
+    "typescript": "^4.8.4",
+    "unified": "^10.1.2",
+    "vfile": "^5.3.6"
+  }
+}
