@@ -1,0 +1,20 @@
+---
+import { getPicture } from '.';
+import type { PictureProps } from './PictureProps';
+
+export interface Props extends PictureProps {}
+const props = Astro.props as Props;
+
+const { image, sources } = await getPicture(props);
+if (image.alt === undefined || image.alt === null) {
+  console.warn(`
+[astro-art-direction] "alt" text was not provided.
+<Picture src="${image.src}" ... />.
+`);
+}
+---
+
+<picture>
+  {sources.map((attrs) => <source {...attrs} />)}
+  <img {...image} />
+</picture>

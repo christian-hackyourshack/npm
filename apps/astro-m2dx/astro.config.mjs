@@ -4,8 +4,13 @@ import image from '@astrojs/image';
 import mdx from '@astrojs/mdx';
 import tailwind from '@astrojs/tailwind';
 import m2dx from 'astro-m2dx';
+import remarkClassDirective from 'remark-class-directive';
 import remarkDirective from 'remark-directive';
-import sectionizeHeadings from 'remark-sectionize-headings';
+import remarkMdxImports from 'remark-mdx-imports';
+import remarkMdxMappings from 'remark-mdx-mappings';
+import remarkNormalizePaths from 'remark-normalize-paths';
+import remarkSectionizeHeadings from 'remark-sectionize-headings';
+import remarkUnwrapImages from 'remark-unwrap-images';
 import { noteDirective } from './addons/noteDirective.mjs';
 
 /** @type {import('remark-sectionize-headings').Options} */
@@ -17,18 +22,18 @@ const sectionizeOptions = {
 /** @type {import('astro-m2dx').Options} */
 const m2dxOptions = {
   addOns: [noteDirective],
-  autoImports: true,
-  autoImportsFailUnresolved: true,
+  // autoImports: true,
+  // autoImportsFailUnresolved: true,
   componentDirectives: true,
-  exportComponents: true,
+  // exportComponents: true,
   frontmatter: true,
-  identifyImages: true,
+  // identifyImages: true,
   includeDirective: true,
-  normalizePaths: true,
+  // normalizePaths: true,
   rawmdx: true,
   scanTitle: true,
-  styleDirectives: true,
-  unwrapImages: true,
+  // styleDirectives: true,
+  // unwrapImages: true,
 };
 
 /** @type {import('@astrojs/image').IntegrationOptions} */
@@ -39,11 +44,15 @@ const imageOptions = {
 /** @type {import('@astrojs/mdx').MdxOptions} */
 const mdxOptions = {
   remarkPlugins: [
-    remarkDirective, // required for styleDirectives
-    [sectionizeHeadings, sectionizeOptions],
+    remarkDirective,
+    remarkUnwrapImages,
+    remarkClassDirective,
+    [remarkSectionizeHeadings, sectionizeOptions],
+    remarkNormalizePaths,
+    remarkMdxImports,
+    remarkMdxMappings,
     [m2dx, m2dxOptions],
   ],
-  extendDefaultPlugins: true,
 };
 
 // https://astro.build/config
