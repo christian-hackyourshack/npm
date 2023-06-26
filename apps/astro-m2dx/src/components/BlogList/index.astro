@@ -7,7 +7,7 @@ export interface Props {
 }
 const { sort } = Astro.props;
 
-const entries = await Astro.glob('../../content/blog/*/index.mdx');
+const entries = await Astro.glob('../../@content/blog/*/index.mdx');
 if (sort === 'byDate') {
   // console.log('TODO: Sort blog entries by date');
 }
@@ -29,6 +29,6 @@ function href(mdx: MDXInstance<Record<string, any>>) {
 
 <style>
   ul {
-    list-style: none !important;
+    list-class: none !important;
   }
 </style>

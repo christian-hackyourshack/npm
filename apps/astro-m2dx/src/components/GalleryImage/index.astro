@@ -1,29 +1,21 @@
 ---
-import { CallbackProps, parseAspectRatio, Picture, PictureProps } from 'astro-m2dx-image';
+import { limitAspectRatio, Picture, PictureProps } from 'astro-art-direction';
 
-const props = Astro.props as PictureProps;
+export interface Props extends PictureProps {}
+const props = Astro.props as Props;
 
-function callback(props: CallbackProps) {
-  const aspetRatioBound = 4 / 3;
-  props.aspectRatio = parseAspectRatio(props.aspectRatio);
-  if (!props.aspectRatio) {
-    if (props.width && props.height) {
-      props.aspectRatio = props.width / props.height;
-    } else if (props.src.width && props.src.height) {
-      props.aspectRatio = props.src.width / props.src.height;
-    }
-  }
-  if (props.aspectRatio) {
-    props.aspectRatio = Math.min(Math.max(1 / aspetRatioBound, props.aspectRatio), aspetRatioBound);
-  }
-}
-
-const customProps: PictureProps = {
-  callback,
-  loading: props.class?.includes('eager') ? 'eager' : undefined,
+const customProps: Props = {
+  artDirection: {
+    getHeight: () => {
+      return undefined;
+    },
+    getAspectRatio: limitAspectRatio(5 / 4),
+    getLoading: ({ classes }) =>
+      classes?.includes('eager') ? 'eager' : undefined,
+  },
+  widths: [240, 480],
   position: 'attention',
   sizes: '(min-width: 360px) 240px, 100vw',
-  widths: [240, 480],
   ...props,
 };
 ---

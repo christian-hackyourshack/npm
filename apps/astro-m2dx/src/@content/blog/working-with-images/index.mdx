@@ -4,7 +4,7 @@ lastUpdate: 2022-11-22
 
 # Working with images
 
-:::style{.aside-right}
+:::class{.aside-right}
 In Markdown, you traditionally include images with the following syntax
 
 ```md
@@ -25,7 +25,7 @@ Well, you can! And with a bit of magic from **astro-m2dx** and the new [**astro-
 
 Come on, let's see how that works step-by-step...
 
-![Screenshot of image gallery](./snapshot.webp):style{.aside}
+![Screenshot of image gallery](./snapshot.webp):class{.aside}
 :::
 
 > By the way: I am CTO and co-founder of [Hack Your Shack](https://hackyourshack.org), a Berlin-based German non-profit company, that publishes detailed step-by-step instructions for low-tech solutions and makes this actionable open-source knowledge accessible to everyone, especially to everyone that has to live with the hardships of living in a slum in the Global South.  
@@ -151,10 +151,10 @@ const customProps: PictureProps = {
 <Picture {...customProps} />
 ```
 
-For the property `loading`, you can see a typical pattern, that I use for art direction: I usually derive some properties from classes, that I attach to images, using astro-m2dx `:style`-directive
+For the property `loading`, you can see a typical pattern, that I use for art direction: I usually derive some properties from classes, that I attach to images, using astro-m2dx `:class`-directive
 
 ```md
-![My fantastic hero image](./hero.jpg):style{.eager}
+![My fantastic hero image](./hero.jpg):class{.eager}
 ```
 
 ### Art direction with `callback`

@@ -1,0 +1,47 @@
+# Image Gallery
+
+Find some nice images that I have pulled from unsplash for demonstration purposes.
+
+::list-class{.image-gallery}
+
+- ![](./adam-miller-dBaz0xhCkPY-unsplash.jpg)
+- ![](./edgar-moran-LboRnt38jpA-unsplash.jpg)
+- ![](./elia-pellegrini-C54fuJ5E8YU-unsplash.jpg)
+- ![](./bradley-dunn-i8qs7bfTB0M-unsplash.jpg)
+- ![](./elia-pellegrini-gasB30pgsg0-unsplash.jpg)
+- ![](./bradley-dunn-amF7lbfzLj0-unsplash.jpg)
+- ![](./elia-pellegrini-onwHGWNbPD0-unsplash.jpg)
+- ![](./elia-pellegrini-ZFnCkbhFvhw-unsplash.jpg)
+- ![](./nasa-5e9CmF-Ge9Y-unsplash.jpg)
+- ![](./nicolas-lobos-NR_tXTuyTak-unsplash.jpg)
+- ![](./history-in-hd-e5eDHbmHprg-unsplash.jpg)
+- ![](./levi-stute-mFF39sOZSgM-unsplash.jpg)
+- ![](./jonas-verstuyft-flsFQ3UTuKw-unsplash.jpg)
+- ![](./linus-sandvide-bhSNKT5aaMc-unsplash.jpg)
+- ![](./nick-brunner-LXspKUjsgH0-unsplash.jpg)
+- ![](./mike-kiev-Opzk_hvwO9Q-unsplash.jpg)
+
+## How to make it...
+
+This image gallery was generated with a tiny snippet of CSS
+
+```css
+.image-gallery {
+  list-class: none;
+  column-width: 150px;
+  column-gap: 2rem;
+}
+
+.image-gallery img,
+.image-gallery li {
+  margin: 0;
+  padding: 0;
+}
+.image-gallery img {
+  margin-bottom: 2rem;
+}
+```
+
+and a list of images in MDX (this is the raw MDX of this page, taken from the frontmatter, where it was injected using the feature [`rawMdx`](/docs#inject-raw-mdx))
+
+<Code code={frontmatter?.rawmdx ?? 'Raw MDX not found'} lang="mdx" />

@@ -293,18 +293,18 @@ Apply classes from style directive to surrounding element.
 
 The directive `style` is supported in all three directive forms
 
-- container - `:::style{.some-class} ... :::` around a list of elements
-- leaf - `::style{.some-class}` inside container elements
-- text - `:style{.some-class}` inside paragraphs or spans
+- container - `:::class{.some-class} ... :::` around a list of elements
+- leaf - `::class{.some-class}` inside container elements
+- text - `:class{.some-class}` inside paragraphs or spans
 
 Leaf and text directive will apply the classes from the directive to the parent element and remove the directive from the MDAST. Using the container form will apply the class to the generic `<div>` element that is created by the directive itself, i.e. the following MDX snippet
 
 ```md
-:::style{.bg-accent}
+:::class{.bg-accent}
 
 ## Chapter 1
 
-::style{.decent}
+::class{.decent}
 
 A lot of text here.
 
@@ -322,10 +322,10 @@ will result in this HTML
 
 As you can see, if the classes from multiple directives are applied to the same element, the class list is joined (the class `decent` from the leaf directive is applied to its containing element, which in this case is the generic `<div>` element from the container style directive).
 
-Because lists are not present in Markdown as such (only the list items), style could not be applied to the list as a whole. Therefore, there is a special directive `::list-style` that applies the classes from the directive to the succeeding list, if there is one, i.e.
+Because lists are not present in Markdown as such (only the list items), style could not be applied to the list as a whole. Therefore, there is a special directive `::list-class` that applies the classes from the directive to the succeeding list, if there is one, i.e.
 
 ```md
-::list-style{.nav}
+::list-class{.nav}
 
 - Home
 - Blog

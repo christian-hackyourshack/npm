@@ -2,7 +2,7 @@
 import { blogSlug } from 'utils/slugs';
 
 export async function getStaticPaths() {
-  const entries = await Astro.glob('../../content/blog/*/index.mdx');
+  const entries = await Astro.glob('../../@content/blog/*/index.mdx');
   return entries.map((mdx) => {
     const slug = blogSlug(mdx.file);
     return {
