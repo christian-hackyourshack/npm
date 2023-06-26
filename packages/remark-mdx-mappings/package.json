@@ -1,6 +1,6 @@
 {
   "name": "remark-mdx-mappings",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Remark plugin to add mappings of markdown nodes to MDX components",
   "author": "christian@hackyourshack.org",
   "homepage": "https://github.com/christian-hackyourshack/npm/tree/main/packages/remark-mdx-mappings",

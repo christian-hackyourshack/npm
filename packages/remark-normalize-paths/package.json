@@ -1,6 +1,6 @@
 {
   "name": "remark-normalize-paths",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Remark plugin to normalize relative paths in markdown",
   "author": "christian@hackyourshack.org",
   "homepage": "https://github.com/christian-hackyourshack/npm/tree/main/packages/remark-normalize-paths",

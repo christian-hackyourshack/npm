@@ -1,5 +1,13 @@
 # astro-m2dx-image
 
+## 0.1.0
+
+### Minor Changes
+
+- [#77](https://github.com/christian-hackyourshack/npm/pull/77) [`5c296db`](https://github.com/christian-hackyourshack/npm/commit/5c296db535081f33c14a17f185af704c4448e378) Thanks [@christian-hackyourshack](https://github.com/christian-hackyourshack)! - Creating synchronized release from last changes
+
+- [#76](https://github.com/christian-hackyourshack/npm/pull/76) [`50afd2a`](https://github.com/christian-hackyourshack/npm/commit/50afd2aee6d4d432e84ecaee92244591cccff634) Thanks [@christian-hackyourshack](https://github.com/christian-hackyourshack)! - Updated dependencies to Astro 2
+
 ## 0.0.14
 
 ### Patch Changes
