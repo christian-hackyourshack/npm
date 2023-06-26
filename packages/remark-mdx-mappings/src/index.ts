@@ -19,9 +19,9 @@ export interface Options {
 }
 
 export default function (options: Options = {}) {
-  const { file: componentsFile = '_components.ts' } = options;
+  const { file = '_components.ts' } = options;
   return (root: Root, { dirname }: { dirname?: string }) => {
-    const mappings = findMappings(dirname, componentsFile);
+    const mappings = findMappings(dirname, file);
     if (mappings.length === 0) return;
 
     const imports = mappings.map((file, i) =>
@@ -51,8 +51,6 @@ export default function (options: Options = {}) {
   };
 };
 
-
-
 const mappingsPerDir = new Map<string, string[]>();
 function findMappings(dir: string | undefined, componentsFile: string): string[] {
   dir ??= process.cwd();
@@ -72,6 +70,8 @@ function findMappings(dir: string | undefined, componentsFile: string): string[]
   if (dir !== process.cwd()) {
     mappings.push(...findMappings(dirname(dir), componentsFile));
   }
+  // We want the files top-down, because later items override earlier ones
+  mappings.reverse();
   mappingsPerDir.set(dir, mappings);
   return mappings;
 }
