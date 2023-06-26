@@ -1,7 +1,7 @@
 import { Node, isDirective } from "@internal/mdast-util";
 import { isMdxJsxFlowElement } from "@internal/mdast-util-mdx";
 import { existsSync } from 'fs';
-import { isAbsolute, join, relative } from 'path';
+import { join, relative } from 'path';
 import { Predicate, visit } from "pre-visit";
 
 /**
@@ -48,26 +48,24 @@ export default function ({ rebase, checkExistence, include, exclude }: Options =
           ? (node: Node) => !exclude.includes(node.type) && !exclude.includes(toJsxTag(node))
           : () => true) as Predicate<Node>;
 
-  return (root: Node, file?: { dirname: string | undefined }) => {
-    const base = file?.dirname || process.cwd();
+  return (root: Node, { dirname }: { dirname?: string }) => {
+    const base = dirname || process.cwd();
     visit(root, isIncluded, (node) => {
       if (node.url && typeof node.url === 'string') {
-        node.url = normalizeRelative(
-          node.url, base, rebase, true, checkExistence);
+        node.url = normalize(node.url, base, rebase, checkExistence);
       }
       if (isMdxJsxFlowElement(node)) {
         node.attributes.forEach((a) => {
           if (typeof a.value === 'string') {
-            a.value = normalizeRelative(a.value, base, rebase, false, checkExistence);
+            a.value = normalize(a.value, base, rebase, checkExistence);
           }
         });
       } else if (isDirective(node)) {
         for (const key of Object.keys(node.attributes)) {
-          node.attributes[key] = normalizeRelative(
+          node.attributes[key] = normalize(
             node.attributes[key],
             base,
             rebase,
-            false,
             checkExistence
           );
         }
@@ -83,21 +81,21 @@ function toJsxTag(node: Node): string {
   return '__NO_TAG__';
 }
 
-function normalizeRelative(
+function normalize(
   src: string,
-  base?: string,
-  newbase?: string,
-  isPath = false,
+  base: string,
+  rebase?: string,
   checkExistence = false
 ): string {
+  if (!src.startsWith('.')) return src;
+
   let newsrc = src.replaceAll('\\', '/'); // to Linux
-  if ((isPath && !isAbsolute(src)) || newsrc.startsWith('./') || newsrc.startsWith('../')) {
-    newsrc = join(base ?? process.cwd(), newsrc).replaceAll('\\', '/'); // to Linux;
-    if (newbase) {
-      newsrc = relative(newbase, newsrc);
+  if (newsrc.startsWith('./') || newsrc.startsWith('../')) {
+    newsrc = join(base, newsrc).replaceAll('\\', '/'); // to Linux;
+    if (rebase) {
+      newsrc = relative(rebase, newsrc);
     }
     if (
-      !isPath &&
       !newsrc.startsWith('/') &&
       !newsrc.startsWith('./') &&
       !newsrc.startsWith('../')
@@ -105,7 +103,7 @@ function normalizeRelative(
       newsrc = './' + newsrc;
     }
     if (newsrc !== src) {
-      const toCheck = newbase ? join(newbase, newsrc) : newsrc;
+      const toCheck = rebase ? join(rebase, newsrc) : newsrc;
       if (!checkExistence || existsSync(toCheck)) {
         return newsrc;
       }
