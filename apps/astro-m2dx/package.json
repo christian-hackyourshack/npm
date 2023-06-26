@@ -24,6 +24,7 @@
     "postcss-import": "^15.1.0",
     "remark-class-directive": "workspace:*",
     "remark-directive": "^2.0.1",
+    "remark-enhance-frontmatter": "workspace:*",
     "remark-mdx-imports": "workspace:*",
     "remark-mdx-mappings": "workspace:*",
     "remark-normalize-paths": "workspace:*",
