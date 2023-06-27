@@ -1,6 +1,6 @@
 {
   "name": "astro-art-direction",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Astro <Picture> component that supports art direction (based on @astrojs/image)",
   "author": "christian@hackyourshack.org",
   "homepage": "https://astro-m2dx.netlify.app/blog/working-with-images",
