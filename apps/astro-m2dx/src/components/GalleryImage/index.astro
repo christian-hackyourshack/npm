@@ -6,12 +6,7 @@ const props = Astro.props as Props;
 
 const customProps: Props = {
   artDirection: {
-    getHeight: () => {
-      return undefined;
-    },
     getAspectRatio: limitAspectRatio(5 / 4),
-    getLoading: ({ classes }) =>
-      classes?.includes('eager') ? 'eager' : undefined,
   },
   widths: [240, 480],
   position: 'attention',
