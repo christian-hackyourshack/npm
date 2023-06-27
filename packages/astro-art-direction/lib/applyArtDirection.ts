@@ -59,6 +59,7 @@ export async function applyArtDirection(props: PictureProps):
     aspectRatio: props.aspectRatio
   });
   params.aspectRatio ??= computeAspectRatio(src.width, src.height);
+  params.aspectRatio ??= getFallbackAspectRatio(src.src, params.alt);
 
   params.width ??= getProportionalWidth(params.aspectRatio, params.height);
   params.width ??= ad.getMaxWidth(params);
@@ -70,6 +71,7 @@ export async function applyArtDirection(props: PictureProps):
   params.sizes ??= ad.getSizes(params);
 
   params.loading ??= ad.getLoading(params);
+  params.loading ??= params.classes?.includes('eager') ? 'eager' : undefined;
 
   params.position ??= ad.getPosition(params);
 
@@ -103,6 +105,24 @@ function getProportionalWidth(aspectRatio?: number, height?: number): number | u
     return Math.round(aspectRatio * height);
   }
   return undefined;
+}
+
+/**
+ * Output a warning that widths were not provided, and return a random default 
+ * value.
+ *
+ * @param src
+ * @param alt
+ * @returns a random default value for widths.
+ */
+function getFallbackAspectRatio(src: string, alt?: string): number {
+  const fallback = 1;
+  console.warn(`
+[astro-art-direction] No aspectRatio could be found for image. Because the aspectRatio is required to optimize images, we will use a random default value of "${fallback}", which is possibly not what you want.
+<Picture src="${src}" alt="${alt}" ... />
+`
+  );
+  return fallback;
 }
 
 /**
