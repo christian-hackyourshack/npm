@@ -1,7 +1,10 @@
+export { BlogList } from '@components/BlogList';
 export { Card } from '@components/Card';
-export { CTA } from '@components/CTA';
-export { Wrap } from '@components/Wrap';
 export { Code } from 'astro/components';
+export { CTA } from '@components/CTA';
+export { Quote } from '@components/Quote';
+export { Signature } from '@components/Signature';
+export { Wrap } from '@components/Wrap';
 
 import { Picture } from 'astro-art-direction';
 

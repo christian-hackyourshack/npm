@@ -1,9 +1,9 @@
-import { createProgram, isExportNamedDeclaration, isImportDeclaration, parseEsm } from "@internal/estree-util";
-import { MdxJsxFlowElement, MdxJsxTextElement, isMdxJsxFlowElement, isMdxJsxTextElement, isMdxjsEsm } from "@internal/mdast-util-mdx";
+import { createProgram, isImportDeclaration } from "@internal/estree-util";
+import { Directive, Node, isDirective } from "@internal/mdast-util";
+import { MdxJsxAttribute, MdxJsxFlowElement, MdxJsxTextElement, isMdxJsxFlowElement, isMdxJsxTextElement, isMdxjsEsm } from "@internal/mdast-util-mdx";
 import { toLinux } from "@internal/utils";
-import { readFileSync } from "fs";
-import { dirname, join } from "path";
 import { visit } from "pre-visit";
+import { Export, findExports } from "./findExports";
 /**
  * Options for plugin remark-mdx-imports, for details see
  * https://github.com/christian-hackyourshack/npm/tree/main/packages/remark-mdx-imports
@@ -20,112 +20,105 @@ export interface Options {
 export default function (options: Options = {}) {
   const { file: componentsFile = '_components.ts' } = options;
   return (root: unknown, { dirname }: { dirname?: string }) => {
-    const unresolved = findUnresolved(root);
-    if (unresolved.length === 0) return;
+    const elements = findMdxJsxElements(root);
+    const directives = findJsxDirectives(root);
+    if (elements.length === 0 && directives.length === 0) return;
 
-    const exports = findExports(dirname, componentsFile);
-    const imports: string[] = [];
-    for (const u of unresolved) {
-      const e = exports.find((e) => e.name === u.name);
-      if (e) {
-        if (!imports.includes(e.name)) {
-          imports.push(e.name);
-          const importStatement = `import { ${e.name} } from '${toLinux(e.file)}'`;
-          (root as Parent).children.push(createProgram(importStatement));
-        }
+    const newImports = new Set<Export>();
+    const imports = findImports(root);
+    let exports: Export[] | undefined;
+
+    for (const unresolved of elements.filter((e) => !imports.includes(e))) {
+      exports ??= findExports(dirname, componentsFile);
+      const found = exports.find((e) => e.name === unresolved);
+      if (found) {
+        newImports.add(found);
       } else {
         console.warn(
-          `JSX component <${u.name}> [] cannot be resolved, please import it explicitly in your MDX file or add an export to '${componentsFile}'`
+          `JSX component <${unresolved}> [] cannot be resolved, please import it explicitly in your MDX file or add an export to '${componentsFile}'`
         );
       }
+    }
+
+    for (const node of directives) {
+      let found: true | Export | undefined;
+      if (imports.includes(node.name)) {
+        found = true;
+      } else {
+        exports ??= findExports(dirname, componentsFile);
+        found = exports.find((e) => e.name === node.name);
+        if (found) {
+          newImports.add(found);
+        }
+      }
+      if (found) {
+        transformDirectiveToComponent(node);
+      }
+    }
+
+    for (const e of newImports) {
+      const newImport = `import { ${e.name} } from '${toLinux(e.file)}'`;
+      (root as { children: unknown[] }).children.push(createProgram(newImport));
     }
   };
 };
 
-function findUnresolved(root: unknown) {
-  const imports = findAllImportSpecifiers(root).map((i) => i.name);
-  const elements = findAllJsxElements(root);
-  return elements.filter((n) => !imports.includes(n.name ?? ''));
+
+function findImports(root: unknown) {
+  const result: string[] = [];
+  visit(root, isMdxjsEsm, (node) => {
+    node.data?.estree?.body?.filter(isImportDeclaration).forEach((decl) => {
+      decl.specifiers.forEach((s) => {
+        result.push(s.local.name);
+      });
+    });
+  });
+  return result;
 }
 
-function findAllImportSpecifiers(root: unknown) {
-  const result: ImportSpecifier[] = [];
-  visit(root, isMdxjsEsm, (node) => {
-    const body = node.data?.estree?.body;
-    if (body) {
-      body.filter(isImportDeclaration).forEach((d) => {
-        const source = d.source.value as string;
-        d.specifiers.forEach((s) => {
-          result.push({
-            name: s.local.name,
-            source,
-            isDefault: s.type === 'ImportDefaultSpecifier',
-          });
-        });
-      });
+function findMdxJsxElements(root: unknown) {
+  const result = new Set<string>();
+  visit(root, isMdxJsxElement, (node) => {
+    result.add(node.name!);
+  });
+  return [...result];
+}
+
+type MdxJsxElement = MdxJsxFlowElement | MdxJsxTextElement;
+
+function isMdxJsxElement(node: unknown): node is MdxJsxElement {
+  return (
+    !!node &&
+    (isMdxJsxFlowElement(node) || isMdxJsxTextElement(node)) &&
+    isJsxTag(node.name)
+  );
+}
+
+const JSX_TAG = /^[A-Z]\w+/;
+function isJsxTag(name?: string | null) {
+  return JSX_TAG.test(name || '');
+}
+
+function findJsxDirectives(root: unknown): Directive[] {
+  const result: Directive[] = [];
+  visit(root, isDirective, (node) => {
+    if (isJsxTag(node.name)) {
+      result.push(node);
     }
   });
   return result;
 }
 
-interface ImportSpecifier {
-  name: string;
-  source: string;
-  isDefault: boolean;
-}
-
-function findAllJsxElements(root: unknown): MdxJsxElement[] {
-  const result: MdxJsxElement[] = [];
-  visit(root, isMdxJsxElement, (node) => {
-    result.push(node);
-  });
-  return result;
-}
-
-type MdxJsxElement = MdxJsxFlowElement | MdxJsxTextElement;
-
-const JSX_TAG = /^[A-Z]\w+/;
-function isMdxJsxElement(node: unknown): node is MdxJsxElement {
-  return (
-    !!node &&
-    (isMdxJsxFlowElement(node) || isMdxJsxTextElement(node)) &&
-    JSX_TAG.test(node.name || '')
-  );
-}
-
-const exportsPerDir = new Map<string, Export[]>();
-function findExports(dir: string | undefined, componentsFile: string): Export[] {
-  dir ??= process.cwd();
-  if (exportsPerDir.has(dir)) return exportsPerDir.get(dir)!;
-
-  const exports: Export[] = [];
-  try {
-    const file = join(dir, componentsFile);
-    const src = readFileSync(file, 'utf8');
-    const { body } = parseEsm(src);
-    body.filter(isExportNamedDeclaration).forEach((d) => {
-      d.specifiers.forEach((s) => {
-        exports.push({
-          file,
-          name: s.exported.name,
-        });
-      });
+function transformDirectiveToComponent(node: Directive) {
+  const transformed = node as Node;
+  transformed.type = 'mdxJsxFlowElement';
+  const attributes: MdxJsxAttribute[] = [];
+  Object.keys(node.attributes).forEach((key) => {
+    attributes.push({
+      type: 'mdxJsxAttribute',
+      name: key,
+      value: node.attributes[key],
     });
-  } catch (e) {
-    // do nothing
-  }
-  if (dir !== process.cwd()) {
-    exports.push(...findExports(dirname(dir), componentsFile));
-  }
-  exportsPerDir.set(dir, exports);
-  return exports;
-}
-
-interface Parent {
-  children: unknown[];
-}
-
-interface Export {
-  file: string;
-  name: string;
+  });
+  transformed.attributes = attributes;
 }

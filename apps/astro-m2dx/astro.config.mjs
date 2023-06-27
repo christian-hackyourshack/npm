@@ -12,7 +12,6 @@ import remarkMdxMappings from 'remark-mdx-mappings';
 import remarkNormalizePaths from 'remark-normalize-paths';
 import remarkSectionizeHeadings from 'remark-sectionize-headings';
 import remarkUnwrapImages from 'remark-unwrap-images';
-import { noteDirective } from './addons/noteDirective.mjs';
 
 /** @type {import('remark-enhance-frontmatter').Options} */
 const frontmatterOptions = {
@@ -33,19 +32,8 @@ const sectionizeOptions = {
 
 /** @type {import('astro-m2dx').Options} */
 const m2dxOptions = {
-  addOns: [noteDirective],
-  // autoImports: true,
-  // autoImportsFailUnresolved: true,
-  componentDirectives: true,
-  // exportComponents: true,
-  // frontmatter: true,
-  // identifyImages: true,
+  // componentDirectives: true,
   includeDirective: true,
-  // normalizePaths: true,
-  // rawmdx: true,
-  // scanTitle: true,
-  // styleDirectives: true,
-  // unwrapImages: true,
 };
 
 /** @type {import('@astrojs/image').IntegrationOptions} */
