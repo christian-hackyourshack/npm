@@ -1,5 +1,11 @@
 # astro-art-direction
 
+## 0.1.1
+
+### Patch Changes
+
+- [#86](https://github.com/christian-hackyourshack/npm/pull/86) [`acf74de`](https://github.com/christian-hackyourshack/npm/commit/acf74dec6fb5415c5565deb0dc5de9bfd0231cee) Thanks [@christian-hackyourshack](https://github.com/christian-hackyourshack)! - Added fallback for aspectRatio and default for loading
+
 ## 0.1.0
 
 ### Minor Changes
