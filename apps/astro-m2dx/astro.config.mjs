@@ -3,11 +3,11 @@ import { defineConfig } from 'astro/config';
 import image from '@astrojs/image';
 import mdx from '@astrojs/mdx';
 import tailwind from '@astrojs/tailwind';
-import m2dx from 'astro-m2dx';
 import remarkClassDirective from 'remark-class-directive';
 import remarkDirective from 'remark-directive';
 import remarkEnhanceFrontmatter from 'remark-enhance-frontmatter';
 import remarkMdxImports from 'remark-mdx-imports';
+import remarkMdxIncludes from 'remark-mdx-includes';
 import remarkMdxMappings from 'remark-mdx-mappings';
 import remarkNormalizePaths from 'remark-normalize-paths';
 import remarkSectionizeHeadings from 'remark-sectionize-headings';
@@ -30,12 +30,6 @@ const sectionizeOptions = {
   levels: [2],
 };
 
-/** @type {import('astro-m2dx').Options} */
-const m2dxOptions = {
-  // componentDirectives: true,
-  includeDirective: true,
-};
-
 /** @type {import('@astrojs/image').IntegrationOptions} */
 const imageOptions = {
   serviceEntryPoint: '@astrojs/image/sharp',
@@ -45,14 +39,14 @@ const imageOptions = {
 const mdxOptions = {
   remarkPlugins: [
     [remarkEnhanceFrontmatter, frontmatterOptions],
-    remarkDirective,
-    remarkUnwrapImages,
-    remarkClassDirective,
     [remarkSectionizeHeadings, sectionizeOptions],
+    remarkUnwrapImages,
+    remarkDirective,
+    remarkClassDirective,
+    remarkMdxIncludes,
     remarkNormalizePaths,
     remarkMdxImports,
     remarkMdxMappings,
-    [m2dx, m2dxOptions],
   ],
 };
 

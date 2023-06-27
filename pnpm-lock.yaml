@@ -56,9 +56,6 @@ importers:
       astro-icon:
         specifier: ^0.8.1
         version: 0.8.1
-      astro-m2dx:
-        specifier: workspace:*
-        version: link:../../packages/astro-m2dx
       hastscript:
         specifier: ^7.2.0
         version: 7.2.0
@@ -77,6 +74,9 @@ importers:
       remark-mdx-imports:
         specifier: workspace:*
         version: link:../../packages/remark-mdx-imports
+      remark-mdx-includes:
+        specifier: workspace:*
+        version: link:../../packages/remark-mdx-includes
       remark-mdx-mappings:
         specifier: workspace:*
         version: link:../../packages/remark-mdx-mappings
@@ -154,6 +154,21 @@ importers:
         specifier: workspace:*
         version: link:../../config/tsconfig
 
+  internal/hast-util:
+    devDependencies:
+      '@internal/mdast-util':
+        specifier: workspace:*
+        version: link:../mdast-util
+      '@types/estree':
+        specifier: ^1.0.1
+        version: 1.0.1
+      '@types/node':
+        specifier: ^18.11.3
+        version: 18.11.10
+      tsconfig:
+        specifier: workspace:*
+        version: link:../../config/tsconfig
+
   internal/mdast-util:
     dependencies:
       pre-visit:
@@ -181,6 +196,12 @@ importers:
       mdast-util-mdx:
         specifier: ^2.0.1
         version: 2.0.1
+      remark:
+        specifier: ^14.0.2
+        version: 14.0.2
+      remark-mdx:
+        specifier: ^2.1.5
+        version: 2.3.0
     devDependencies:
       '@internal/mdast-util':
         specifier: workspace:*
@@ -473,6 +494,9 @@ importers:
         specifier: workspace:*
         version: link:../pre-visit
     devDependencies:
+      '@internal/hast-util':
+        specifier: workspace:*
+        version: link:../../internal/hast-util
       '@internal/mdast-util':
         specifier: workspace:*
         version: link:../../internal/mdast-util
@@ -619,6 +643,76 @@ importers:
       remark-rehype:
         specifier: ^10.1.0
         version: 10.1.0
+      rimraf:
+        specifier: ^3.0.2
+        version: 3.0.2
+      tsconfig:
+        specifier: workspace:*
+        version: link:../../config/tsconfig
+      tsup:
+        specifier: ^6.4.0
+        version: 6.5.0(typescript@4.9.3)
+      tsx:
+        specifier: ^3.11.0
+        version: 3.12.1
+      typescript:
+        specifier: ^4.8.4
+        version: 4.9.3
+      unified:
+        specifier: ^10.1.2
+        version: 10.1.2
+
+  packages/remark-mdx-includes:
+    dependencies:
+      pre-visit:
+        specifier: workspace:*
+        version: link:../pre-visit
+    devDependencies:
+      '@internal/estree-util':
+        specifier: workspace:*
+        version: link:../../internal/estree-util
+      '@internal/hast-util':
+        specifier: workspace:*
+        version: link:../../internal/hast-util
+      '@internal/mdast-util':
+        specifier: workspace:*
+        version: link:../../internal/mdast-util
+      '@internal/mdast-util-mdx':
+        specifier: workspace:*
+        version: link:../../internal/mdast-util-mdx
+      '@internal/utils':
+        specifier: workspace:*
+        version: link:../../internal/utils
+      '@types/node':
+        specifier: 20.3.1
+        version: 20.3.1
+      eslint-config-base:
+        specifier: workspace:*
+        version: link:../../config/eslint-config-base
+      mintest-green:
+        specifier: workspace:*
+        version: link:../mintest-green
+      preact:
+        specifier: 10.15.1
+        version: 10.15.1
+      rehype-stringify:
+        specifier: ^9.0.3
+        version: 9.0.3
+      remark-directive:
+        specifier: ^2.0.1
+        version: 2.0.1
+      remark-mdx:
+        specifier: ^2.3.0
+        version: 2.3.0
+      remark-parse:
+        specifier: ^10.0.2
+        version: 10.0.2
+      remark-rehype:
+        specifier: ^10.1.0
+        version: 10.1.0
+      remark-sectionize-headings:
+        specifier: workspace:*
+        version: link:../remark-sectionize-headings
       rimraf:
         specifier: ^3.0.2
         version: 3.0.2
