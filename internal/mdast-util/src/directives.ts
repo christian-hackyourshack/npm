@@ -1,6 +1,6 @@
 import type { Content, Node, Parent } from ".";
 
-interface Directive extends Parent {
+export interface Directive extends Parent {
   name: string;
   attributes: Record<string, string>;
   children: Content[];

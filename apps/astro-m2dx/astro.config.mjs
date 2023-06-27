@@ -32,7 +32,7 @@ const sectionizeOptions = {
 
 /** @type {import('astro-m2dx').Options} */
 const m2dxOptions = {
-  componentDirectives: true,
+  // componentDirectives: true,
   includeDirective: true,
 };
 

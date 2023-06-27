@@ -2,6 +2,7 @@ import { isMdxjsEsm } from '@internal/mdast-util-mdx';
 import { readFileSync } from 'fs';
 import { assert, describe } from 'mintest-green';
 import { dirname, join } from 'path';
+import remarkDirective from 'remark-directive';
 import remarkMdx from 'remark-mdx';
 import remarkParse from 'remark-parse';
 import { unified } from 'unified';
@@ -10,6 +11,7 @@ import plugin from '.';
 
 const parser = unified()
   .use(remarkParse)
+  .use(remarkDirective)
   .use(remarkMdx);
 const remarkImportlessJsx = plugin();
 
