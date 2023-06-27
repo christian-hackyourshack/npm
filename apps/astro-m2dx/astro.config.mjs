@@ -32,18 +32,8 @@ const sectionizeOptions = {
 
 /** @type {import('astro-m2dx').Options} */
 const m2dxOptions = {
-  // autoImports: true,
-  // autoImportsFailUnresolved: true,
   componentDirectives: true,
-  // exportComponents: true,
-  // frontmatter: true,
-  // identifyImages: true,
   includeDirective: true,
-  // normalizePaths: true,
-  // rawmdx: true,
-  // scanTitle: true,
-  // styleDirectives: true,
-  // unwrapImages: true,
 };
 
 /** @type {import('@astrojs/image').IntegrationOptions} */
