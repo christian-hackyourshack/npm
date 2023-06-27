@@ -4,68 +4,50 @@ title: Astro-M²DX
 
 # Welcome to :class[Magic MDX]{.shine} with Astro
 
-:::class{.aside-left}
+## Introduction :class{.hidden}
+
+::class{.aside-left}
 
 If you have used [MDX](https://mdxjs.com) before, you might have noticed that MDX files tend to become quite technical.
 
 For us tech nerds, that is mostly fine, and being able to write the content of our technical documents in Markdown is already a big gain. But for non-tech content-editors, writing this style of markdown is quite a burden, and actually I realized, that it is quite a burden for my mind, too.
 
-::Quote[I like my content to be clean, so I decided to **dust off my MDX** with **astro-m2dx**.]{author='Christian' from='Hack Your Shack' avatar='./christian.png'}
+::Quote[I like my content to be clean, so I decided to **dust off my MDX** with **M²DX**.]{author='Christian' from='Hack Your Shack' avatar='./christian.png'}
 
 With the arrival of [Astro v1.0](https://astro.build)🚀 and it's [MDX Integration](https://docs.astro.build/en/guides/integrations-guide/mdx/), there was the chance to implement a publication pipeline that provides content-editors with the ability to write almost clean markdown, with some directives, only a few sprinkles of JSX and without overloading the frontmatter: **Astro Magic MDX** aka [**astro-m2dx**](https://www.npmjs.com/package/astro-m2dx) was born.
 
-Astro M²DX is a [**remark** plugin](https://remark.js.org/), that you can use in your Astro site generator, to keep your MDX close to Markdown, while still using all of the rich MDX features.
+With the arrival of **Astro v2.0** it became obvious, that it might be a better option to waive the magic and to provide a more explicit and flexible way to configure the MDX pipeline and still provide a magic developer/author experience.
 
-Now with support for [image optimization](/blog/working-with-images), even for `![Markdown](./image.tags):class{.and-art-direction}`!
+So, I will not maintain **astro-m2dx** as an integrated remark-plugin anymore, but I split it into individual plugins, that you can use in your Astro site generator, to provide a more explicit and flexible way to configure the Astro MDX pipeline.
 
-![Astronaut vacuuming stars](./astronaut.jpg):class{.aside}
-:::
+You will still [find the old docs here](/old-docs).
+
+:::class{.aside}
+![Astronaut vacuuming stars](./astronaut.jpg)
 
 ::CTA[Dear Astronauts, :class[grab your vacuum cleaner]{.underline} and dust off your MDX, now!]{href="https://www.npmjs.com/package/astro-m2dx"}
-
-## Install
-
-This package is provided on [NPM](https://www.npmjs.com/package/astro-m2dx) and it is [ESM only](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c).
-In Node.js (version 12.20+, 14.14+, or 16.0+), install with **npm**:
-
-```sh
-npm install astro-m2dx
-```
-
-...and in your `astro.config.mjs`:
-
-```js
-import { defineConfig } from 'astro/config';
-
-import mdx from '@astrojs/mdx';
-import m2dx from 'astro-m2dx';
-//                ^^^^^^^^^^
-
-/** @type {import('astro-m2dx').Options} */
-const m2dxOptions = {
-  // activate any required feature here
-};
-
-// https://astro.build/config
-export default defineConfig({
-  integrations: [mdx()],
-  markdown: {
-    remarkPlugins: [[m2dx, m2dxOptions]],
-    //               ^^^^
-    extendDefaultPlugins: true,
-  },
-});
-```
+:::
 
 ## From here...
+
+M²DX is now a collection of remark plugins and a Picture component that supports art direction:
+
+- [`remark-class-directive`](https://www.npmjs.com/package/remark-class-directive): Add classes to markdown elements using a `::class` directive.
+- [`remark-enhance-frontmatter`](https://www.npmjs.com/package/remark-enhance-frontmatter): Enhance the frontmatter with common attributes from central YAML files.
+- [`remark-mdx-imports`](https://www.npmjs.com/package/remark-mdx-imports): Automatically import MDX components, so you can use MDX components without the clutter.
+- [`remark-mdx-includes`](https://www.npmjs.com/package/remark-mdx-includes): Include MDX files into other MDX files, so you can reuse content.
+- [`remark-mdx-mappings`](https://www.npmjs.com/package/remark-mdx-mappings): Map MDX components to markdown node types, so you can generate complex content for simple elements.
+- [`remark-normalize-paths`](https://www.npmjs.com/package/remark-normalize-paths): Normalize paths in markdown files, so you can use relative paths in your markdown and colocate all your content.
+- [`remark-sectionize-headings`](https://www.npmjs.com/package/remark-sectionize-headings): Add section elements for each heading, so you can give your content a bit more structure (and style).
+- [`astro-art-direction`](https://www.npmjs.com/package/astro-art-direction): Wrap your standard markdown images in an Astro component that allows you to control art direction by classes or any method.
 
 Check out [the blog](/blog), that introduces some usage scenarios in detail, or check out [the docs](/docs).
 
 ## Source code for this page
 
-Besides the plugin, the sources of this web site are published as a showcase of how to apply the plugin to a file/git-based publication workflow, [find it on Github](https://github.com/christian-hackyourshack/npm/tree/main/apps/astro-m2dx).
+The sources of this web site are published as a showcase of how to apply the collection of remark plugins to a file/git-based publication workflow, [find it on Github](https://github.com/christian-hackyourshack/npm/tree/main/apps/astro-m2dx).
 
-BTW: This is the complete MDX source for this page (embedded from the injected raw content, see feature `rawmdx` for details):
+BTW: This is the complete MDX source for this page (embedded from the injected raw content):
 
 > Have a look how clean the markdown is  
 > ✔️ No frontmatter  

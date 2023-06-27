@@ -10,12 +10,12 @@
   grid-area: avatar;
   width: 100%;
   border-radius: 100%;
-  margin: auto 0;
+  margin: auto 0 !important;
 }
 
 .quote__person {
-  margin: auto 0;
-  padding: 0;
+  margin: auto 0 !important;
+  /* padding: 0; */
   grid-area: person;
   @apply text-slate-400 text-lg;
 }
