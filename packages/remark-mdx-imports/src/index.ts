@@ -19,7 +19,7 @@ export interface Options {
 
 export default function (options: Options = {}) {
   const { file: componentsFile = '_components.ts' } = options;
-  return (root: unknown, { dirname }: { dirname?: string }) => {
+  return (root: unknown, { path, dirname }: { path: string, dirname?: string }) => {
     const elements = findMdxJsxElements(root);
     const directives = findJsxDirectives(root);
     if (elements.length === 0 && directives.length === 0) return;
@@ -35,7 +35,7 @@ export default function (options: Options = {}) {
         newImports.add(found);
       } else {
         console.warn(
-          `JSX component <${unresolved}> [] cannot be resolved, please import it explicitly in your MDX file or add an export to '${componentsFile}'`
+          `JSX component <${unresolved}> in ${path} cannot be resolved, please import it explicitly in your MDX file or add an export to '${componentsFile}'`
         );
       }
     }
@@ -79,7 +79,8 @@ function findImports(root: unknown) {
 function findMdxJsxElements(root: unknown) {
   const result = new Set<string>();
   visit(root, isMdxJsxElement, (node) => {
-    result.add(node.name!);
+    const name = node.name!.split('.')[0];
+    result.add(name);
   });
   return [...result];
 }

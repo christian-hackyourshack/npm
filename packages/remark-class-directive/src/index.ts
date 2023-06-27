@@ -1,5 +1,7 @@
+import { addHClasses, setHName } from "@internal/hast-util";
+import { Node, Parent, isDirective } from "@internal/mdast-util";
 import { visit } from "pre-visit";
-import { Node, Parent, isDirective } from "@internal/mdast-util"
+
 /**
  * Options for plugin remark-class-directive, for details see
  * https://github.com/christian-hackyourshack/npm/tree/main/packages/remark-class-directive
@@ -69,31 +71,4 @@ export default function (options: Options = {}) {
     });
   };
 };
-
-type HProperties = Record<string, boolean | number | string | null | undefined | Array<string | number>>;
-
-function getHProperties(node: Node): HProperties {
-  const data = node.data ?? (node.data = {});
-  return (data.hProperties ?? (data.hProperties = {})) as HProperties;
-}
-
-function addHClasses(node: Node, ...classes: string[]) {
-  if (!classes || classes.length === 0) return;
-
-  const hProperties = getHProperties(node);
-  const existing = (hProperties.class as string)?.split(/\s/) ?? [];
-  if (existing.length > 0) {
-    classes = classes.filter((cls) => !existing.includes(cls));
-    if (classes.length > 0) {
-      hProperties.class += " " + classes.join(" ");
-    }
-  } else {
-    hProperties.class = classes.join(" ");
-  }
-}
-
-function setHName(node: Node, name: string) {
-  const data = node.data ?? (node.data = {});
-  data.hName = name;
-}
 

@@ -44,6 +44,12 @@
       "command": "pnpm --filter remark-mdx-imports test:dev"
     },
     {
+      "name": "[remark-mdx-includes] pnpm test:dev",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "pnpm --filter remark-mdx-includes test:dev"
+    },
+    {
       "name": "[remark-mdx-mappings] pnpm test:dev",
       "type": "node-terminal",
       "request": "launch",
