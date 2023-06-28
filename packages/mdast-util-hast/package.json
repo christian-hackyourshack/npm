@@ -1,0 +1,43 @@
+{
+  "name": "mdast-util-hast",
+  "version": "0.0.0",
+  "description": "Utilities to work with hast attributes in mdast",
+  "author": "christian@hackyourshack.org",
+  "homepage": "https://github.com/christian-hackyourshack/npm/tree/main/packages/mdast-util-hast",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/christian-hackyourshack/npm.git"
+  },
+  "license": "MIT",
+  "keywords": [
+    "mdast",
+    "hast",
+    "TypeScript"
+  ],
+  "type": "module",
+  "files": [
+    "dist/**/*"
+  ],
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsup src/index.ts --format esm --dts",
+    "clean": "rimraf -rf ./dist/",
+    "test": "mintest",
+    "test:dev": "tsx watch src/embeddedHast.spec.ts",
+    "test:watch": "tsx watch node_modules/mintest-green/dist/bin.js"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@internal/mdast-util": "workspace:*",
+    "@types/estree": "^1.0.1",
+    "@types/node": "^18.11.3",
+    "tsconfig": "workspace:*"
+  }
+}

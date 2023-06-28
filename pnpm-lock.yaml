@@ -442,6 +442,21 @@ importers:
         specifier: ^3.12.1
         version: 3.12.1
 
+  packages/mdast-util-hast:
+    devDependencies:
+      '@internal/mdast-util':
+        specifier: workspace:*
+        version: link:../../internal/mdast-util
+      '@types/estree':
+        specifier: ^1.0.1
+        version: 1.0.1
+      '@types/node':
+        specifier: ^18.11.3
+        version: 18.11.10
+      tsconfig:
+        specifier: workspace:*
+        version: link:../../config/tsconfig
+
   packages/mintest-green:
     dependencies:
       glob:
