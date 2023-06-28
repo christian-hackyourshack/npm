@@ -1,4 +1,3 @@
-import type { Root } from '@internal/mdast-util';
 import type { MdxJsxFlowElement } from 'mdast-util-mdx';
 import { remark } from 'remark';
 import remarkMdx from 'remark-mdx';
@@ -8,6 +7,6 @@ export function createJsxElement(value: string): MdxJsxFlowElement {
   return root.children[0] as MdxJsxFlowElement;
 }
 
-function parseMdx(mdx: string): Root {
+function parseMdx(mdx: string): { children: unknown[] } {
   return remark().use(remarkMdx).parse(mdx);
 }

@@ -1,5 +1,8 @@
-import type { Node } from "@internal/mdast-util";
-import type { MdxFlowExpression, MdxJsxAttribute, MdxJsxAttributeValueExpression, MdxJsxExpressionAttribute, MdxJsxFlowElement, MdxJsxTextElement, MdxTextExpression, MdxjsEsm } from ".";
+import type { MdxFlowExpression, MdxJsxAttribute, MdxJsxAttributeValueExpression, MdxJsxExpressionAttribute, MdxJsxFlowElement, MdxJsxTextElement, MdxTextExpression, MdxjsEsm } from "./mdx-exports";
+
+interface Node {
+  type: string;
+}
 
 export function isMdxFlowExpression(node: unknown): node is MdxFlowExpression {
   return !!node && (node as Node).type === 'mdxFlowExpression';

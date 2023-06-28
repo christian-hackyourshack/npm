@@ -6,7 +6,6 @@
     "composite": false,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-    "importsNotUsedAsValues": "error",
     "isolatedModules": true,
     "lib": ["ES2022"],
     "module": "ES2022",

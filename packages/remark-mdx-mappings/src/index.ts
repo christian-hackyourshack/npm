@@ -1,6 +1,6 @@
-import { ObjectExpression, Program, SpreadElement, VariableDeclarator, createProgram, isExportNamedDeclaration, isIdentifier, isObjectExpression, isVariableDeclaration, isVariableDeclarator, parseEsm } from "@internal/estree-util";
-import type { Root } from "@internal/mdast-util";
-import { isMdxjsEsm } from "@internal/mdast-util-mdx";
+import { ObjectExpression, Program, SpreadElement, VariableDeclarator, isExportNamedDeclaration, isIdentifier, isObjectExpression, isVariableDeclaration, isVariableDeclarator } from "estree-typeguards";
+import { createProgram, parseEsm } from "@internal/utils-mdast";
+import { isMdxjsEsm, type Root } from "mdast-typeguards";
 import { toLinux } from "@internal/utils";
 import { readFileSync } from "fs";
 import { dirname, join } from "path";

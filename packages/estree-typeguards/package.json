@@ -1,7 +1,7 @@
 {
-  "name": "mdast-util-hast",
+  "name": "estree-typeguards",
   "version": "0.0.0",
-  "description": "Utilities to work with hast attributes in mdast",
+  "description": "Typeguards for estree.",
   "author": "christian@hackyourshack.org",
   "homepage": "https://github.com/christian-hackyourshack/npm/tree/main/packages/mdast-util-hast",
   "repository": {
@@ -11,7 +11,7 @@
   "license": "MIT",
   "keywords": [
     "mdast",
-    "hast",
+    "typeguards",
     "TypeScript"
   ],
   "type": "module",
@@ -30,8 +30,8 @@
     "build": "tsup src/index.ts --format esm --dts",
     "clean": "rimraf -rf ./dist/"
   },
-  "dependencies": {},
   "devDependencies": {
+    "@types/estree": "^1.0.1",
     "tsconfig": "workspace:*"
   }
 }

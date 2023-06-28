@@ -13,7 +13,6 @@
     "@typescript-eslint/parser": "^5.37.0",
     "eslint": "^8.23.1",
     "eslint-config-prettier": "^8.5.0",
-    "eslint-config-turbo": "latest",
-    "typescript": "^4.8.3"
+    "eslint-config-turbo": "latest"
   }
 }

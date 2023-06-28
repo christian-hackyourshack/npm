@@ -1,7 +1,7 @@
-import { createProgram, isImportDeclaration } from "@internal/estree-util";
-import { Directive, Node, isDirective } from "@internal/mdast-util";
-import { MdxJsxAttribute, MdxJsxFlowElement, MdxJsxTextElement, isMdxJsxFlowElement, isMdxJsxTextElement, isMdxjsEsm } from "@internal/mdast-util-mdx";
 import { toLinux } from "@internal/utils";
+import { createProgram } from "@internal/utils-mdast";
+import { isImportDeclaration } from "estree-typeguards";
+import { Directive, MdxJsxAttribute, MdxJsxFlowElement, MdxJsxTextElement, Node, isDirective, isMdxJsxFlowElement, isMdxJsxTextElement, isMdxjsEsm } from "mdast-typeguards";
 import { visit } from "pre-visit";
 import { Export, findExports } from "./findExports";
 /**

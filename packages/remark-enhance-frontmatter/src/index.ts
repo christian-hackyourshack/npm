@@ -1,11 +1,12 @@
-import { isHeading, toText } from '@internal/mdast-util';
 import { deepMerge, exists, normalizeAll, type ObjectLike } from '@internal/utils';
 import { readFile } from 'fs/promises';
 import grayMatter from 'gray-matter';
 import YAML from 'js-yaml';
+import { isHeading } from 'mdast-typeguards';
+import { toString } from 'mdast-util-to-string';
 import { dirname, join, normalize } from 'path';
 import { EXIT, visit } from 'pre-visit';
-import type { Data, VFile as _VFile } from 'vfile';
+import type { VFile as _VFile, Data } from 'vfile';
 /**
  * Options for plugin remark-normalize-paths, for details see
  * https://github.com/christian-hackyourshack/npm/tree/main/packages/remark-normalize-paths
@@ -120,7 +121,7 @@ function scanTitle(root: unknown): string | undefined {
   let title: string | undefined;
   visit(root, isHeading, (node) => {
     if (node.depth === 1) {
-      title = toText(node);
+      title = toString(node);
       return EXIT;
     }
   });

@@ -38,15 +38,14 @@
     "pre-visit": "workspace:*"
   },
   "devDependencies": {
-    "@internal/hast-util": "workspace:*",
-    "@internal/mdast-util": "workspace:*",
+    "mdast-util-hast": "workspace:*",
+    "mdast-typeguards": "workspace:*",
     "eslint-config-base": "workspace:*",
     "mintest-green": "workspace:*",
     "rimraf": "^3.0.2",
     "tsconfig": "workspace:*",
     "tsup": "^6.4.0",
     "tsx": "^3.11.0",
-    "typescript": "^4.8.4",
     "unified": "^10.1.2",
     "remark-directive": "^2.0.1",
     "remark-parse": "^10.0.2",

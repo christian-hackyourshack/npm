@@ -1,7 +1,6 @@
-import { createProgram } from "@internal/estree-util";
-import { addHClasses, setHName } from "@internal/hast-util";
-import { Content, Node, Root, Text, isLeafDirective } from "@internal/mdast-util";
-import { createJsxElement } from "@internal/mdast-util-mdx";
+import { createProgram, createJsxElement } from "@internal/utils-mdast";
+import { addHClasses, setHName } from "mdast-util-hast";
+import { Content, Node, Root, Text, isLeafDirective } from "mdast-typeguards";
 import { toLinux } from "@internal/utils";
 import { join } from "path";
 import { SKIP, visit } from "pre-visit";
