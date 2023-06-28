@@ -35,36 +35,25 @@
     "test:watch": "tsx watch node_modules/mintest-green/dist/bin.js"
   },
   "dependencies": {
-    "acorn": "^8.8.1",
     "estree-util-visit": "^1.2.0",
     "gray-matter": "^4.0.3",
     "js-yaml": "^4.1.0",
     "m2dx-utils": "workspace:*",
-    "mdast-util-mdx": "^2.0.0",
-    "remark": "^14.0.2",
-    "remark-directive": "^2.0.1",
-    "remark-mdx": "^2.1.5"
+    "mdast-util-mdx": "^2.0.0"
   },
   "devDependencies": {
     "@internal/utils": "workspace:*",
     "@types/estree": "^1.0.0",
     "@types/js-yaml": "^4.0.5",
     "@types/mdast": "^3.0.10",
-    "@types/node": "^18.11.10",
+    "@types/node": "^20.3.1",
     "@types/unist": "2.0.6",
-    "concurrently": "^7.6.0",
-    "esbuild": "^0.15.16",
-    "esbuild-node-externals": "^1.5.0",
     "eslint-config-base": "workspace:*",
-    "hast-util-to-html": "^8.0.3",
-    "mdast-util-to-hast": "^12.2.4",
     "mintest-green": "workspace:*",
-    "rehype-format": "^4.0.1",
     "rimraf": "^3.0.2",
     "tsconfig": "workspace:*",
     "tsup": "^6.5.0",
     "tsx": "^3.12.1",
-    "typescript": "^4.9.3",
     "unified": "^10.1.2",
     "vfile": "^5.3.6"
   }
