@@ -1,6 +1,6 @@
 {
   "name": "remark-mdx-imports",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Remark plugin to automatically import exported MDX components",
   "author": "christian@hackyourshack.org",
   "homepage": "https://github.com/christian-hackyourshack/npm/tree/main/packages/remark-mdx-imports",

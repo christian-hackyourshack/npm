@@ -1,6 +1,6 @@
 {
   "name": "remark-enhance-frontmatter",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Remark plugin to enhance frontmatter in markdown files with common frontmatter files per directory and a few other derived attributes",
   "author": "christian@hackyourshack.org",
   "homepage": "https://github.com/christian-hackyourshack/npm/tree/main/packages/remark-normalize-paths",

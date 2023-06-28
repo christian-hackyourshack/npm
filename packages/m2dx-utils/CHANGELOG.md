@@ -1,5 +1,11 @@
 # m2dx-utils
 
+## 0.2.6
+
+### Patch Changes
+
+- [#89](https://github.com/christian-hackyourshack/npm/pull/89) [`2dae58e`](https://github.com/christian-hackyourshack/npm/commit/2dae58ea85eb656895c98d8703be7aae1593a1c4) Thanks [@christian-hackyourshack](https://github.com/christian-hackyourshack)! - Updated dependencies
+
 ## 0.2.5
 
 ### Patch Changes

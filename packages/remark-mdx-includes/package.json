@@ -1,6 +1,6 @@
 {
   "name": "remark-mdx-includes",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Remark plugin to include other MDX files by `::include` directive.",
   "author": "christian@hackyourshack.org",
   "homepage": "https://github.com/christian-hackyourshack/npm/tree/main/packages/remark-mdx-includes",

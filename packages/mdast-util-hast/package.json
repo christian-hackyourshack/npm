@@ -1,6 +1,6 @@
 {
   "name": "mdast-util-hast",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Utilities to work with hast attributes in mdast",
   "author": "christian@hackyourshack.org",
   "homepage": "https://github.com/christian-hackyourshack/npm/tree/main/packages/mdast-util-hast",

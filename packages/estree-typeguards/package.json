@@ -1,6 +1,6 @@
 {
   "name": "estree-typeguards",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Typeguards for estree.",
   "author": "christian@hackyourshack.org",
   "homepage": "https://github.com/christian-hackyourshack/npm/tree/main/packages/mdast-util-hast",
