@@ -33,6 +33,7 @@
   "devDependencies": {
     "@types/mdast": "^3.0.11",
     "mdast-util-mdx": "^2.0.1",
-    "tsconfig": "workspace:*"
+    "tsconfig": "workspace:*",
+    "tsup": "^7.1.0"
   }
 }
