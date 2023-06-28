@@ -1,6 +1,7 @@
-import { parseEsm, isExportNamedDeclaration } from "@internal/estree-util";
+import { parseEsm } from "@internal/utils-mdast";
+import { isExportNamedDeclaration } from "estree-typeguards";
 import { readFileSync } from "fs";
-import { join, dirname } from "path";
+import { dirname, join } from "path";
 
 const exportsPerDir = new Map<string, Export[]>();
 export function findExports(dir: string | undefined, componentsFile: string): Export[] {

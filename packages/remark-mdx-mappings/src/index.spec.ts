@@ -1,5 +1,5 @@
-import { isMdxjsEsm } from '@internal/mdast-util-mdx';
 import { readFileSync } from 'fs';
+import { isMdxjsEsm } from 'mdast-typeguards';
 import { assert, describe } from 'mintest-green';
 import { dirname, join } from 'path';
 import remarkMdx from 'remark-mdx';

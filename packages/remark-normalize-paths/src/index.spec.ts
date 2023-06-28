@@ -1,5 +1,4 @@
-import { List, isImage, isLeafDirective, isLink } from '@internal/mdast-util';
-import { MdxJsxFlowElement, isMdxJsxAttribute, isMdxJsxFlowElement } from '@internal/mdast-util-mdx';
+import { MdxJsxFlowElement, isMdxJsxAttribute, isMdxJsxFlowElement, List, isImage, isLeafDirective, isLink } from 'mdast-typeguards';
 import { readFileSync } from 'fs';
 import { assert, describe } from 'mintest-green';
 import { dirname, join } from 'path';

@@ -1,5 +1,5 @@
-import { addHClasses, setHName } from "@internal/hast-util";
-import { Node, Parent, isDirective } from "@internal/mdast-util";
+import { addHClasses, setHName } from "mdast-util-hast";
+import { Node, Parent, isDirective } from "mdast-typeguards";
 import { visit } from "pre-visit";
 
 /**

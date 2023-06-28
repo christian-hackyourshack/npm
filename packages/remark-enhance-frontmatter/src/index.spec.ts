@@ -1,4 +1,4 @@
-import { loadVFile } from '@internal/mdast-util';
+import { loadVFile } from '@internal/utils-mdast';
 import { assert, describe } from 'mintest-green';
 import { fileURLToPath } from 'url';
 import plugin, { Transform } from '.';

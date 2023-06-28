@@ -1,5 +1,4 @@
-import { Node, isDirective } from "@internal/mdast-util";
-import { isMdxJsxFlowElement } from "@internal/mdast-util-mdx";
+import { Node, isDirective, isMdxJsxFlowElement } from "mdast-typeguards";
 import { existsSync } from 'fs';
 import { join, relative } from 'path';
 import { Predicate, visit } from "pre-visit";

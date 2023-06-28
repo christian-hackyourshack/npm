@@ -1,5 +1,4 @@
-import type { Blockquote, Break, Code, Definition, Delete, Emphasis, Footnote, FootnoteDefinition, FootnoteReference, HTML, Heading, Image, ImageReference, InlineCode, Link, LinkReference, List, ListItem, Paragraph, Root, Strong, Table, TableCell, TableRow, Text, ThematicBreak, YAML } from 'mdast';
-import type { Node } from ".";
+import type { Blockquote, Break, Code, Definition, Delete, Emphasis, Footnote, FootnoteDefinition, FootnoteReference, HTML, Heading, Image, ImageReference, InlineCode, Link, LinkReference, List, ListItem, Node, Paragraph, Root, Strong, Table, TableCell, TableRow, Text, ThematicBreak, YAML } from '.';
 
 export function isBlockquote(node: unknown): node is Blockquote {
   return !!node && (node as Node).type === 'blockquote';

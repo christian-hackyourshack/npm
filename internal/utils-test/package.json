@@ -9,10 +9,9 @@
   },
   "devDependencies": {
     "@internal/utils": "workspace:*",
-    "@types/node": "^18.11.3",
+    "@types/node": "^20.3.1",
     "mintest-green": "workspace:*",
     "tsconfig": "workspace:*",
-    "tsx": "^3.11.0",
-    "typescript": "^4.8.4"
+    "tsx": "^3.11.0"
   }
 }

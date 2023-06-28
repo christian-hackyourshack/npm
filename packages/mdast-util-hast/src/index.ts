@@ -1,5 +1,3 @@
-import type { Node } from "@internal/mdast-util";
-
 export type HProperties = Record<string, boolean | number | string | null | undefined | Array<string | number>>;
 
 export function getHProperties(node: Node): HProperties {
@@ -27,3 +25,6 @@ export function setHName(node: Node, name: string) {
   data.hName = name;
 }
 
+interface Node {
+  data?: Record<string, unknown>;
+}

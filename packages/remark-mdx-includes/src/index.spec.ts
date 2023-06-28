@@ -1,5 +1,5 @@
-import { loadVFile, type Node } from '@internal/mdast-util';
-import type { MdxjsEsm, MdxJsxFlowElement } from '@internal/mdast-util-mdx';
+import { loadVFile } from '@internal/utils-mdast';
+import type { MdxjsEsm, MdxJsxFlowElement, Node } from 'mdast-typeguards';
 import { assert, describe } from 'mintest-green';
 import remarkDirective from 'remark-directive';
 import remarkMdx from 'remark-mdx';

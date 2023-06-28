@@ -1,20 +1,20 @@
 {
-  "name": "@internal/mdast-util-mdx",
+  "name": "@internal/utils-mdast",
   "version": "0.0.0",
   "private": true,
   "type": "module",
   "main": "src/index.ts",
   "types": "src/index.ts",
   "dependencies": {
+    "acorn": "^8.9.0",
     "mdast-util-mdx": "^2.0.1",
-    "remark": "^14.0.2",
-    "remark-mdx": "^2.1.5"
+    "remark": "14.0.3",
+    "remark-mdx": "^2.3.0",
+    "vfile": "^5.3.6"
   },
   "devDependencies": {
-    "@internal/mdast-util": "workspace:*",
-    "@types/mdast": "^3.0.11",
-    "@types/node": "^18.11.3",
-    "@types/unist": "2.0.6",
+    "@types/estree": "^1.0.1",
+    "@types/node": "^20.3.1",
     "tsconfig": "workspace:*"
   }
 }
